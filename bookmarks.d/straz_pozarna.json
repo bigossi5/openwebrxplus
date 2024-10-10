@@ -1,0 +1,87 @@
+[
+    {
+        "name": "A028 KSW - Kanał ogólnopolski",
+        "frequency": 149000000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B003 KDW 1 - Kanał Dowodzenia i Współdziałania 1",
+        "frequency": 148687500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B048 KDW 2 - Kanał Dowodzenia i Współdziałania 2",
+        "frequency": 149250000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B018 KO 1 - Kanał Operacyjny 1",
+        "frequency": 148875000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B053 KO 2 - Kanał Operacyjny 2",
+        "frequency": 149312500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B004 KRG 1 - Kanał Ratowniczo Gaśniczy 1",
+        "frequency": 148700000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B035 KRG 2 - Kanał Ratowniczo Gaśniczy 2",
+        "frequency": 149087500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B039 KRG 3 - Kanał Ratowniczo Gaśniczy 3",
+        "frequency": 149137500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B041 KRG 4 - Kanał Ratowniczo Gaśniczy 4",
+        "frequency": 149162500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B046 KRG 5 - Kanał Ratowniczo Gaśniczy 5",
+        "frequency": 149225000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B047 KRG 6 - Kanał Ratowniczo Gaśniczy 6",
+        "frequency": 149237500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B049 KRG 7 - Kanał Ratowniczo Gaśniczy 7",
+        "frequency": 149262500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "B050 KRG 8 - Kanał Ratowniczo Gaśniczy 8",
+        "frequency": 149275000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "U02 KSWL - Krajowy Kanał Współdziałania Lotniczego (HEMS)",
+        "frequency": 149900000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "Szkoła PSP",
+        "frequency": 149212500,
+        "modulation": "nfm"
+    },
+    {
+        "name": "Syreny OSP (Tx)",
+        "frequency": 148725000,
+        "modulation": "nfm"
+    },
+    {
+        "name": "Syreny OSP (Rx)",
+        "frequency": 148825000,
+        "modulation": "nfm"
+    }
+]
