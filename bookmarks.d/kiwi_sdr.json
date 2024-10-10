@@ -1,0 +1,4127 @@
+[
+    {
+        "name": "Alpha F1 RUS - navigation system",
+        "frequency": 11900,
+        "modulation": "cwn"
+    },
+    {
+        "name": "Alpha F4 RUS - navigation system",
+        "frequency": 12090,
+        "modulation": "cw"
+    },
+    {
+        "name": "Alpha F2 RUS - navigation system",
+        "frequency": 12650,
+        "modulation": "cw"
+    },
+    {
+        "name": "Alpha F3/p RUS - navigation system",
+        "frequency": 14880,
+        "modulation": "cw"
+    },
+    {
+        "name": "Alpha wideband - wideband reception",
+        "frequency": 15250,
+        "modulation": "lsb"
+    },
+    {
+        "name": "VTX1 IND - MSK",
+        "frequency": 16300,
+        "modulation": "cw"
+    },
+    {
+        "name": "JXN NOR - MSK",
+        "frequency": 16400,
+        "modulation": "cw"
+    },
+    {
+        "name": "FTA FRA - FSK",
+        "frequency": 16800,
+        "modulation": "cw"
+    },
+    {
+        "name": "VTX2 IND - MSK",
+        "frequency": 17000,
+        "modulation": "cw"
+    },
+    {
+        "name": "SAQ SWE - Grimeton alternator\ntwice yearly transmissions\nsee: alexander.n.se/en",
+        "frequency": 17200,
+        "modulation": "cw"
+    },
+    {
+        "name": "RDL RUS - FSK",
+        "frequency": 18100,
+        "modulation": "cw"
+    },
+    {
+        "name": "VTX3 IND - MSK",
+        "frequency": 18200,
+        "modulation": "cw"
+    },
+    {
+        "name": "HWU FRA - MSK",
+        "frequency": 18300,
+        "modulation": "cw"
+    },
+    {
+        "name": "RDL RUS - FSK",
+        "frequency": 18900,
+        "modulation": "cw"
+    },
+    {
+        "name": "VTX4 IND - MSK",
+        "frequency": 19200,
+        "modulation": "cw"
+    },
+    {
+        "name": "GQD? GBR - FSK",
+        "frequency": 19550,
+        "modulation": "cw"
+    },
+    {
+        "name": "NWC AUS - MSK",
+        "frequency": 19800,
+        "modulation": "cw"
+    },
+    {
+        "name": "ICV ITA - MSK",
+        "frequency": 20270,
+        "modulation": "cw"
+    },
+    {
+        "name": "3SA/3SB? CHN - FSK",
+        "frequency": 20500,
+        "modulation": "cw"
+    },
+    {
+        "name": "HWU FRA - MSK",
+        "frequency": 20900,
+        "modulation": "cw"
+    },
+    {
+        "name": "RDL RUS - FSK",
+        "frequency": 21100,
+        "modulation": "cw"
+    },
+    {
+        "name": "NPM HI - MSK",
+        "frequency": 21400,
+        "modulation": "cw"
+    },
+    {
+        "name": "? FSK",
+        "frequency": 21500,
+        "modulation": "cw"
+    },
+    {
+        "name": "HWU FRA - MSK",
+        "frequency": 21750,
+        "modulation": "cw"
+    },
+    {
+        "name": "GBZ GBR - Skelton, FSK",
+        "frequency": 22100,
+        "modulation": "cw"
+    },
+    {
+        "name": "NDT/JJI JPN - MSK",
+        "frequency": 22200,
+        "modulation": "cw"
+    },
+    {
+        "name": "HWU FRA - MSK",
+        "frequency": 22600,
+        "modulation": "cw"
+    },
+    {
+        "name": "DHO38 GER - MSK",
+        "frequency": 23400,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAA MA - MSK",
+        "frequency": 24000,
+        "modulation": "cw"
+    },
+    {
+        "name": "KOR - 50bd/50Hz 9/1/2 FSK\nper David L. Wilson",
+        "frequency": 24100,
+        "modulation": "cw"
+    },
+    {
+        "name": "CHN? - FSK",
+        "frequency": 24500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NLK WA - MSK",
+        "frequency": 24800,
+        "modulation": "cw"
+    },
+    {
+        "name": "KOR - FSK, per David L. Wilson",
+        "frequency": 25000,
+        "modulation": "cw"
+    },
+    {
+        "name": "RAB99 RUS - Beta time signal\nID @xx:06:00",
+        "frequency": 25000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NLM4 ND - MSK",
+        "frequency": 25200,
+        "modulation": "cw"
+    },
+    {
+        "name": "Negev ISR - FSK",
+        "frequency": 26000,
+        "modulation": "cw"
+    },
+    {
+        "name": "TBB TUR - FSK",
+        "frequency": 26700,
+        "modulation": "cw"
+    },
+    {
+        "name": "RDL RUS - FSK, keyed-FSK ID",
+        "frequency": 27300,
+        "modulation": "cw"
+    },
+    {
+        "name": "3SB/3SQ? CHN - MSK",
+        "frequency": 28000,
+        "modulation": "cw"
+    },
+    {
+        "name": "Negev ISR - FSK",
+        "frequency": 29700,
+        "modulation": "cw"
+    },
+    {
+        "name": "? FSK",
+        "frequency": 31500,
+        "modulation": "cw"
+    },
+    {
+        "name": "TFK ISL",
+        "frequency": 37500,
+        "modulation": "cw"
+    },
+    {
+        "name": "SRC/SHR SWE - FSK",
+        "frequency": 38000,
+        "modulation": "cw"
+    },
+    {
+        "name": "JJY JPN - time signal\nID @ xx:15&45:40",
+        "frequency": 40000,
+        "modulation": "cw"
+    },
+    {
+        "name": "SRC SWE",
+        "frequency": 40400,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAU PR - MSK",
+        "frequency": 40750,
+        "modulation": "cw"
+    },
+    {
+        "name": "SRC SWE",
+        "frequency": 42500,
+        "modulation": "cw"
+    },
+    {
+        "name": "? ex-SRC - FSK, SWE",
+        "frequency": 44200,
+        "modulation": "cw"
+    },
+    {
+        "name": "NSY ITA - MSK",
+        "frequency": 45900,
+        "modulation": "cw"
+    },
+    {
+        "name": "SXA GRC - MSK",
+        "frequency": 49000,
+        "modulation": "cw"
+    },
+    {
+        "name": "RTZ RUS - time signal",
+        "frequency": 49700,
+        "modulation": "cw"
+    },
+    {
+        "name": "GIY20/GNY1/GYW1 GBR - FSK",
+        "frequency": 51950,
+        "modulation": "cw"
+    },
+    {
+        "name": "FSK - UNID, EU",
+        "frequency": 53620,
+        "modulation": "cw"
+    },
+    {
+        "name": "NDI JPN - MSK",
+        "frequency": 54000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NRK ISL - FSK",
+        "frequency": 57400,
+        "modulation": "cw"
+    },
+    {
+        "name": "JJY JPN - time signal\nID @ xx:15&45:40",
+        "frequency": 60000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWVB - time signal\nno ID, reversed bit pattern",
+        "frequency": 60000,
+        "modulation": "cw"
+    },
+    {
+        "name": "MSF GBR - time signal",
+        "frequency": 60000,
+        "modulation": "cw"
+    },
+    {
+        "name": "Inskip GBR - FSK",
+        "frequency": 61840,
+        "modulation": "cw"
+    },
+    {
+        "name": "FUG FRA - MSK",
+        "frequency": 62600,
+        "modulation": "cw"
+    },
+    {
+        "name": "FTA63 FRA - FSK",
+        "frequency": 63850,
+        "modulation": "cw"
+    },
+    {
+        "name": "FUE FRA - MSK",
+        "frequency": 65800,
+        "modulation": "cw"
+    },
+    {
+        "name": "RBU RUS - time signal",
+        "frequency": 66350,
+        "modulation": "cw"
+    },
+    {
+        "name": "GYN/GYN1 GBR",
+        "frequency": 68000,
+        "modulation": "cw"
+    },
+    {
+        "name": "BPC CHN - time signal\noff 2100-2400Z",
+        "frequency": 68500,
+        "modulation": "cw"
+    },
+    {
+        "name": "CFH CAN - Halifax, MSK",
+        "frequency": 73600,
+        "modulation": "cw"
+    },
+    {
+        "name": "GYD GBR - FSK",
+        "frequency": 74200,
+        "modulation": "cw"
+    },
+    {
+        "name": "CKN CAN - Vancouver, MSK",
+        "frequency": 76200,
+        "modulation": "cw"
+    },
+    {
+        "name": "DCF77 GER - time signal",
+        "frequency": 77500,
+        "modulation": "cw"
+    },
+    {
+        "name": "GYN2 GBR - FSK",
+        "frequency": 81000,
+        "modulation": "cw"
+    },
+    {
+        "name": "MKL GBR - FSK",
+        "frequency": 82740,
+        "modulation": "cw"
+    },
+    {
+        "name": "Loran-C - navigation system",
+        "frequency": 100000,
+        "modulation": "am"
+    },
+    {
+        "name": "CKN CAN - Vancouver, MSK",
+        "frequency": 124000,
+        "modulation": "cw"
+    },
+    {
+        "name": "SXJ GRC - FSK",
+        "frequency": 124500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DCF49 GER - telecontrol",
+        "frequency": 128000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HGA22 HNG - telecontrol",
+        "frequency": 134500,
+        "modulation": "usb"
+    },
+    {
+        "name": "SXV GRC - FSK",
+        "frequency": 135730,
+        "modulation": "cw"
+    },
+    {
+        "name": "DCF39 GER - telecontrol",
+        "frequency": 137900,
+        "modulation": "usb"
+    },
+    {
+        "name": "MSK - UNID",
+        "frequency": 145000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DDH47 GER - FSK WX",
+        "frequency": 147300,
+        "modulation": "cw"
+    },
+    {
+        "name": "LW 153",
+        "frequency": 153000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 162",
+        "frequency": 162000,
+        "modulation": "amn"
+    },
+    {
+        "name": "TDF - time signal, PSK",
+        "frequency": 162000,
+        "modulation": "cw"
+    },
+    {
+        "name": "LW 171",
+        "frequency": 171000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 180",
+        "frequency": 180000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 183",
+        "frequency": 183000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 198",
+        "frequency": 198000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 207",
+        "frequency": 207000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 216",
+        "frequency": 216000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 225",
+        "frequency": 225000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 234",
+        "frequency": 234000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 243",
+        "frequency": 243000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 252",
+        "frequency": 252000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 270",
+        "frequency": 270000,
+        "modulation": "amn"
+    },
+    {
+        "name": "LW 279",
+        "frequency": 279000,
+        "modulation": "amn"
+    },
+    {
+        "name": "NAVTEX",
+        "frequency": 424000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX",
+        "frequency": 426000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX",
+        "frequency": 472000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX Nat - National coverage",
+        "frequency": 490000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX",
+        "frequency": 500000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX Intl - International coverage",
+        "frequency": 518000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX USA - NOJ",
+        "frequency": 2054000,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC",
+        "frequency": 2177000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 2187500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 2189500,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG LBA - Norwegian Navy, Bodo, Norway",
+        "frequency": 2207500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG PBB - Dutch Navy, Den Helder, Netherlands",
+        "frequency": 2379500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHO26 - German Navy, Rostock, Germany",
+        "frequency": 2433500,
+        "modulation": "usb"
+    },
+    {
+        "name": "PBB NLD - Dutch Navy",
+        "frequency": 2474000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWVH / WWV - time signals",
+        "frequency": 2500000,
+        "modulation": "am"
+    },
+    {
+        "name": "BPM - time signal, 0730-0100Z",
+        "frequency": 2500000,
+        "modulation": "am"
+    },
+    {
+        "name": "STANAG IDR - Italian Navy, Rome, Italy",
+        "frequency": 2534000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG CTW - Portugese Navy, Lisbon, Portugal",
+        "frequency": 2573000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG IDR - Italian Navy, Rome, Italy",
+        "frequency": 2579600,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FU02 - French Navy, Toulon, France",
+        "frequency": 2608700,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 2614000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX UK - GYA",
+        "frequency": 2618500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMC",
+        "frequency": 2628000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DJH50 - German Navy, Wilhelmshaven, Germany",
+        "frequency": 2632000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG OUA4 - Danish Navy, Aarhaus, Denmark",
+        "frequency": 2639000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX RUS - UGC",
+        "frequency": 2640000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG OUA4 - Danish Navy, Aarhaus, Denmark",
+        "frequency": 2658500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUF - French Navy, Fort De France, Martinique",
+        "frequency": 2689600,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG EBA - Spanish Navy, Madrid, Spain",
+        "frequency": 2756500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUE - French Navy, Brest, France",
+        "frequency": 2789000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG IDR - IDR, Rome, Italy",
+        "frequency": 2804000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1,2 - Las Palmas",
+        "frequency": 2854000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - PAC",
+        "frequency": 2863000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 2869000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-C - Gander, Shanwick",
+        "frequency": 2872000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 2881000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 2887000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 2899000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-B - Gander",
+        "frequency": 2899000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 2941000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 2941000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 2944000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - New York, Santa Maria",
+        "frequency": 2962000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 2965000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 2971000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-D - Bodo, Iceland, Shanwick",
+        "frequency": 2971000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 2992000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 2998000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 3007000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A - New York, Santa Maria",
+        "frequency": 3016000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 3016000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG IDN - Naples, Italy",
+        "frequency": 3221500,
+        "modulation": "usb"
+    },
+    {
+        "name": "The Goose - RUS",
+        "frequency": 3243000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VFF",
+        "frequency": 3253000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VFR",
+        "frequency": 3253000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CHU CAN - time signal",
+        "frequency": 3330000,
+        "modulation": "usb"
+    },
+    {
+        "name": "Squeaky Wheel - RUS",
+        "frequency": 3363000,
+        "modulation": "usb"
+    },
+    {
+        "name": "R. Cultura, BRA - requested listing",
+        "frequency": 3365000,
+        "modulation": "am"
+    },
+    {
+        "name": "STANAG DGJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 3368300,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET",
+        "frequency": 3407000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - IAA",
+        "frequency": 3413000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 3434000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1,2 - Las Palmas",
+        "frequency": 3452000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 3455000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 3455000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 3458000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SP - South Pacific",
+        "frequency": 3467000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 - Chennai, Colombo",
+        "frequency": 3470000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-F - Gander, Shanwick",
+        "frequency": 3476000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Gander Radio, New York Radio",
+        "frequency": 3485000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-H - Santa Maria, Shanwick",
+        "frequency": 3491000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 3497000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX KOR - HLL2",
+        "frequency": 3585000,
+        "modulation": "usb"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 3593700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 3593800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 3593900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 3594000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 3594100,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX JPN - JMH",
+        "frequency": 3622500,
+        "modulation": "usb"
+    },
+    {
+        "name": "The Pip - RUS",
+        "frequency": 3756000,
+        "modulation": "am"
+    },
+    {
+        "name": "HD2IOA - time signal, 0000-1200Z",
+        "frequency": 3810000,
+        "modulation": "lsb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 3820500,
+        "modulation": "usb"
+    },
+    {
+        "name": "Squeaky Wheel - RUS",
+        "frequency": 3828000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GER - DDH3",
+        "frequency": 3855000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 3900000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX ZAF - ZSJ",
+        "frequency": 4014000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - UNID",
+        "frequency": 4027000,
+        "modulation": "usb"
+    },
+    {
+        "name": "BEACON C&P #5 FSK <a href=%22https://www.hfunderground.com/wiki/Common_and_Precious_5%22 target=%22_blank%22>hfunderground.com</a> - Berlin JO62",
+        "frequency": 4095290,
+        "modulation": "cw"
+    },
+    {
+        "name": "BEACON C&P #5 CW <a href=%22https://www.hfunderground.com/wiki/Common_and_Precious_5%22 target=%22_blank%22>hfunderground.com</a> - Berlin JO62",
+        "frequency": 4095380,
+        "modulation": "cw"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 4153000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSG",
+        "frequency": 4170000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSQ",
+        "frequency": 4199800,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 4207500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 4208000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 4208500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 4209000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Main",
+        "frequency": 4209500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 4210000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 4212000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WLO USA",
+        "frequency": 4213000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 4215000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 4218500,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG IDR - Italian Navy, Rome, Italy",
+        "frequency": 4226000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHL - CBV/M",
+        "frequency": 4228000,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 4231500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMF",
+        "frequency": 4235000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 4254500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG EBA - Spanish Navy, Madrid, Spain",
+        "frequency": 4259500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 4263300,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUJ - French Navy, Noumea, France",
+        "frequency": 4271300,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG EBA - Spanish Navy, Madrid, Spain",
+        "frequency": 4277500,
+        "modulation": "usb"
+    },
+    {
+        "name": "PBB NLD - Dutch Navy",
+        "frequency": 4280000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUM - French navy, Papeete, French Polynesia",
+        "frequency": 4280600,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 4291000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VFA",
+        "frequency": 4292000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NOJ",
+        "frequency": 4298000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG CTA04 - Portugese Navy, Lisbon, Portugal",
+        "frequency": 4306000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG OSN54 - Belgian Navy, Zeebrugge, Belgium",
+        "frequency": 4310500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 4316000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMG",
+        "frequency": 4317900,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHL - CBV/M",
+        "frequency": 4322000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUE - French Navy, Brest, France",
+        "frequency": 4325400,
+        "modulation": "usb"
+    },
+    {
+        "name": "R marker - Izhevsk RUS",
+        "frequency": 4325900,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUB - French Navy, Paris, France",
+        "frequency": 4338500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMC",
+        "frequency": 4346000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Greenland",
+        "frequency": 4381000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VCO",
+        "frequency": 4416000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 4423000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GRC - SVJ4",
+        "frequency": 4482900,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW RIS9 - RUS",
+        "frequency": 4532000,
+        "modulation": "cw"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 4557700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 4557800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 4557900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 4558000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 4558100,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG OUA14 - Danish Navy, Aarhaus, Denmark",
+        "frequency": 4563500,
+        "modulation": "usb"
+    },
+    {
+        "name": "DDK2 GER - FSK WX",
+        "frequency": 4583000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX UK - GYA",
+        "frequency": 4610000,
+        "modulation": "usb"
+    },
+    {
+        "name": "Buzzer #2 - RUS",
+        "frequency": 4612000,
+        "modulation": "usb"
+    },
+    {
+        "name": "The Buzzer - RUS",
+        "frequency": 4625000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, Saissac, France",
+        "frequency": 4643400,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET",
+        "frequency": 4645000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 4654000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 4657000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 4660000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 4663000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 4675000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-D - Bodo, Gander, Iceland, Shanwick",
+        "frequency": 4675000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 4681000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 4687000,
+        "modulation": "usb"
+    },
+    {
+        "name": "The Air Horn - RUS",
+        "frequency": 4930000,
+        "modulation": "usb"
+    },
+    {
+        "name": "RWM RUS - time signal",
+        "frequency": 4996000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWVH / WWV - time signals",
+        "frequency": 5000000,
+        "modulation": "am"
+    },
+    {
+        "name": "BPM - time signal",
+        "frequency": 5000000,
+        "modulation": "am"
+    },
+    {
+        "name": "STANAG JHQ - Commcen Bod\u00f8, Norway ",
+        "frequency": 5077500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMC",
+        "frequency": 5100000,
+        "modulation": "usb"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 5153700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 5153800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 5153900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 5154000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 5154100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 5154200,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 5154300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 5154400,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG TBB - Turkish Navy, Ankara, Turkey",
+        "frequency": 5155300,
+        "modulation": "usb"
+    },
+    {
+        "name": "L marker - Tirana ALB",
+        "frequency": 5156800,
+        "modulation": "cw"
+    },
+    {
+        "name": "VOLMET - Taiwan",
+        "frequency": 5170000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG JWU - Norwegian Navy, Bodo, Norway",
+        "frequency": 5226000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG JUW - Norwegian Navy, Bodo, Norway",
+        "frequency": 5228000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG SXV - Athinai-Spata, Greece",
+        "frequency": 5246500,
+        "modulation": "usb"
+    },
+    {
+        "name": "D/B marker - RUS",
+        "frequency": 5292730,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX RUS - RBW",
+        "frequency": 5336000,
+        "modulation": "usb"
+    },
+    {
+        "name": "Squeaky Wheel - RUS",
+        "frequency": 5367000,
+        "modulation": "usb"
+    },
+    {
+        "name": "The Pip - RUS",
+        "frequency": 5449000,
+        "modulation": "am"
+    },
+    {
+        "name": "VOLMET - UK",
+        "frequency": 5450000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 5451000,
+        "modulation": "usb"
+    },
+    {
+        "name": "R marker - Izhevsk RUS",
+        "frequency": 5465900,
+        "modulation": "cw"
+    },
+    {
+        "name": "Squeaky Wheel - RUS",
+        "frequency": 5474000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 5475000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA MID-3 - Armenia",
+        "frequency": 5487000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - AFI",
+        "frequency": 5499000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 5502000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Shannon Aeradio",
+        "frequency": 5505000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 5508000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 5514000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-4 - Addis Ababa, Mogadishu",
+        "frequency": 5517000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 5520000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 5529000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 5529000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 5538000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 5544000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 5544000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CEP - San Francisco",
+        "frequency": 5547000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 5547000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 5550000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1,2 - Las Palmas",
+        "frequency": 5565000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CEP-1 - San Francisco",
+        "frequency": 5574000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 MID-2 - India",
+        "frequency": 5580000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 5583000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW 2SLC - CHN",
+        "frequency": 5588000,
+        "modulation": "cw"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 5589000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A - New York, Santa Maria",
+        "frequency": 5598000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 5601000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA MID-1 - Beirut",
+        "frequency": 5603000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-B - Gander, Shanwick",
+        "frequency": 5616000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 5622000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NP - Tokyo, San Francisco",
+        "frequency": 5628000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA INO-1 - Brisbane, Mauritius",
+        "frequency": 5634000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SP - South Pacific",
+        "frequency": 5643000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-C - Shanwick",
+        "frequency": 5649000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 5652000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 5655000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA INO-1 - Lahore, Mumbai",
+        "frequency": 5658000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 - Colombo",
+        "frequency": 5670000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 5673000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - RUS",
+        "frequency": 5691000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 5720000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMW",
+        "frequency": 5755000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUO - French Navy, Toulon, France",
+        "frequency": 5759000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX KOR - HLL2",
+        "frequency": 5857500,
+        "modulation": "usb"
+    },
+    {
+        "name": "R. Mi Amigo Intl - 0900-1800 CET\nwww.radiomiamigointernational.com",
+        "frequency": 6085000,
+        "modulation": "am"
+    },
+    {
+        "name": "VMC AUS - marine weather",
+        "frequency": 6230000,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 6250000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Gluecksburg, Germany",
+        "frequency": 6272600,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 6312000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 6312500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 6313000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 6313500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 6314000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 6316000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WLO USA",
+        "frequency": 6317000,
+        "modulation": "cw"
+    },
+    {
+        "name": "UDK2 RUS - Murmansk",
+        "frequency": 6322500,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 6326000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX RUS - RBW",
+        "frequency": 6328500,
+        "modulation": "lsb"
+    },
+    {
+        "name": "FAX USA - NMF",
+        "frequency": 6340500,
+        "modulation": "usb"
+    },
+    {
+        "name": "WHL PACTOR",
+        "frequency": 6352500,
+        "modulation": "cw"
+    },
+    {
+        "name": "PBB NLD - Dutch Navy",
+        "frequency": 6358500,
+        "modulation": "cw"
+    },
+    {
+        "name": "HEB PACTOR",
+        "frequency": 6368500,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX JPN - JFX",
+        "frequency": 6414500,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 6417000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG CFH - Halifax, Canada",
+        "frequency": 6423500,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 6445000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAM-1",
+        "frequency": 6450000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX RUS",
+        "frequency": 6455000,
+        "modulation": "usb"
+    },
+    {
+        "name": "USCG - marine weather",
+        "frequency": 6501000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VMC AUS - marine weather",
+        "frequency": 6507000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 6529000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 6532000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1 - Dakar, Sal",
+        "frequency": 6535000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 6535000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 6535000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1",
+        "frequency": 6556000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 6559000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 6565000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 6577000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SP - Melbourne",
+        "frequency": 6580000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 - India",
+        "frequency": 6583000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 6586000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NCA-3 - Russia, Malaysia",
+        "frequency": 6589000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 6589000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 6596000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Gander Radio, New York Radio",
+        "frequency": 6604000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - RUS",
+        "frequency": 6617000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 6617000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 6619000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-F - Shanwick, Gander",
+        "frequency": 6622000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - New York, Santa Maria",
+        "frequency": 6628000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 6628000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 6646000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAM-1 - Atlantic, Honduras",
+        "frequency": 6649000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 6652000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA - Worldwide",
+        "frequency": 6655000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA INO-1 - India",
+        "frequency": 6661000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 6661000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA - Santa Maria",
+        "frequency": 6667000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA - Worldwide",
+        "frequency": 6673000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 6676000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - PAC",
+        "frequency": 6679000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - RUS",
+        "frequency": 6693000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 6693000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 6712000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - CAN",
+        "frequency": 6754000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHJ58 - German Navy, Hurup, Germany",
+        "frequency": 6764700,
+        "modulation": "usb"
+    },
+    {
+        "name": "Bangkok Meteo - with interval jingle",
+        "frequency": 6765000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG DHO26 - German Navy, Rostock, Germany",
+        "frequency": 6767000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW RIS9 - CHN",
+        "frequency": 6793000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX UK - GYA",
+        "frequency": 6834000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW NYZ",
+        "frequency": 6840000,
+        "modulation": "cw"
+    },
+    {
+        "name": "VOLMET - AFI",
+        "frequency": 6884000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG PBB - Dutch Navy, Den Helder, Netherlands",
+        "frequency": 6893500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VCO",
+        "frequency": 6915100,
+        "modulation": "usb"
+    },
+    {
+        "name": "V marker - Khiva UZB",
+        "frequency": 6928000,
+        "modulation": "cw"
+    },
+    {
+        "name": "VOLMET - RUS",
+        "frequency": 6993000,
+        "modulation": "usb"
+    },
+    {
+        "name": "V marker - Khiva UZB",
+        "frequency": 7027500,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 7039300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 7039400,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX UKR - GM-11F",
+        "frequency": 7090900,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX THA - HSW64",
+        "frequency": 7396900,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX KOR - HLL2",
+        "frequency": 7433500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX ZAF - ZSJ",
+        "frequency": 7508000,
+        "modulation": "usb"
+    },
+    {
+        "name": "D marker - Sevastopol RUS",
+        "frequency": 7508700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 7508800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS, trace",
+        "frequency": 7508900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 7509000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 7509100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 7509200,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX AUS - VMW",
+        "frequency": 7535000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Shannon Aeradio",
+        "frequency": 7597000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HD2IOA - time signal, 1200-1300Z",
+        "frequency": 7600000,
+        "modulation": "lsb"
+    },
+    {
+        "name": "DDH7 GER - FSK WX",
+        "frequency": 7646000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX CAN - VFF",
+        "frequency": 7710000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VFR",
+        "frequency": 7710000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG TBB - Ankara, Turkey",
+        "frequency": 7746700,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - UNID",
+        "frequency": 7759000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN - JMH",
+        "frequency": 7795000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CHU CAN - time signal",
+        "frequency": 7850000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GER - DDK3",
+        "frequency": 7880000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - HSA",
+        "frequency": 7906000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX RUS - RBW",
+        "frequency": 7908800,
+        "modulation": "usb"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 8000000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX UK - GYA",
+        "frequency": 8040000,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW RIS9 - CHN",
+        "frequency": 8060000,
+        "modulation": "cw"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 8070000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GRC - SVJ4",
+        "frequency": 8106900,
+        "modulation": "usb"
+    },
+    {
+        "name": "VMW AUS - marine weather",
+        "frequency": 8113000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG IDQ - Rome, Italy",
+        "frequency": 8139000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA MID-3 - Dushanbe, Tajikistan",
+        "frequency": 8145000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG OUA - Danish Navy, Fredrikshavn, Denmark",
+        "frequency": 8151700,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW 4XZ - Israel navy",
+        "frequency": 8159050,
+        "modulation": "cw"
+    },
+    {
+        "name": "VMC AUS - marine weather",
+        "frequency": 8176000,
+        "modulation": "usb"
+    },
+    {
+        "name": "PACTOR KKL28 - WA/USA",
+        "frequency": 8183500,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX USA - KVM70",
+        "frequency": 8295500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSG",
+        "frequency": 8302000,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 8313000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG PBC - Royal Netherlands Navy, Goeree Island, Netherlands",
+        "frequency": 8408500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSQ",
+        "frequency": 8412500,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 8414500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 8415000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 8415500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 8416000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 8416500,
+        "modulation": "cw"
+    },
+    {
+        "name": "SVO GRC - Athens, SITOR-B",
+        "frequency": 8420000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WLO USA - SITOR-B",
+        "frequency": 8421000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN - SITOR-B",
+        "frequency": 8421000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN - SITOR-B",
+        "frequency": 8425500,
+        "modulation": "cw"
+    },
+    {
+        "name": "TAH TUR - SITOR-B",
+        "frequency": 8431000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUO - French Navy, Toulon, France",
+        "frequency": 8432600,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSG CHN - SITOR-B",
+        "frequency": 8433000,
+        "modulation": "cw"
+    },
+    {
+        "name": "TAH TUR - SITOR-B",
+        "frequency": 8434000,
+        "modulation": "cw"
+    },
+    {
+        "name": "PBB NLD - Dutch Navy",
+        "frequency": 8439000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX RUS - RBW",
+        "frequency": 8444100,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG8 - Toulon, France",
+        "frequency": 8453300,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CAN - VFA",
+        "frequency": 8456000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG OSN - Zeebruegge, Belgium",
+        "frequency": 8458500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NOJ",
+        "frequency": 8459000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 8467500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUF  - Martinique",
+        "frequency": 8478800,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG EBA - Madrid, Spain ",
+        "frequency": 8492500,
+        "modulation": "usb"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 8494700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 8494800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 8494900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 8495000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 8495100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 8495200,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 8495300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 8495400,
+        "modulation": "cw"
+    },
+    {
+        "name": "L marker - Tirana ALB",
+        "frequency": 8497800,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX USA - NMG",
+        "frequency": 8503900,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 8588000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUM  - Tahiti",
+        "frequency": 8625300,
+        "modulation": "usb"
+    },
+    {
+        "name": "HLW KOR",
+        "frequency": 8636000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX JPN - JFX",
+        "frequency": 8658000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 8665000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG GYC - Inskip, UK",
+        "frequency": 8672600,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHL - CBV/M",
+        "frequency": 8677000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMC",
+        "frequency": 8682000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHL - CBV/M",
+        "frequency": 8696000,
+        "modulation": "usb"
+    },
+    {
+        "name": "slot machine JPN",
+        "frequency": 8703500,
+        "modulation": "usb"
+    },
+    {
+        "name": "Bangkok Meteo - with interval jingle",
+        "frequency": 8743000,
+        "modulation": "usb"
+    },
+    {
+        "name": "USCG weather",
+        "frequency": 8764000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Shanghai",
+        "frequency": 8806000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET",
+        "frequency": 8812000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - RLAP",
+        "frequency": 8819000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 8825000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - Santa Maria, New York",
+        "frequency": 8825000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 8825000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - PAC",
+        "frequency": 8828000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-F - Gander",
+        "frequency": 8831000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 8834000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 8843000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 8846000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 8849000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAM-2 - Manaus, Brazil",
+        "frequency": 8855000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1 - Canarias, Dakar",
+        "frequency": 8861000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-B - Gander, Iceland",
+        "frequency": 8864000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SP - Auckland, Brisbane, Nandi",
+        "frequency": 8867000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-4 - Niamey",
+        "frequency": 8873000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA EUR-A - Beirut, Lebanon",
+        "frequency": 8875000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-C - Shanwick",
+        "frequency": 8879000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 8885000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 8886000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 8888000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-D - Bodo, Gander, Iceland",
+        "frequency": 8891000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-1/2 - Algiers, Dakar, Nouckchott",
+        "frequency": 8894000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 8894000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NP - Beijing / Shanghai, China",
+        "frequency": 8897000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 8900000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-4 - Africa",
+        "frequency": 8903000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 8906000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A - Santa Maria, New York",
+        "frequency": 8906000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 8912000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 8912000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 8918000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 8921000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 8927000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 8927000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 8927000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 8936000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 8936000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - RLAP",
+        "frequency": 8939000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 8939000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 8939000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 8942000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 8948000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Shanwick Airadio",
+        "frequency": 8957000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 8957000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 8977000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 9065000,
+        "modulation": "am"
+    },
+    {
+        "name": "STANAG FUG - French Navy, La Regine, France",
+        "frequency": 9098600,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMF",
+        "frequency": 9110000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 9155000,
+        "modulation": "am"
+    },
+    {
+        "name": "FAX KOR - HLL2",
+        "frequency": 9165000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 9240000,
+        "modulation": "am"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 9330000,
+        "modulation": "am"
+    },
+    {
+        "name": "SuperDARN radar",
+        "frequency": 9898500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - KVM70",
+        "frequency": 9982500,
+        "modulation": "usb"
+    },
+    {
+        "name": "RWM RUS - time signal",
+        "frequency": 9996000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWVH / WWV - time signals",
+        "frequency": 10000000,
+        "modulation": "am"
+    },
+    {
+        "name": "BPM - time signal",
+        "frequency": 10000000,
+        "modulation": "am"
+    },
+    {
+        "name": "MWARA SAM - South America",
+        "frequency": 10024000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 10027000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 10027000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - New York Radio",
+        "frequency": 10051000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - AFI",
+        "frequency": 10057000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 10060000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 10063000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 - SEA-1 Kolkata",
+        "frequency": 10066000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 10066000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 10075000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 10081000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 10081000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 10084000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 10087000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 10087000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 10090000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 10093000,
+        "modulation": "usb"
+    },
+    {
+        "name": "DDK9 GER - FSK WX",
+        "frequency": 10100800,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX RUS - RBW",
+        "frequency": 10130000,
+        "modulation": "usb"
+    },
+    {
+        "name": "NAA ME - FSK",
+        "frequency": 10152000,
+        "modulation": "usb"
+    },
+    {
+        "name": "SuperDARN radar",
+        "frequency": 10178500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, France",
+        "frequency": 10186400,
+        "modulation": "usb"
+    },
+    {
+        "name": "SuperDARN radar",
+        "frequency": 10198500,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 10345000,
+        "modulation": "am"
+    },
+    {
+        "name": "FAX AUS - VMW",
+        "frequency": 10555000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 10715000,
+        "modulation": "am"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 10871700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 10871800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 10871900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 10872000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 10872100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 10872200,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 10872300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 10872400,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX AUS - VMC",
+        "frequency": 11030000,
+        "modulation": "usb"
+    },
+    {
+        "name": "DDH9 GER - FSK WX",
+        "frequency": 11039000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX UK - GYA",
+        "frequency": 11086500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - KVM70",
+        "frequency": 11090000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 11184000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 11247000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - UK",
+        "frequency": 11253000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-D - Bodo, Gander, Iceland",
+        "frequency": 11279000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SEA-1 - Chennai, Colombo",
+        "frequency": 11285000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 11297000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-3 - Asmara, Cairo, Khartoum, Mogadishu, Seychelles, Tripoli",
+        "frequency": 11300000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 11306000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - New York, Santa Maria",
+        "frequency": 11309000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 11312000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 11318000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 11318000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 11321000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 11327000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 11330000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-C - Gander, Shanwick",
+        "frequency": 11336000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CEP - San Francisco",
+        "frequency": 11342010,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 11348000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 11348000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 11354000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAM-1 - Ezeiza, Argentina / Santa Cruz, Bolivia / Guayaquil, Ecuador",
+        "frequency": 11360000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL IRL - Shannon",
+        "frequency": 11384000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 11387000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 11387000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 11396000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 11435000,
+        "modulation": "am"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 11462000,
+        "modulation": "am"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 11530000,
+        "modulation": "am"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 11635000,
+        "modulation": "am"
+    },
+    {
+        "name": "STANAG FUJ - French Navy, Noumea, New Caledonia",
+        "frequency": 12132600,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUJ - French Navy, Noumea, New Caledonia",
+        "frequency": 12144600,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 12180000,
+        "modulation": "am"
+    },
+    {
+        "name": "VMW AUS - marine weather",
+        "frequency": 12362000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VMC AUS - marine weather",
+        "frequency": 12365000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSG",
+        "frequency": 12382000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NOJ",
+        "frequency": 12412500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG PBB - Dutch Navy, Den Helder, Netherlands",
+        "frequency": 12568500,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 12577000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 12577500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 12578000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 12578500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 12579000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSV CHN",
+        "frequency": 12581000,
+        "modulation": "usb"
+    },
+    {
+        "name": "WLO USA",
+        "frequency": 12581000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSV CHN",
+        "frequency": 12583200,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX CHN - UNID",
+        "frequency": 12588000,
+        "modulation": "usb"
+    },
+    {
+        "name": "SVO GRC - Athens",
+        "frequency": 12603500,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 12612000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 12622400,
+        "modulation": "cw"
+    },
+    {
+        "name": "TAH TUR",
+        "frequency": 12629000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX CHN - XSQ",
+        "frequency": 12629300,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 12636500,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 12647500,
+        "modulation": "usb"
+    },
+    {
+        "name": "TAH TUR",
+        "frequency": 12654000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX BRA - PWZ33",
+        "frequency": 12665000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG CTA12 - Monsanto, Portugal",
+        "frequency": 12701200,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG CTA12 - Monsanto, Portugal",
+        "frequency": 12704800,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUM - French Navy, Papeete, French Polynesia",
+        "frequency": 12713200,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 12745500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMF",
+        "frequency": 12750000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMC",
+        "frequency": 12786000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMG",
+        "frequency": 12789900,
+        "modulation": "usb"
+    },
+    {
+        "name": "PBB NLD - Dutch Navy",
+        "frequency": 12840500,
+        "modulation": "cw"
+    },
+    {
+        "name": "HLO KOR",
+        "frequency": 12843000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG 6WW - French Navy, Dakar, Senegal",
+        "frequency": 12855400,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG 6WW - French Navy, Dakar, Senegal",
+        "frequency": 12857300,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, La Regine, France",
+        "frequency": 12873900,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUO - French Navy, Toulon, France",
+        "frequency": 12884000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HLF KOR",
+        "frequency": 12916500,
+        "modulation": "cw"
+    },
+    {
+        "name": "HLW2 KOR",
+        "frequency": 12923000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG EBA - Madrid, Spain",
+        "frequency": 12931000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HLG KOR",
+        "frequency": 12935000,
+        "modulation": "cw"
+    },
+    {
+        "name": "CW AQP2 - PAK",
+        "frequency": 13012000,
+        "modulation": "cw"
+    },
+    {
+        "name": "CW HEB - CHE",
+        "frequency": 13019000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUF - French Navy, Fort de France",
+        "frequency": 13031500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN - JFX",
+        "frequency": 13074000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ Radiotelephone - Guangzhou Coast Radio CHN",
+        "frequency": 13107000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ Radiotelephone - Guangzhou Coast Radio CHN",
+        "frequency": 13149000,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ Radiotelephone - Guangzhou Coast Radio CHN",
+        "frequency": 13182000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SP - South Pacific",
+        "frequency": 13261000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Shanwick Airadio",
+        "frequency": 13264000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 13264000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - Gander Radio, New York Radio",
+        "frequency": 13270000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 13270000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 13276000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 13276000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 13276000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - NCA",
+        "frequency": 13279000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SAM",
+        "frequency": 13279000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - PAC",
+        "frequency": 13282000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - SEA",
+        "frequency": 13285000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA - Worldwide",
+        "frequency": 13288000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-B/D/F - Gander, Iceland",
+        "frequency": 13291000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 13297000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 13303000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A - New York, Santa Maria",
+        "frequency": 13306000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 13312000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 13312000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1,2 - Las Palmas",
+        "frequency": 13315000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 13315000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 13321000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 13321000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 13324000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CEP - Central East Pacific",
+        "frequency": 13330000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 13342000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 13351000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - New York, Santa Maria",
+        "frequency": 13354000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 13354000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUF - French Navy, Martinique",
+        "frequency": 13410300,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 13435000,
+        "modulation": "am"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 13527700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 13527800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 13527900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 13528000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 13528100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 13528200,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 13528300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 13528400,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX ZAF - ZSJ",
+        "frequency": 13538000,
+        "modulation": "usb"
+    },
+    {
+        "name": "RFID - 24/7",
+        "frequency": 13561000,
+        "modulation": "lsb"
+    },
+    {
+        "name": "FAX KOR - HLL2",
+        "frequency": 13570000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GER - DDK6",
+        "frequency": 13882500,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMC",
+        "frequency": 13920000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN - JMH",
+        "frequency": 13988500,
+        "modulation": "usb"
+    },
+    {
+        "name": "IBP - NCDXF/IARU international beacon project",
+        "frequency": 14100000,
+        "modulation": "cw"
+    },
+    {
+        "name": "PACSEA net - Pacific Seafarers' Net\n0300/0325Z daily",
+        "frequency": 14300000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 14375000,
+        "modulation": "am"
+    },
+    {
+        "name": "FSK RDL - RUS",
+        "frequency": 14411000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DDH8 GER - FSK WX",
+        "frequency": 14467300,
+        "modulation": "cw"
+    },
+    {
+        "name": "CHU CAN - time signal",
+        "frequency": 14670000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, La Regine, France",
+        "frequency": 14722500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUX - French Navy, Reunion, Indian Ocean",
+        "frequency": 14723700,
+        "modulation": "usb"
+    },
+    {
+        "name": "RWM RUS - time signal",
+        "frequency": 14996000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWVH / WWV - time signals",
+        "frequency": 15000000,
+        "modulation": "am"
+    },
+    {
+        "name": "BPM - time signal, 0100-0900Z",
+        "frequency": 15000000,
+        "modulation": "am"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 15025000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VOLMET - CAN",
+        "frequency": 15034000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMW",
+        "frequency": 15615000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX GER - DDK7",
+        "frequency": 15988000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMG",
+        "frequency": 16027900,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX SGP - 9VF",
+        "frequency": 16035000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - KVM70",
+        "frequency": 16135000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 16180000,
+        "modulation": "am"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 16331700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 16331800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 16331900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 16332000,
+        "modulation": "cw"
+    },
+    {
+        "name": "A marker - Astrakhan RUS",
+        "frequency": 16332100,
+        "modulation": "cw"
+    },
+    {
+        "name": "F marker - Vladivostok RUS",
+        "frequency": 16332200,
+        "modulation": "cw"
+    },
+    {
+        "name": "K marker - Petropavlovsk-Kamchatsky RUS",
+        "frequency": 16332300,
+        "modulation": "cw"
+    },
+    {
+        "name": "M marker - Magadan RUS",
+        "frequency": 16332400,
+        "modulation": "cw"
+    },
+    {
+        "name": "VMW AUS - marine weather",
+        "frequency": 16528000,
+        "modulation": "usb"
+    },
+    {
+        "name": "VMC AUS - marine weather",
+        "frequency": 16546000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CHN - XSG",
+        "frequency": 16559000,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC (distress)",
+        "frequency": 16804500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 16805000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 16805500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 16806000,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 16806500,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSV CHN",
+        "frequency": 16809700,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX CHN - XSQ",
+        "frequency": 16826300,
+        "modulation": "usb"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 16854000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSQ CHN",
+        "frequency": 16880000,
+        "modulation": "cw"
+    },
+    {
+        "name": "XSG CHN",
+        "frequency": 16898500,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUV - French Navy, Djibouti",
+        "frequency": 16905000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN - JFX",
+        "frequency": 16907500,
+        "modulation": "usb"
+    },
+    {
+        "name": "HLJ KOR",
+        "frequency": 16910000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUX - French Navy, St. Denis, Reunion",
+        "frequency": 16915300,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG 6WW - French Navy, Dakar",
+        "frequency": 16951500,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUJ - French Navy, New Caledonia",
+        "frequency": 16958000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUF - French Navy, Fort de France",
+        "frequency": 16961800,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, Saissac, France",
+        "frequency": 16966400,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 16971000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX BRA - PWZ33",
+        "frequency": 16978000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HLO KOR",
+        "frequency": 16990000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 17069600,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUF - French Navy, Martinique",
+        "frequency": 17107000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUG - French Navy, Toulouse, France",
+        "frequency": 17121400,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX CLA - CBV/M",
+        "frequency": 17146400,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMC",
+        "frequency": 17151200,
+        "modulation": "usb"
+    },
+    {
+        "name": "CW HEB - CHE",
+        "frequency": 17207500,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX SGP - 9VF",
+        "frequency": 17430000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HM01 CUB - Numbers station",
+        "frequency": 17480000,
+        "modulation": "am"
+    },
+    {
+        "name": "HFDL PAN - Albrook",
+        "frequency": 17901000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CAR - New York",
+        "frequency": 17907000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 17912000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 17916000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NZL - Auckland",
+        "frequency": 17916000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 17919000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 17919000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 17919000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 17919000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 17919000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 17922000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 17928000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 17928000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 17934000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A-F - Gander, Iceland, New York, Santa Maria, Shanwick",
+        "frequency": 17946000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-E - New York",
+        "frequency": 17952000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA SAT-1,2 - Las Palmas",
+        "frequency": 17955000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 17958000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 17967000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ISL - Reykjavik",
+        "frequency": 17985000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX AUS - VMW",
+        "frequency": 18060000,
+        "modulation": "usb"
+    },
+    {
+        "name": "IBP - NCDXF/IARU international beacon project",
+        "frequency": 18110000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX ZAF - ZSJ",
+        "frequency": 18238000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG 6WW - French Navy, Dakar, Senegal",
+        "frequency": 18365300,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUV - French Navy, Djibouti, Africa",
+        "frequency": 18493800,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC",
+        "frequency": 18898500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 18899000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 18899500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 19680500,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWV - time signal",
+        "frequency": 20000000,
+        "modulation": "am"
+    },
+    {
+        "name": "D marker - Sevastopol UKR",
+        "frequency": 20047700,
+        "modulation": "cw"
+    },
+    {
+        "name": "P marker - Kaliningrad RUS",
+        "frequency": 20047800,
+        "modulation": "cw"
+    },
+    {
+        "name": "S marker - Severomorsk RUS",
+        "frequency": 20047900,
+        "modulation": "cw"
+    },
+    {
+        "name": "C marker - Moscow RUS",
+        "frequency": 20048000,
+        "modulation": "cw"
+    },
+    {
+        "name": "FAX AUS - VMC",
+        "frequency": 20469000,
+        "modulation": "usb"
+    },
+    {
+        "name": "IBP - NCDXF/IARU international beacon project",
+        "frequency": 21150000,
+        "modulation": "cw"
+    },
+    {
+        "name": "MWARA NP - San Francisco",
+        "frequency": 21925000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA AFI-4 - Johannesburg",
+        "frequency": 21926000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 21928000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL GUM - Agana Guam",
+        "frequency": 21928000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL KOR - Seoul Muan",
+        "frequency": 21931000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL NY - Riverhead",
+        "frequency": 21931000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL CA - San Francisco",
+        "frequency": 21934000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL AK - Barrow",
+        "frequency": 21937000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL HI - Moloka'i",
+        "frequency": 21937000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ZAF - Johannesburg",
+        "frequency": 21949000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL THA - Hat Yai",
+        "frequency": 21949000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL ESP - Canarias",
+        "frequency": 21955000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA NAT-A - New York",
+        "frequency": 21964000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CEP-2 - San Francisco",
+        "frequency": 21964000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BHR - Al Muharraq",
+        "frequency": 21982000,
+        "modulation": "usb"
+    },
+    {
+        "name": "MWARA CWP - San Francisco",
+        "frequency": 21985000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL RUS - Krasnoyarsk",
+        "frequency": 21990000,
+        "modulation": "usb"
+    },
+    {
+        "name": "HFDL BOL - Santa Cruz",
+        "frequency": 21997000,
+        "modulation": "usb"
+    },
+    {
+        "name": "DSC",
+        "frequency": 22374500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 22375000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 22375500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 22376000,
+        "modulation": "cw"
+    },
+    {
+        "name": "STANAG FUV - French Navy, Djibouti, Africa",
+        "frequency": 22449000,
+        "modulation": "usb"
+    },
+    {
+        "name": "STANAG FUJ - French Navy, New Caledonia",
+        "frequency": 22461400,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX USA - NMC",
+        "frequency": 22527000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN",
+        "frequency": 22542000,
+        "modulation": "usb"
+    },
+    {
+        "name": "FAX JPN - JFX",
+        "frequency": 22559600,
+        "modulation": "usb"
+    },
+    {
+        "name": "IBP - NCDXF/IARU international beacon project",
+        "frequency": 24930000,
+        "modulation": "cw"
+    },
+    {
+        "name": "WWV - time signal",
+        "frequency": 25000000,
+        "modulation": "am"
+    },
+    {
+        "name": "DSC",
+        "frequency": 25208500,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 25209000,
+        "modulation": "cw"
+    },
+    {
+        "name": "DSC",
+        "frequency": 25209500,
+        "modulation": "cw"
+    },
+    {
+        "name": "NAVTEX - Safety",
+        "frequency": 26100500,
+        "modulation": "cw"
+    },
+    {
+        "name": "IBP - NCDXF/IARU international beacon project",
+        "frequency": 28200000,
+        "modulation": "cw"
+    }
+]
