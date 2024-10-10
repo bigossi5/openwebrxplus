@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from ipaddress import ip_address
 import threading
 import re
+import time
 
 import logging
 
@@ -38,6 +39,14 @@ class ClientRegistry(object):
         self.chatLock = threading.Lock()
         Config.get().wireProperty("max_clients", self._checkClientCount)
         super().__init__()
+
+        # Uruchomienie logowania klientÄ‚Ĺ‚w w osobnym wĂ„â€¦tku
+        log_thread = threading.Thread(target=self.logClients, daemon=True)
+        log_thread.start()
+
+        # Uruchomienie logowania klientÄ‚Ĺ‚w do pliku w osobnym wĂ„â€¦tku
+        log_file_thread = threading.Thread(target=self.logClientsToFile, daemon=True)
+        log_file_thread.start()
 
     def broadcast(self):
         n = self.clientCount()
@@ -206,3 +215,24 @@ class ClientRegistry(object):
         old = [ip for ip in self.bans if now >= self.bans[ip]]
         for ip in old:
             del self.bans[ip]
+    # New method to log clients periodically
+    def logClients(self):
+        while True:
+            client_list = self.listAll()
+            for client in client_list:
+                logger.info(f"Client: {client}")
+            time.sleep(5)  # Logowanie co 5 sekund
+
+    # New method to log clients to a file periodically
+    def logClientsToFile(self):
+        state_file = "/tmp/openwebrx_clients.state"
+        while True:
+            client_list = self.listAll()
+            with open(state_file, "w") as f:
+                for client in client_list:
+                    ip = client['ip'].replace('::ffff:', '')
+                    band = client.get('band', 'N/A')
+                    sdr = client.get('sdr', 'N/A')
+                    name = client.get('name', 'N/A')
+                    f.write(f"Client: IP={ip}, Band={band}, SDR={sdr}, Name={name}\n")
+            time.sleep(5)  # Logowanie co 5 sekund
