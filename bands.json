@@ -411,6 +411,9 @@
     "name": "PMR446",
     "lower_bound": 446000000,
     "upper_bound": 446200000,
+    "frequencies": {
+      "sstv":  446088000
+    },
     "tags": ["public"]
   },
   {
@@ -473,5 +476,15 @@
     "frequencies": {
       "ais": [161975000, 162025000]
     }
+  },
+  {
+    "name": "Straz Pozarna",
+    "lower_bound": 148662500,
+    "upper_bound": 149337500,
+    "tags": ["service"],
+    "frequencies": {
+      "nfm": 149112500
+    }
   }
+
 ]
