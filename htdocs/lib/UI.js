@@ -179,10 +179,6 @@ UI.toggleSection = function(el, on) {
         if ((next_el.classList.contains('closed')) && (toggle || on)) {
             el.innerHTML = el.innerHTML.replace('\u25B4', '\u25BE');
             next_el.classList.remove('closed');
-            // Force a redraw in Chrome to avoid blank UI when
-            // opening a section that was closed to begin with
-            next_el.style.display = 'none';
-            next_el.style.display = 'block';
             LS.save(el.id, true);
         } else if (toggle || !on) {
             el.innerHTML = el.innerHTML.replace('\u25BE', '\u25B4');

@@ -1,3 +1,15 @@
+**1.2.71**
+- Added PD50, PD90, PD120, PD160, PD180, PD240, PD290 SSTV modes.
+- Added Wraase SC2-30, SC2-60, SC2-120 SSTV modes.
+- Added Scottie 3 and Scottie 4 SSTV modes (please test).
+- Added Martin 3 and Martin 4 SSTV modes (please test).
+- Added Robot 12 and Robot 24 SSTV modes (please test).
+- Added AVT-90 SSTV mode.
+- Added "Settings | General | External links" section.
+- Fixed FT8 call distances not hiding on Leaflet maps.
+- [ENTER] toggles receiver panel, [L] toggles log/chat.
+- Now marking SSTV BMPs with 0x73 at offset 7.
+
 **1.2.70**
 - Fixed flood of broken pipe errors when client disconnects.
 - Added ability to control external transceiver rigs.
