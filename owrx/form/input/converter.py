@@ -30,14 +30,15 @@ class TextConverter(Converter):
     Converter class for text inputs
     Does nothing more than to prevent the special python value "None" from appearing in the form
     The string "None" should pass
+    Strips leading and trailing whitespace
     """
     def convert_to_form(self, value):
         if value is None:
             return ""
-        return value
+        return str(value)
 
     def convert_from_form(self, value):
-        return value
+        return str(value).strip()
 
 
 class OptionalConverter(Converter):

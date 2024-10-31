@@ -82,7 +82,8 @@ h1 {
 
 /* col-1 */
 .bookmarks table [data-editor="name"] {
-    width: 35%;
+    white-space: nowrap;
+    width: 29%;
 }
 
 /* col-2 */
@@ -101,15 +102,28 @@ h1 {
 }
 
 /* col-4 */
-.bookmarks table [data-editor="description"] {
-    width: 35%;
+.bookmarks table [data-editor="underlying"] {
+    white-space: nowrap;
+    min-width: 160px;
+    width: 10%;
 }
 
 /* col-5 */
+.bookmarks table [data-editor="description"] {
+    width: 29%;
+}
+
+/* col-6 */
+.bookmarks table [data-editor="scannable"] {
+    width: 2%;
+    text-align: center;
+}
+
+/* col-7 */
 .bookmarks table tr td:last-child, .bookmarks table tr th:last-child {
     text-align: right;
     width: 10%;
- }
+}
 
 .bookmarks table input, .bookmarks table select {
     text-align: inherit;

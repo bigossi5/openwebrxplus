@@ -177,8 +177,8 @@ ModulationEditor.prototype = new Editor();
 
 ModulationEditor.prototype.getInputHtml = function() {
     return '<select class="form-control form-control-sm">' +
-        $.map(this.modes, function(name, modulation) {
-            return '<option value="' + modulation + '">' + name + '</option>';
+        $.map(this.modes, function(mode, name) {
+            return '<option value="' + name + '">' + mode.name + '</option>';
         }).join('') +
         '</select>';
 };
@@ -186,6 +186,30 @@ ModulationEditor.prototype.getInputHtml = function() {
 ModulationEditor.prototype.getHtml = function() {
     var $option = this.input.find('option:selected')
     return $option.html();
+};
+
+function UnderlyingEditor(table) {
+    Editor.call(this, table);
+    this.modes = table.data('modes');
+}
+
+UnderlyingEditor.prototype = new Editor();
+
+UnderlyingEditor.prototype.getInputHtml = function() {
+    return '<select class="form-control form-control-sm">' +
+        '<option value="">None</option>' +
+        $.map(this.modes, function(mode, name) {
+            if (mode.analog && !mode.underlying.length)
+                return '<option value="' + name + '">' + mode.name + '</option>';
+            else
+                return '';
+        }).join('') +
+        '</select>';
+};
+
+UnderlyingEditor.prototype.getHtml = function() {
+    var $option = this.input.find('option:selected')
+    return $option? $option.html() : '';
 };
 
 function DescriptionEditor(table) {
@@ -220,16 +244,21 @@ ScannableEditor.prototype.getHtml = function() {
     return this.getValue()? '&check;' : '';
 };
 
+var renderModulation = function(m, modes) {
+    return !m? 'None' : m in modes? modes[m].name : m;
+}
+
 $.fn.bookmarktable = function() {
     var editors = {
         name: NameEditor,
         frequency: FrequencyEditor,
         modulation: ModulationEditor,
+        underlying: UnderlyingEditor,
         description: DescriptionEditor,
         scannable: ScannableEditor
     };
 
-    $.each(this, function(){
+    $.each(this, function() {
         var $table = $(this).find('table');
 
         $table.on('dblclick', 'td', function(e) {
@@ -252,9 +281,11 @@ $.fn.bookmarktable = function() {
                     data: JSON.stringify(Object.fromEntries([[name, editor.getValue()]])),
                     contentType: 'application/json',
                     method: 'POST'
-                }).done(function(){
+                }).done(function() {
                     $cell.data('value', editor.getValue());
                     $cell.html(editor.getHtml());
+                }).fail(function() {
+                    $cell.html(html);
                 });
             };
 
@@ -337,7 +368,10 @@ $.fn.bookmarktable = function() {
                     data: JSON.stringify([data]),
                     contentType: 'application/json',
                     method: 'POST'
-                }).done(function(data){
+                }).fail(function(data) {
+                    //  adding failed, reenable inputs
+                    $.map(inputs, function(input, name) { input.disable(false); });
+                }).done(function(data) {
                     if (data.length && data.length === 1 && 'bookmark_id' in data[0]) {
                         row.attr('data-id', data[0]['bookmark_id']);
                         var tds = row.find('td');
@@ -347,16 +381,16 @@ $.fn.bookmarktable = function() {
                             td.data('value', input.getValue());
                             td.html(input.getHtml());
                         });
+                    }
 
-                        var $cell = row.find('td').last();
-                        var $group = $cell.find('.btn-group');
-                        if ($group.length) {
-                            $group.remove;
-                            $cell.html('<div class="btn btn-sm btn-danger bookmark-delete">delete</div>');
-                        }
+                    // remove inputs
+                    var $cell = row.find('td').last();
+                    var $group = $cell.find('.btn-group');
+                    if ($group.length) {
+                        $group.remove;
+                        $cell.html('<div class="btn btn-sm btn-danger bookmark-delete">delete</div>');
                     }
                 });
-
             });
 
             $table.append(row);
@@ -372,16 +406,13 @@ $.fn.bookmarktable = function() {
                 var modes = $table.data('modes');
                 var $list = $('<table class="table table-sm">');
                 $list.append(bookmarks.map(function(b) {
-                    var modulation = b.modulation;
-                    if (modulation in modes) {
-                        modulation = modes[modulation];
-                    }
                     var row = $(
                         '<tr>' +
-                            '<td><input class="form-check-input select" type="checkbox"></td>' +
+                            '<td><input class="form-check-input select" type="checkbox">&nbsp;</td>' +
                             '<td>' + b.name + '</td>' +
                             '<td class="frequency">' + renderFrequency(b.frequency) + '</td>' +
-                            '<td>' + modulation + '</td>' +
+                            '<td>' + renderModulation(b.modulation, modes) + '</td>' +
+//                            '<td>' + renderModulation(b.underlying, modes) + '</td>' +
                         '</tr>'
                     );
                     row.data('bookmark', b);
@@ -407,31 +438,30 @@ $.fn.bookmarktable = function() {
                         data: JSON.stringify(selected),
                         contentType: 'application/json',
                         method: 'POST'
-                    }).done(function(data){
+                    }).fail(function(data) {
+                        // import failed
+                        $table.find('.emptytext').remove();
+                    }).done(function(data) {
                         $table.find('.emptytext').remove();
                         var modes = $table.data('modes');
                         if (data.length && data.length == selected.length) {
                             $table.append(data.map(function(obj, index) {
-                                var bookmark = selected[index];
-                                var modulation_name = bookmark.modulation;
-                                if (modulation_name in modes) {
-                                    modulation_name = modes[modulation_name];
-                                }
-                                // provide reasonable default for missing fields
-                                if (!('description' in bookmark)) {
-                                    bookmark.description = '';
-                                }
-                                if (!('scannable' in bookmark)) {
+                                var b = selected[index];
+                                // provide reasonable defaults for missing fields
+                                if (!('underlying' in b))  b.underlying = '';
+                                if (!('description' in b)) b.description = '';
+                                if (!('scannable' in b)) {
                                     var modesToScan = ['lsb', 'usb', 'cw', 'am', 'sam', 'nfm'];
-                                    bookmark.scannable = modesToScan.indexOf(bookmark.modulation) >= 0;
+                                    b.scannable = modesToScan.indexOf(b.modulation) >= 0;
                                 }
                                 return $(
                                     '<tr data-id="' + obj.bookmark_id + '">' +
-                                        '<td data-editor="name" data-value="' + bookmark.name + '">' + bookmark.name + '</td>' +
-                                        '<td data-editor="frequency" data-value="' + bookmark.frequency + '" class="frequency">' + renderFrequency(bookmark.frequency) +'</td>' +
-                                        '<td data-editor="modulation" data-value="' + bookmark.modulation + '">' + modulation_name + '</td>' +
-                                        '<td data-editor="description" data-value="' + bookmark.description + '">' + bookmark.description + '</td>' +
-                                        '<td data-editor="scannable" data-value="' + bookmark.scannable + '">' + (bookmark.scannable? '&check;':'') + '</td>' +
+                                        '<td data-editor="name" data-value="' + b.name + '">' + b.name + '</td>' +
+                                        '<td data-editor="frequency" data-value="' + b.frequency + '" class="frequency">' + renderFrequency(b.frequency) +'</td>' +
+                                        '<td data-editor="modulation" data-value="' + b.modulation + '">' + renderModulation(b.modulation, modes) + '</td>' +
+                                        '<td data-editor="underlying" data-value="' + b.underlying + '">' + renderModulation(b.underlying, modes) + '</td>' +
+                                        '<td data-editor="description" data-value="' + b.description + '">' + b.description + '</td>' +
+                                        '<td data-editor="scannable" data-value="' + b.scannable + '">' + (b.scannable? '&check;':'') + '</td>' +
                                         '<td>' +
                                             '<button type="button" class="btn btn-sm btn-danger bookmark-delete">delete</button>' +
                                         '</td>' +

@@ -5,7 +5,9 @@ var Modes = {
     setModes:function(json){
         this.modes = json.map(function(m){ return new Mode(m); });
         this.updatePanels();
-        $('#openwebrx-dialog-bookmark').bookmarkDialog().setModes(this.modes);
+        var bookmarkDialog = $('#openwebrx-dialog-bookmark').bookmarkDialog();
+        bookmarkDialog.setUnderlying(this.modes);
+        bookmarkDialog.setModes(this.modes);
     },
     getModes:function(){
         return this.modes;

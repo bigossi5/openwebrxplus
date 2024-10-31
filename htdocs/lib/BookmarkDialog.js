@@ -2,8 +2,17 @@ $.fn.bookmarkDialog = function() {
     var $el = this;
     return {
         setModes: function(modes) {
-            $el.find('#modulation').html(modes.filter(function(m){
+            $el.find('#modulation').html(modes.filter(function(m) {
                 return m.isAvailable();
+            }).map(function(m) {
+                return '<option value="' + m.modulation + '">' + m.name + '</option>';
+            }).join(''));
+            return this;
+        },
+        setUnderlying: function(modes) {
+            $el.find('#underlying').html('<option value="">None</option>' +
+            modes.filter(function(m) {
+                return m.isAvailable() && !m.underlying && m.type === 'analog';
             }).map(function(m) {
                 return '<option value="' + m.modulation + '">' + m.name + '</option>';
             }).join(''));
@@ -11,7 +20,7 @@ $.fn.bookmarkDialog = function() {
         },
         setValues: function(bookmark) {
             var $form = $el.find('form');
-            ['name', 'frequency', 'modulation', 'description', 'scannable'].forEach(function(key){
+            ['name', 'frequency', 'modulation', 'underlying', 'description', 'scannable'].forEach(function(key) {
                 var $input = $form.find('#' + key);
                 if ($input.is(':checkbox')) {
                     $input.prop('checked', bookmark[key]);
@@ -25,7 +34,7 @@ $.fn.bookmarkDialog = function() {
         getValues: function() {
             var bookmark = {};
             var valid = true;
-            ['name', 'frequency', 'modulation', 'description', 'scannable'].forEach(function(key){
+            ['name', 'frequency', 'modulation', 'underlying', 'description', 'scannable'].forEach(function(key) {
                 var $input = $el.find('#' + key);
                 valid = valid && $input[0].checkValidity();
                 bookmark[key] = $input.is(':checkbox')? $input.is(':checked') : $input.val();
@@ -38,4 +47,4 @@ $.fn.bookmarkDialog = function() {
             return bookmark;
         }
     }
-}
+};

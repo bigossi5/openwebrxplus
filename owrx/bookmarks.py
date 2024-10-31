@@ -16,6 +16,7 @@ class Bookmark(object):
         self.name = j["name"]
         self.frequency = j["frequency"]
         self.modulation = j["modulation"]
+        self.underlying = j["underlying"] if "underlying" in j else ""
         self.description = j["description"] if "description" in j else ""
         self.srcFile = srcFile
         # By default, only scan modulations that make sense to scan
@@ -33,6 +34,9 @@ class Bookmark(object):
     def getModulation(self):
         return self.modulation
 
+    def getUnderlying(self):
+        return self.underlying
+
     def getDescription(self):
         return self.description
 
@@ -47,6 +51,7 @@ class Bookmark(object):
             "name": self.getName(),
             "frequency": self.getFrequency(),
             "modulation": self.getModulation(),
+            "underlying": self.getUnderlying(),
             "description": self.getDescription(),
             "scannable": self.isScannable(),
         }

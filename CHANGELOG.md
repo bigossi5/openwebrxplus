@@ -1,3 +1,11 @@
+**1.2.72**
+- Added underlying modulation to bookmarks.
+- Added sanitizing bookmark contents.
+- Added bias-tee support for rtl_tcp [jeskko].
+- Added dependency on python3-distutils-extra.
+- Fixed Chrome bug opening "Settings" section.
+- Refactored bookmark editing mechanism.
+
 **1.2.71**
 - Added PD50, PD90, PD120, PD160, PD180, PD240, PD290 SSTV modes.
 - Added Wraase SC2-30, SC2-60, SC2-120 SSTV modes.

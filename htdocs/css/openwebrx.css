@@ -1512,17 +1512,16 @@ img.openwebrx-mirror-img
 }
 
 .openwebrx-dialog {
-	background-color: #575757;
-	padding: 10px;
-	color: white;
-	position: fixed;
-	font-size: 10pt;
-	border-radius: 15px;
-	-moz-border-radius: 15px;
+    background-color: #575757;
+    padding: 10px;
+    color: white;
+    font-size: 10pt;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
     position: fixed;
     left: 50%;
     top: 50%;
-    transform: translate(-50%, 0);
+    transform: translate(-50%, -50%);
 }
 
 .openwebrx-dialog .form-field {

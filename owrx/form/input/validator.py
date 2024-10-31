@@ -11,7 +11,7 @@ class Validator(ABC):
 
 class RequiredValidator(Validator):
     def validate(self, key, value) -> None:
-        if value is None or value == "":
+        if value is None or value.strip() == "":
             raise ValidationError(key, "Field is required")
 
 
