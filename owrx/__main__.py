@@ -28,9 +28,8 @@ from pathlib import Path
 import signal
 import argparse
 import socket
-import ssl
 import os.path
-
+import ssl
 
 class ThreadedHttpServer(ThreadingMixIn, HTTPServer):
     def __init__(self, web_port, RequestHandlerClass, use_ipv6, bind_address=None):
@@ -162,8 +161,9 @@ Support and info:       https://groups.io/g/openwebrx
         certFile = "/etc/openwebrx/cert.pem"
         # If SSL certificate found, use HTTPS instead of HTTP
         if os.path.isfile(keyFile) and os.path.isfile(certFile):
-            server.socket = ssl.wrap_socket(
-                server.socket, keyFile, certFile, server_side=True)
+            ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ctx.load_cert_chain(certFile, keyFile)
+            server.socket = ctx.wrap_socket(server.socket, server_side=True)
             logger.info("Found SSL certificate, using https:// protocol.")
         else:
             logger.info("No SSL certificate, using http:// protocol.")

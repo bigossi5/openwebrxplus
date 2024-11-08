@@ -585,7 +585,7 @@ function HdrMetaPanel(el) {
     $select.hide();
     $select.on("change", function() {
         var id = parseInt($(this).val());
-        $('#openwebrx-panel-receiver').demodulatorPanel().getDemodulator().setAudioServiceId(id);
+        UI.getDemodulator().setAudioServiceId(id);
     });
 }
 
@@ -639,7 +639,7 @@ function DabMetaPanel(el) {
     this.$select = $('<select id="dab-service-id"></select>');
     this.$select.on("change", function() {
         me.service_id = parseInt($(this).val());
-        $('#openwebrx-panel-receiver').demodulatorPanel().getDemodulator().setAudioServiceId(me.service_id);
+        UI.getDemodulator().setAudioServiceId(me.service_id);
     });
     var $container = $(
         '<div class="dab-container">' +

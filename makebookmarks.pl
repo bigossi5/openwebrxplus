@@ -39,9 +39,14 @@ while(<STDIN>)
       if(lc($Mod) eq "rtty85")  { $Freq -= 1.0; }
       # Set NAVTEX/SITOR-B/DSC frequencies 1kHz lower than the left carrier
       if(lc($Mod) eq "sitorb")  { $Freq -= 1.0; }
+      if(lc($Mod) eq "navtex")  { $Freq -= 1.0; }
       if(lc($Mod) eq "dsc")     { $Freq -= 1.0; }
+      # Set BPSK frequencies 1000Hz lower than the carrier
+      if(lc($Mod) eq "bpsk31")  { $Freq -= 1.0; }
+      if(lc($Mod) eq "bpsk63")  { $Freq -= 1.0; }
       # Set CW frequencies 800Hz lower than the carrier
-      if(lc($Mod) eq "cw")      { $Freq -= 0.8; }
+      # This is now done at the client side!
+      #if(lc($Mod) eq "cw")      { $Freq -= 0.8; }
 
       printf("    {\n");
       printf("        \"name\" : \"%s\",\n", $Name);

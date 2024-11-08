@@ -616,9 +616,13 @@ class AdsbParser(AircraftParser):
 
             # Altitude
             if "alt_geom" in entry:
-                out["altitude"] = round(entry["alt_geom"])
+                out["altitude"] = entry["alt_geom"]
             elif "alt_baro" in entry:
-                out["altitude"] = round(entry["alt_baro"])
+                out["altitude"] = entry["alt_baro"]
+
+            # Round altitude
+            if "altitude" in out:
+                out["altitude"] = 0 if out["altitude"] == "ground" else round(out["altitude"])
 
             # Climb/descent rate
             if "geom_rate" in entry:

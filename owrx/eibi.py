@@ -41,10 +41,12 @@ class EIBI(object):
     @staticmethod
     def correctFreq(freq: int, mode: str) -> int:
         if mode == "cw":
-            return freq - 800
+            # This is now done on the client side
+            #return freq - 800
+            return freq
         elif mode == "fax":
             return freq - 1900
-        elif mode in ["cwdecoder", "rtty450", "rtty170", "rtty85", "sitorb", "dsc", "bpsk31", "bpsk63"]:
+        elif mode in ["cwdecoder", "rtty450", "rtty170", "rtty85", "sitorb", "navtex", "dsc", "bpsk31", "bpsk63"]:
             return freq - 1000
         else:
             return freq

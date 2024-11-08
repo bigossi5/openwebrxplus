@@ -1,3 +1,14 @@
+openwebrx (1.2.73) bullseye jammy; urgency=low
+
+  * Added frequency to recorded MP3 filenames.
+  * Added 800Hz to newly created CW bookmarks.
+  * Refactored frequency and modulation UI code.
+  * Accounted for ACARS altitudes set to "ground".
+  * Stripped whitespace from input strings.
+  * Fixed SSL on newer Python3 versions.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Mon, 4 Nov 2024 16:12:00 +0000
+
 openwebrx (1.2.72) bullseye jammy; urgency=low
 
   * Added underlying modulation to bookmarks.

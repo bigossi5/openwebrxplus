@@ -289,7 +289,7 @@ Shortcuts.handleKey = function(event) {
 
         case 's':
             // S: Toggle scanner
-            toggleScanner();
+            UI.toggleScanner();
             break;
 
         case 'd':

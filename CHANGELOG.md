@@ -1,3 +1,11 @@
+**1.2.73**
+- Added frequency to recorded MP3 filenames.
+- Added 800Hz to newly created CW bookmarks.
+- Refactored frequency and modulation UI code.
+- Accounted for ACARS altitudes set to "ground".
+- Stripped whitespace from input strings.
+- Fixed SSL on newer Python3 versions.
+
 **1.2.72**
 - Added underlying modulation to bookmarks.
 - Added sanitizing bookmark contents.

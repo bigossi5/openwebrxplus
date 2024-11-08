@@ -5,18 +5,7 @@ function Scanner(bookmarkBar, msec) {
     this.msec      = msec;
     this.current   = -1;
     this.threshold = -80;
-}
-
-Scanner.prototype.tuneBookmark = function(b) {
-    //console.log("TUNE: " + b.name + " at " + b.frequency + ": " + b.modulation);
-
-    // Tune to the bookmark frequency
-    var panel = $('#openwebrx-panel-receiver').demodulatorPanel();
-    panel.getDemodulator().set_offset_frequency(b.frequency - center_freq);
-    panel.setMode(b.modulation, b.underlying);
-
-    // Done
-    return true;
+    this.timer     = 0;
 }
 
 Scanner.prototype.update = function(data) {
@@ -62,7 +51,7 @@ Scanner.prototype.scan = function() {
         //console.log("SCAN: " + b.name + " at " + b.frequency + ": " + b.level);
 
         // If level exceeds threshold, tune to the bookmark
-        if (b.level>this.threshold && this.tuneBookmark(b)) {
+        if (b.level>this.threshold && UI.tuneBookmark(b)) {
             this.current = current;
             return;
         }
@@ -83,7 +72,7 @@ Scanner.prototype.stop = function() {
     }
 
     // Done
-    return this.timer == null;
+    return !this.timer;
 }
 
 Scanner.prototype.start = function() {
@@ -112,15 +101,10 @@ Scanner.prototype.start = function() {
     }
 
     // Done
-    return this.timer != null;
+    return !!this.timer;
 }
-
-Scanner.prototype.toggle = function() {
-    // Toggle based on the current timer state
-    return this.timer? this.stop() : this.start();
-};
 
 Scanner.prototype.isRunning = function() {
     // Return current state
-    return this.timer != null;
+    return !!this.timer;
 };

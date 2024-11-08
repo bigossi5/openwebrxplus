@@ -8,12 +8,10 @@ function BookmarkBar() {
     me.$container.on('click', '.bookmark', function(e){
         var $bookmark = $(e.target).closest('.bookmark');
         me.$container.find('.bookmark').removeClass('selected');
-        var b = $bookmark.data();
-        if (!b || !b.frequency || !b.modulation) return;
-        me.getDemodulator().set_offset_frequency(b.frequency - center_freq);
-        me.getDemodulatorPanel().setMode(b.modulation, b.underlying);
-        $bookmark.addClass('selected');
-        stopScanner();
+        if (UI.tuneBookmark($bookmark.data())) {
+            $bookmark.addClass('selected');
+            UI.toggleScanner(false);
+        }
     });
 
     me.$container.on('click', '.action[data-action=edit]', function(e){
@@ -106,19 +104,22 @@ BookmarkBar.prototype.render = function(){
 
 BookmarkBar.prototype.showEditDialog = function(bookmark) {
     if (!bookmark) {
-        var mode1 = this.getDemodulator().get_secondary_demod()
-        var mode2 = this.getDemodulator().get_modulation();
-        // if no secondary demod, use the primary one
-        if (!mode1) { mode1 = mode2; mode2 = ''; }
-        bookmark = {
-            name: '',
-            frequency: center_freq + this.getDemodulator().get_offset_frequency(),
-            modulation: mode1,
-            underlying: mode2,
-            description: '',
-            scannable : this.modesToScan.indexOf(mode1) >= 0
+        var freq  = UI.getFrequency();
+        var mode1 = UI.getModulation();
+        var mode2 = UI.getUnderlying();
+        if (!!mode1 && !!mode2) {
+            // check for default underlying demod
+            var m = Modes.findByModulation(mode1);
+            if (m && m.underlying.indexOf(mode2) == 0) mode2 = '';
         }
-        this.sanitizeBookmark(bookmark);
+        bookmark = {
+            name        : '',
+            frequency   : mode1 === 'cw'? freq + 800 : freq,
+            modulation  : mode1,
+            underlying  : mode2,
+            description : '',
+            scannable   : this.modesToScan.indexOf(mode1) >= 0
+        }
     }
     this.$dialog.bookmarkDialog().setValues(bookmark);
     this.$dialog.show();
@@ -177,14 +178,6 @@ BookmarkBar.prototype.storeBookmark = function() {
     me.localBookmarks.setBookmarks(bookmarks);
     me.loadLocalBookmarks();
     me.$dialog.hide();
-};
-
-BookmarkBar.prototype.getDemodulatorPanel = function() {
-    return $('#openwebrx-panel-receiver').demodulatorPanel();
-};
-
-BookmarkBar.prototype.getDemodulator = function() {
-    return this.getDemodulatorPanel().getDemodulator();
 };
 
 BookmarkBar.prototype.getAllBookmarks = function() {

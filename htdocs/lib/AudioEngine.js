@@ -334,7 +334,8 @@ AudioEngine.prototype.startRecording = function() {
     if (!this.recording) {
         var date = new Date(Date.now()).toISOString().slice(2,19)
             .replaceAll('-','').replaceAll(':','').replaceAll('T','-');
-        this.mp3fileName = "REC-" + date + ".mp3";
+        var freq = Math.round(UI.getFrequency() / 1000);
+        this.mp3fileName = "REC-" + date + '-' + freq + ".mp3";
         this.recording = true;
     }
 };
