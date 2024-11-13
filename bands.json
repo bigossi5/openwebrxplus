@@ -229,7 +229,10 @@
       "jt65": 144120000,
       "packet": [144800000, 145825000],
       "q65": 144116000,
-      "sstv": [144500000, 145800000],
+       "sstv": [
+        { "frequency": 144500000, "underlying": "nfm" },
+        { "frequency": 145800000, "underlying": "nfm" }
+      ],
       "msk144": 144360000
     },
     "tags": ["hamradio"]
