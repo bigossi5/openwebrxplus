@@ -877,3 +877,85 @@ $.fn.faxMessagePanel = function() {
     }
     return this.data('panel');
 };
+
+CwSkimmerMessagePanel = function(el) {
+    MessagePanel.call(this, el);
+    this.texts = [];
+
+    // CLEAR button clears underlying texts storage
+    var me = this;
+    this.clearButton.on('click', function() { me.texts = []; });
+}
+
+CwSkimmerMessagePanel.prototype = Object.create(MessagePanel.prototype);
+
+CwSkimmerMessagePanel.prototype.supportsMessage = function(message) {
+    return message['mode'] === 'CW';
+};
+
+CwSkimmerMessagePanel.prototype.render = function() {
+    $(this.el).append($(
+        '<table width="100%">' +
+            '<thead><tr>' +
+                '<th class="freq">Freq</th>' +
+                '<th class="text">Text</th>' +
+            '</tr></thead>' +
+            '<tbody></tbody>' +
+        '</table>'
+    ));
+};
+
+CwSkimmerMessagePanel.prototype.pushMessage = function(msg) {
+    // Must have some text
+    if (!msg.text) return;
+
+    // Clear cache if requested
+//    if (msg.changed) this.texts = [];
+
+    // Current time
+    var now = Date.now();
+
+    // Modify or add a new entry
+    var j = this.texts.findIndex(function(x) { return x.freq >= msg.freq });
+    if (j < 0) {
+        // Append a new entry
+        if (msg.text.trim().length > 0) {
+            this.texts.push({ freq: msg.freq, text: msg.text, ts: now });
+        }
+    } else if (this.texts[j].freq == msg.freq) {
+        // Update existing entry
+        this.texts[j].text = (this.texts[j].text + msg.text).slice(-64);
+        this.texts[j].ts   = now;
+    } else {
+        // Insert a new entry
+        if (msg.text.trim().length > 0) {
+            this.texts.splice(j, 0, { freq: msg.freq, text: msg.text, ts: now });
+        }
+    }
+
+    // Generate table body
+    var body = '';
+    for (var j = 0 ; j < this.texts.length ; j++) {
+        // Limit the lifetime of entries depending on their length
+        var cutoff = 5000 * this.texts[j].text.length;
+        if (now - this.texts[j].ts >= cutoff) {
+            this.texts.splice(j--, 1);
+        } else {
+            var f = Math.floor(this.texts[j].freq / 100.0) / 10.0;
+            body +=
+                '<tr style="color:black;background-color:' + (j&1? '#E0FFE0':'#FFFFFF') +
+                ';"><td class="freq">' + f.toFixed(1) +
+                '</td><td class="text">' + this.texts[j].text + '</td></tr>\n';
+        }
+    }
+
+    // Assign new table body
+    $(this.el).find('tbody').html(body);
+};
+
+$.fn.cwskimmerMessagePanel = function() {
+    if (!this.data('panel')) {
+        this.data('panel', new CwSkimmerMessagePanel(this));
+    }
+    return this.data('panel');
+};

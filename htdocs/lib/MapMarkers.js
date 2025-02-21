@@ -479,7 +479,7 @@ AprsMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
         weatherString += '<div>' + Utils.makeListTitle('Weather');
 
         if (this.weather.temperature) {
-            weatherString += Utils.makeListItem('Temperature', this.weather.temperature.toFixed(1) + ' oC');
+            weatherString += Utils.makeListItem('Temperature', this.weather.temperature.toFixed(1) + '&deg;C');
         }
 
         if (this.weather.humidity) {
@@ -623,6 +623,8 @@ AircraftMarker.prototype.update = function(update) {
     // HFDL, ACARS, VDL2, ADSB
     this.altitude = update.location.altitude;
     this.aircraft = update.location.aircraft;
+    this.country  = update.location.country;
+    this.ccode    = update.location.ccode;
     this.destination = update.location.destination;
     this.origin   = update.location.origin;
     this.flight   = update.location.flight;
@@ -743,6 +745,13 @@ AircraftMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
         detailsString += Utils.makeListItem('Aircraft', Utils.linkifyFlight(this.aircraft));
     }
 
+    if (this.country || this.ccode) {
+        var country = '';
+        if (this.ccode)   country += Utils.ccode2flag(this.ccode);
+        if (this.country) country += '&nbsp;' + this.country;
+        detailsString += Utils.makeListItem('Country', country);
+    }
+
     if (this.squawk) {
         detailsString += Utils.makeListItem('Squawk', this.squawk);
     }
@@ -773,8 +782,8 @@ AircraftMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
     // Combine altitude and vertical speed
     if (this.altitude) {
         var alt = this.altitude.toFixed(0) + ' ft';
-        if (this.vspeed > 0) alt += ' &UpperRightArrow;' + this.vspeed + ' ft/m';
-        else if (this.vspeed < 0) alt += ' &LowerRightArrow;' + (-this.vspeed) + ' ft/m';
+        if (this.vspeed > 0) alt = '&uarr;' + this.vspeed + ' ft/m ' + alt;
+        else if (this.vspeed < 0) alt = '&darr;' + (-this.vspeed) + ' ft/m ' + alt;
         detailsString += Utils.makeListItem('Altitude', alt);
     }
 

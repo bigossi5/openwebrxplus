@@ -101,6 +101,7 @@ class FeatureDetector(object):
         "mqtt": ["paho_mqtt"],
         "hdradio": ["nrsc5"],
         "rigcontrol": ["hamlib"],
+        "cwskimmer": ["csdr_cwskimmer"],
     }
 
     def feature_availability(self):
@@ -564,12 +565,12 @@ class FeatureDetector(object):
 
     def has_freedv_rx(self):
         """
-        The `freedv\_rx` executable is required to demodulate FreeDV digital
+        The `freedv_rx` executable is required to demodulate FreeDV digital
         transmissions. It comes as part of the `codec2` library build, but is
         not installed by default or contained inside the `codec2` packages.
 
         To obtain it, you will have to compile 'codec2' from the sources and
-        then manually install `freedv\_rx`. The detailed installation
+        then manually install `freedv_rx`. The detailed installation
         instructions are available from the
         [OpenWebRX Wiki](https://github.com/jketterl/openwebrx/wiki/FreeDV-demodulator-notes).
         """
@@ -588,7 +589,7 @@ class FeatureDetector(object):
 
     def has_sddc_connector(self):
         """
-        The [SDCC Connector](https://github.com/jketterl/sddc_connector)
+        The [SDDC Connector](https://github.com/jketterl/sddc_connector)
         allows connectivity with SDR devices powered by the `libsddc`
         library, such as RX666, RX888, HF103, etc.
         """
@@ -775,3 +776,11 @@ class FeatureDetector(object):
         The `hamlib` package is available in most Linux distributions.
         """
         return self.command_is_runnable("rigctl -V")
+
+    def has_csdr_cwskimmer(self):
+        """
+        OpenWebRX uses the [CSDR CWSkimmer](https://github.com/luarvique/csdr-cwskimmer)
+        to decode multiple CW signals at once. You can install the
+        `csdr-cwskimmer` package from the OpenWebRX+ repositories.
+        """
+        return self.command_is_runnable("csdr-cwskimmer -h")

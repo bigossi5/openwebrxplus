@@ -1,3 +1,40 @@
+**1.2.77**
+- Refactored web data sources (EIBI, receivers, repeaters).
+- Fixed RepeaterBook updates to happen daily.
+- Fixed KiwiSDR receiver database updates.
+- Added aircraft and country lookup by ICAO ID (from TAR1090).
+- Added country and its flag to aircraft map bubbles.
+- Added OpenWebRX uptime display to Settings page.
+- Added Linux uptime display to Settings page.
+- Added receivers database update time to Settings page.
+
+**1.2.76**
+- Refactored SSTV decoder code.
+- Eliminated FFTW3 race condition in SSTV decoder.
+- Disabled AVT-90 SSTV mode due to quality concerns.
+- Fixed Scottie DX VIS code.
+- Improved CW skimmer sensitivity.
+- Not clearing CW skimmer when frequency changes.
+- Settings page shows EIBI schedule download time.
+- Settings page shows repeaters list download time.
+- Using degree sign for temperatures on the map.
+
+**1.2.75**
+- Added profile-specific transceiver rig control setting.
+- Added CLEAR button to CW skimmer.
+- Replaced ascent/descent symbols Chrome turned into emojis.
+- Removed backslash before underscore in 'freedv_rx'.
+- Now loading UI and audio settings separately.
+- Removed some FT8 debug messages.
+- Silenced CW skimmer audio.
+
+**1.2.74**
+- Added CWSkimmer decoder using csdr-cwskimmer tool.
+- Added UI.tuneBookmark(), UI.toggleScanner().
+- Fixed FLEX decoder to parse multiple capcodes.
+- Fixed several scanner bugs.
+- No longer translating EIBI CW bookmarks 800Hz down.
+
 **1.2.73**
 - Added frequency to recorded MP3 filenames.
 - Added 800Hz to newly created CW bookmarks.

@@ -365,6 +365,9 @@ class ServiceHandler(SdrSourceEventClient):
         elif mod == "meteor-lrpt":
             from csdr.chain.toolbox import MeteorLrptDemodulator
             return MeteorLrptDemodulator(service=True)
+        elif mod == "elektro-lrit":
+            from csdr.chain.toolbox import ElektroLritDemodulator
+            return ElektroLritDemodulator(service=True)
 
         raise ValueError("unsupported service modulation: {}".format(mod))
 

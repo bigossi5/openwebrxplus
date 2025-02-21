@@ -174,6 +174,9 @@ class Modes(object):
             service=True,
             squelch=False,
         ),
+# Replaced by Jakob's RTTY decoder
+#        DigitalMode("mfrtty170", "RTTY-170", underlying=["usb"]),
+#        DigitalMode("mfrtty450", "RTTY-450", underlying=["usb"]),
 # Replaced by the general paging decoder (both POCSAG and FLEX)
 #        DigitalMode(
 #            "pocsag",
@@ -194,9 +197,15 @@ class Modes(object):
             squelch=False,
         ),
         DigitalMode("cwdecoder", "CW Decoder", underlying=["usb", "lsb"]),
-# Replaced by Jakob's RTTY decoder
-#        DigitalMode("mfrtty170", "RTTY-170", underlying=["usb"]),
-#        DigitalMode("mfrtty450", "RTTY-450", underlying=["usb"]),
+        DigitalMode(
+            "cwskimmer",
+            "CW Skimmer",
+            underlying=["empty"],
+            bandpass=Bandpass(0, 24000),
+            requirements=["cwskimmer"],
+            service=False,
+            squelch=False,
+        ),
         DigitalMode(
             "sstv",
             "SSTV",
@@ -316,6 +325,16 @@ class Modes(object):
 #            "Meteor-M2 LRPT",
 #            underlying=["empty"],
 #            bandpass=Bandpass(-75000, 75000),
+#            requirements=["wxsat"],
+#            service=True,
+#            squelch=False,
+#            secondaryFft=False
+#        ),
+#        DigitalMode(
+#            "elektro-lrit",
+#            "ELEKTRO-L LRIT",
+#            underlying=["empty"],
+#            bandpass=Bandpass(-200000, 200000),
 #            requirements=["wxsat"],
 #            service=True,
 #            squelch=False,

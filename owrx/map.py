@@ -125,7 +125,7 @@ class Map(object):
                     "src": src,
                     "dst": dst
                 }
-                logger.debug("{0} call from {1} to {2}".format(mode, key, callee))
+                #logger.debug("{0} call from {1} to {2}".format(mode, key, callee))
                 # remove excessive calls
                 while len(self.calls) > 0 and len(self.calls) >= max_calls:
                     self.calls.pop(0)

@@ -1,8 +1,8 @@
 from csdr.chain.demodulator import ServiceDemodulator, DialFrequencyReceiver
-from csdr.module.toolbox import Rtl433Module, MultimonModule, DumpHfdlModule, DumpVdl2Module, Dump1090Module, AcarsDecModule, RedseaModule, SatDumpModule
-from pycsdr.modules import FmDemod, AudioResampler, Convert, Agc, Squelch
+from csdr.module.toolbox import Rtl433Module, MultimonModule, DumpHfdlModule, DumpVdl2Module, Dump1090Module, AcarsDecModule, RedseaModule, SatDumpModule, CwSkimmerModule
+from pycsdr.modules import FmDemod, AudioResampler, Convert, Agc, Squelch, RealPart
 from pycsdr.types import Format
-from owrx.toolbox import TextParser, PageParser, SelCallParser, EasParser, IsmParser, RdsParser
+from owrx.toolbox import TextParser, PageParser, SelCallParser, EasParser, IsmParser, RdsParser, CwSkimmerParser
 from owrx.aircraft import HfdlParser, Vdl2Parser, AdsbParser, AcarsParser
 
 from datetime import datetime
@@ -223,6 +223,30 @@ class RdsDemodulator(ServiceDemodulator, DialFrequencyReceiver):
         self.parser.setDialFrequency(frequency)
 
 
+class CwSkimmerDemodulator(ServiceDemodulator, DialFrequencyReceiver):
+    def __init__(self, sampleRate: int = 48000, charCount: int = 4, service: bool = False):
+        self.sampleRate = sampleRate
+        self.parser = CwSkimmerParser(service)
+        workers = [
+            RealPart(),
+            Agc(Format.FLOAT),
+            Convert(Format.FLOAT, Format.SHORT),
+            CwSkimmerModule(sampleRate, charCount),
+            self.parser,
+        ]
+        # Connect all the workers
+        super().__init__(workers)
+
+    def getFixedAudioRate(self) -> int:
+        return self.sampleRate
+
+    def supportsSquelch(self) -> bool:
+        return False
+
+    def setDialFrequency(self, frequency: int) -> None:
+        self.parser.setDialFrequency(frequency)
+
+
 class NoaaAptDemodulator(ServiceDemodulator):
     def __init__(self, satellite: int = 19, service: bool = False):
         d = datetime.utcnow()
@@ -257,6 +281,30 @@ class MeteorLrptDemodulator(ServiceDemodulator):
         workers = [
             SatDumpModule(mode = mode,
                 sampleRate = self.sampleRate,
+                outFolder  = self.outFolder,
+                options    = { "start_timestamp" : int(d.timestamp()) }
+            )
+        ]
+        # Connect all the workers
+        super().__init__(workers)
+
+    def getFixedAudioRate(self) -> int:
+        return self.sampleRate
+
+    def supportsSquelch(self) -> bool:
+        return False
+
+
+class ElektroLritDemodulator(ServiceDemodulator):
+    def __init__(self, symbolrate: int = 72, service: bool = False):
+        d = datetime.utcnow()
+        self.outFolder  = "/tmp/satdump/ELEKTRO-{0}".format(d.strftime('%y%m%d-%H%M%S'))
+        self.sampleRate = 400000
+        mode = "elektro_lrit"
+        workers = [
+            SatDumpModule(mode = mode,
+                sampleRate = self.sampleRate,
+                frequency = 1691000000,
                 outFolder  = self.outFolder,
                 options    = { "start_timestamp" : int(d.timestamp()) }
             )

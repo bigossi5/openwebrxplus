@@ -220,6 +220,16 @@ Utils.getOpacityScale = function(age) {
     return Math.max(0, Math.min(1, scale));
 };
 
+// Get country flag from a two-letter country code.
+Utils.ccode2flag = function(ccode) {
+    if (!ccode || (ccode.length != 2))
+        return '';
+    else
+        return '&#' + (0x1F1E6 + ccode.charCodeAt(0) - 0x61)
+            + ';&#' + (0x1F1E6 + ccode.charCodeAt(1) - 0x61)
+            + ';';
+};
+
 // Get country name from a HAM callsign.
 Utils.call2country = function(callsign) {
     for (var j=4 ; j>0 ; j--) {

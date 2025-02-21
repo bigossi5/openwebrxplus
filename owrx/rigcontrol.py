@@ -310,6 +310,8 @@ class RigControl():
     }
 
     def __init__(self, props: PropertyStack):
+        pm = Config.get()
+        self.enabled = pm["rig_enabled"]
         self.rigctl  = None
         self.thread  = None
         self.mod     = None
@@ -318,10 +320,13 @@ class RigControl():
         self.subscriptions = [
             props.wireProperty("offset_freq", self.setFrequencyOffset),
             props.wireProperty("center_freq", self.setCenterFrequency),
+            props.wireProperty("rig_enabled", self.setRigEnabled),
             props.wireProperty("mod", self.setDemodulator),
         ]
         super().__init__()
-        self.rigStart()
+        # Start RigControl if enabled
+        if self.enabled:
+            self.enabled = self.rigStart()
 
     def stop(self):
         for sub in self.subscriptions:
@@ -331,16 +336,25 @@ class RigControl():
 
     def setFrequencyOffset(self, offset: int) -> None:
         if self.fCenter is not None and offset != self.fOffset:
-            if self.rigFrequency(self.fCenter + offset):
-                self.fOffset = offset
+            self.rigFrequency(self.fCenter + offset)
+            self.fOffset = offset
 
     def setCenterFrequency(self, center: int) -> None:
         self.fCenter = center
         self.fOffset = None
 
     def setDemodulator(self, mod: str) -> None:
-        if mod != self.mod and self.rigModulation(mod):
+        if mod != self.mod:
+            self.rigModulation(mod)
             self.mod = mod
+
+    def setRigEnabled(self, enabled: bool) -> None:
+        if enabled != self.enabled:
+            self.enabled = enabled
+            if enabled:
+                self.enabled = self.rigStart()
+            else:
+                self.rigStop()
 
     # Press or release rig's PTT (i.e. transmit)
     def rigTX(self, active: bool) -> bool:
@@ -366,10 +380,10 @@ class RigControl():
         if not FeatureDetector().is_available("rigcontrol"):
             return False
         # Must have rig control enabled
-        pm = Config.get()
-        if not pm["rig_enabled"]:
+        if not self.enabled:
             return False
         # Compose Rigctl command
+        pm = Config.get()
         address = pm["rig_address"]
         cmd = [
             "rigctl", "-m", str(pm["rig_model"]), "-r", pm["rig_device"]
@@ -384,6 +398,10 @@ class RigControl():
         # Create and start thread
         self.thread = threading.Thread(target=self._rigThread)
         self.thread.start()
+        # Clear current frequency and modulation
+        self.mod     = None
+        self.fCenter = None
+        self.fOffset = None
         # Done
         logger.debug("Started RigControl as '{0}'.".format(" ".join(cmd)))
         return True

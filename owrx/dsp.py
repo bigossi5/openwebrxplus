@@ -471,6 +471,7 @@ class DspManager(SdrSourceEventClient, ClientDemodulatorSecondaryDspEventClient)
                 "wfm_deemphasis_tau",
                 "wfm_rds_rbds",
                 "digital_voice_codecserver",
+                "rig_enabled",
             ),
         )
 
@@ -720,6 +721,9 @@ class DspManager(SdrSourceEventClient, ClientDemodulatorSecondaryDspEventClient)
         elif mod == "cwdecoder":
             from csdr.chain.digimodes import CwDemodulator
             return CwDemodulator(75.0)
+        elif mod == "cwskimmer":
+            from csdr.chain.toolbox import CwSkimmerDemodulator
+            return CwSkimmerDemodulator()
         elif mod == "mfrtty170":
             from csdr.chain.digimodes import MFRttyDemodulator
             return MFRttyDemodulator(170.0, 45.45, reverse = False)
@@ -759,6 +763,9 @@ class DspManager(SdrSourceEventClient, ClientDemodulatorSecondaryDspEventClient)
         elif mod == "meteor-lrpt":
             from csdr.chain.toolbox import MeteorLrptDemodulator
             return MeteorLrptDemodulator()
+        elif mod == "elektro-lrit":
+            from csdr.chain.toolbox import ElektroLritDemodulator
+            return ElektroLritDemodulator()
 
     def setSecondaryDemodulator(self, mod):
         demodulator = self._getSecondaryDemodulator(mod)

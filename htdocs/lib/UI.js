@@ -37,6 +37,21 @@ UI.loadSettings = function() {
     this.setNR(LS.has('nr_threshold')? LS.loadInt('nr_threshold') : false);
     this.toggleNR(LS.has('nr_enabled')? LS.loadBool('nr_enabled') : false);
 
+    // Toggle UI sections
+    for (section in this.sections) {
+        var id = 'openwebrx-section-' + section;
+        var el = document.getElementById(id);
+        if (el) this.toggleSection(el,
+            LS.has(id)? LS.loadBool(id) : this.sections[section]
+        );
+    }
+};
+
+// Load audio settings from local storage.
+UI.loadAudioSettings = function() {
+    // Must have running audio engine
+    if (!audioEngine.isStarted()) return;
+
     // Get volume and mute
     var volume = LS.has('volume')? LS.loadInt('volume') : 100;
     var muted  = LS.has('volumeMuted')? LS.loadInt('volumeMuted') : -1;
@@ -55,16 +70,7 @@ UI.loadSettings = function() {
             this.toggleMute(false);
         }
     }
-
-    // Toggle UI sections
-    for (section in this.sections) {
-        var id = 'openwebrx-section-' + section;
-        var el = document.getElementById(id);
-        if (el) this.toggleSection(el,
-            LS.has(id)? LS.loadBool(id) : this.sections[section]
-        );
-    }
-};
+}
 
 //
 // Modulation Controls
@@ -151,6 +157,9 @@ UI.tuneBookmark = function(b) {
 
 // Set audio volume in 0..150 range.
 UI.setVolume = function(x) {
+    // Must have running audio engine
+    if (!audioEngine.isStarted()) return;
+
     x = Math.min(150, Math.max(0, Math.round(parseFloat(x))));
     if (this.volume != x) {
         this.volume = x;
@@ -166,6 +175,9 @@ UI.setVolume = function(x) {
 
 // Toggle audio muting.
 UI.toggleMute = function(on) {
+    // Must have running audio engine
+    if (!audioEngine.isStarted()) return;
+
     // If no argument given, toggle mute
     var toggle = typeof(on) === 'undefined';
     var $muteButton = $('.openwebrx-mute-button');

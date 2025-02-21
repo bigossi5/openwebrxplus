@@ -3,8 +3,9 @@ from owrx.config import Config
 from owrx.version import openwebrx_version
 from owrx.map import Map, Location
 from owrx.aprs import getSymbolData
-from owrx.eibi import EIBI
-from owrx.repeaters import Repeaters
+from owrx.web.receivers import Receivers
+from owrx.web.repeaters import Repeaters
+from owrx.web.eibi import EIBI
 from json import JSONEncoder
 from datetime import datetime, timedelta, timezone
 
@@ -107,28 +108,18 @@ class Markers(object):
         logger.info("Starting marker database thread...")
 
         # No markers yet
-        self.markers   = {}
-        self.rxmarkers = {}
-        self.txmarkers = {}
-        self.remarkers = {}
+        self.markers   = {} # Static miscellaneous markers
+        self.rxmarkers = {} # Online SDR receivers
+        self.txmarkers = {} # Current transmitters (EIBI)
+        self.remarkers = {} # Current repeaters (RepeaterBook)
 
         # Load miscellaneous markers from local files
         for file in self.fileList:
             if os.path.isfile(file):
                 self.markers.update(self.loadMarkers(file))
 
-        # This file contains cached receivers database
-        file = self._getCachedMarkersFile()
-        ts   = os.path.getmtime(file) if os.path.isfile(file) else 0
-
-        # If cached receivers database stale, update it
-        if time.time() - ts >= self.refreshPeriod:
-            self.rxmarkers = self.updateCache()
-            ts = os.path.getmtime(file) if os.path.isfile(file) else 0
-
-        # If receivers database update did not run or failed, use cache
-        if not self.rxmarkers:
-            self.rxmarkers = self.loadMarkers(file)
+        # Load list of online SDR receivers
+        self.rxmarkers = self.loadReceivers()
 
         # Load current schedule from the EIBI database
         self.txmarkers = self.loadCurrentTransmitters()
@@ -154,56 +145,34 @@ class Markers(object):
                 break
 
             # Load new transmitters schedule from the EIBI
-            logger.info("Refreshing transmitters schedule..")
-            tx = self.loadCurrentTransmitters()
+            data = self.loadCurrentTransmitters()
+            if data is not None:
+                logger.info("Refreshing transmitters schedule...")
+                self.applyUpdate(self.txmarkers, data)
 
             # Check if we need to exit
             if self.event.is_set():
                 break
 
-            # Remove station markers that have no transmissions
-            map  = Map.getSharedInstance()
-            notx = [x for x in self.txmarkers.keys() if x not in tx]
-            for key in notx:
-                map.removeLocation(key)
-                del self.txmarkers[key]
-
-            # Create a timestamp far into the future, for permanent markers
-            permanent = datetime.now(timezone.utc) + timedelta(weeks=500)
-
-            # Update station markers that have transmissions
-            for key in tx.keys():
-                r = tx[key]
-                map.updateLocation(r.getId(), r, r.getMode(), timestamp=permanent)
-                self.txmarkers[key] = r
-
-            # Done with the schedule
-            notx = None
-            tx   = None
+            # Update receivers data as necessary
+            data = self.loadReceivers(onlyNew=True)
+            if data is not None:
+                logger.info("Refreshing receiver markers...")
+                self.applyUpdate(self.rxmarkers, data)
 
             # Check if we need to exit
             if self.event.is_set():
                 break
 
-            # Update cached receivers data
-            if time.time() - ts >= self.refreshPeriod:
-                logger.info("Refreshing receivers database...")
-                rx = self.updateCache()
-                ts = os.path.getmtime(file)
-                if rx:
-                    # Remove receiver markers that no longer exist
-                    norx = [x for x in self.rxmarkers.keys() if x not in rx]
-                    for key in norx:
-                        map.removeLocation(key)
-                        del self.rxmarkers[key]
-                    # Update receiver markers that are online
-                    for key in rx.keys():
-                        r = rx[key]
-                        map.updateLocation(r.getId(), r, r.getMode(), timestamp=permanent)
-                        self.rxmarkers[key] = r
-                    # Done updating receivers
-                    norx = None
-                    rx   = None
+            # Update repeaters data as necessary
+            data = self.loadRepeaters(onlyNew=True)
+            if data is not None:
+                logger.info("Refreshing repeater markers...")
+                self.applyUpdate(self.remarkers, data)
+
+            # Check if we need to exit
+            if self.event.is_set():
+                break
 
         # Done with the thread
         logger.info("Stopped marker database thread.")
@@ -229,7 +198,7 @@ class Markers(object):
                 f.close()
         except Exception as e:
             logger.error("loadMarkers() exception: {0}".format(e))
-            return
+            return {}
 
         # Process markers list
         result = {}
@@ -246,39 +215,54 @@ class Markers(object):
         # Must have valid markers to update
         if markers is not None:
             # Create a timestamp far into the future, for permanent markers
+            map = Map.getSharedInstance()
             permanent = datetime.now(timezone.utc) + timedelta(weeks=500)
             for r in markers.values():
-                Map.getSharedInstance().updateLocation(r.getId(), r, r.getMode(), timestamp=permanent)
+                map.updateLocation(r.getId(), r, r.getMode(), timestamp=permanent)
 
-    # Scrape online databases, updating cache file
-    def updateCache(self):
-        # Scrape websites for data
-        file  = self._getCachedMarkersFile()
-        cache = {}
-        logger.info("Scraping KiwiSDR website...")
-        cache.update(self.scrapeKiwiSDR())
-        logger.info("Scraping WebSDR website...")
-        cache.update(self.scrapeWebSDR())
-        logger.info("Scraping OpenWebRX website...")
-        cache.update(self.scrapeOWRX())
+    # Apply updates to a given set of markers
+    def applyUpdate(self, data, update):
+        # If no update, exit
+        if update is None:
+            return
+        # Remove data that no longer exists
+        map = Map.getSharedInstance()
+        nodata = [x for x in data.keys() if x not in update]
+        for key in nodata:
+            map.removeLocation(key)
+            del data[key]
+        # Create a timestamp far into the future, for permanent markers
+        permanent = datetime.now(timezone.utc) + timedelta(weeks=500)
+        # Update data that may have changed
+        for key in update.keys():
+            r = update[key]
+            map.updateLocation(r.getId(), r, r.getMode(), timestamp=permanent)
+            data[key] = r
 
-        # Save parsed data into a file, if there is anything to save
-        if cache:
-            self.saveMarkers(file, cache)
-
+    # Returns known online SDR receivers. Will update receivers cache
+    # by scraping online databases as necessary.
+    def loadReceivers(self, onlyNew: bool = False):
+        # No result yet
+        result = {}
+        # Refresh / load receivers database, as needed
+        if not Receivers.getSharedInstance().refresh() and onlyNew:
+            return None
+        # Create markers from the current receivers database
+        for entry in Receivers.getSharedInstance().getAll():
+            rl = MarkerLocation(entry)
+            result[rl.getId()] = rl
         # Done
-        return cache
+        return result
 
-    #
-    # Following functions scrape data from websites and internal databases
-    #
-
-    def loadRepeaters(self, rangeKm: int = 200):
+    # Returns repeaters inside given range. Will query online database
+    # for updated list of repeaters and cache it as necessary.
+    def loadRepeaters(self, rangeKm: int = 200, onlyNew: bool = False):
         # No result yet
         result = {}
         # Refresh / load repeaters database, as needed
-        Repeaters.getSharedInstance().refresh()
-        # Load repeater sites from repeaters database
+        if not Repeaters.getSharedInstance().refresh() and onlyNew:
+            return None
+        # Load repeater sites from the cached database
         for entry in Repeaters.getSharedInstance().getAllInRange(rangeKm):
             rl = MarkerLocation({
                 "type"    : "latlon",
@@ -296,6 +280,8 @@ class Markers(object):
         # Done
         return result
 
+    # Returns currently broadcasting transmitters. Will load a new
+    # schedule from EIBI website and cache it as necessary.
     def loadCurrentTransmitters(self):
         #url = "https://www.short-wave.info/index.php?txsite="
         url = "https://www.google.com/search?q="
@@ -342,130 +328,3 @@ class Markers(object):
         # Done
         logger.info("Loaded {0} transmitters from EIBI.".format(len(result)))
         return result
-
-    def scrapeOWRX(self, url: str = "https://www.receiverbook.de/map"):
-        patternJson = re.compile(r"^\s*var\s+receivers\s+=\s+(\[.*\]);\s*$")
-        result = {}
-        try:
-            data = None
-            for line in urllib.request.urlopen(url).readlines():
-                # Convert read bytes to a string
-                line = line.decode('utf-8')
-                # When we encounter a URL...
-                m = patternJson.match(line)
-                if m:
-                    data = json.loads(m.group(1))
-                    break
-            if data is not None:
-                for entry in data:
-                    lat = entry["location"]["coordinates"][1]
-                    lon = entry["location"]["coordinates"][0]
-                    for r in entry["receivers"]:
-                        if "version" in r:
-                            dev = r["type"] + " " + r["version"]
-                        else:
-                            dev = r["type"]
-                        rl = MarkerLocation({
-                            "type"    : "latlon",
-                            "mode"    : r["type"],
-                            "id"      : re.sub(r"^.*://(.*?)(/.*)?$", r"\1", r["url"]),
-                            "lat"     : lat,
-                            "lon"     : lon,
-                            "comment" : r["label"],
-                            "url"     : r["url"],
-                            "device"  : dev
-                        })
-                        result[rl.getId()] = rl
-                        # Offset colocated receivers by ~500m
-                        lon = lon + 0.0005
-
-        except Exception as e:
-            logger.error("scrapeOWRX() exception: {0}".format(e))
-
-        # Done
-        return result
-
-    def scrapeWebSDR(self, url: str = "http://websdr.ewi.utwente.nl/~~websdrlistk?v=1&fmt=2&chseq=0"):
-        result = {}
-        try:
-            data = urllib.request.urlopen(url).read().decode('utf-8')
-            data = json.loads(re.sub(r"^\s*//.*", "", data, flags=re.MULTILINE))
-
-            for entry in data:
-                if "lat" in entry and "lon" in entry and "url" in entry:
-                    # Save accumulated attributes, use hostname as key
-                    lat = entry["lat"]
-                    lon = entry["lon"]
-                    rl  = MarkerLocation({
-                        "type"    : "latlon",
-                        "mode"    : "WebSDR",
-                        "id"      : re.sub(r"^.*://(.*?)(/.*)?$", r"\1", entry["url"]),
-                        "lat"     : lat,
-                        "lon"     : lon,
-                        "comment" : entry["desc"],
-                        "url"     : entry["url"],
-                        "users"   : int(entry["users"]),
-                        "device"  : "WebSDR"
-                    })
-                    result[rl.getId()] = rl
-
-        except Exception as e:
-            logger.error("scrapeWebSDR() exception: {0}".format(e))
-
-        # Done
-        return result
-
-    def scrapeKiwiSDR(self, url: str = "http://kiwisdr.com/public/"):
-        result = {}
-        try:
-            patternAttr = re.compile(r".*<!--\s+(\S+)=(.*)\s+-->.*")
-            patternUrl  = re.compile(r".*<a\s+href=['\"](\S+?)['\"].*>.*</a>.*")
-            patternGps  = re.compile(r"\(\s*(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)\s*\)")
-            entry = {}
-
-            for line in urllib.request.urlopen(url).readlines():
-                # Convert read bytes to a string
-                line = line.decode('utf-8')
-                # When we encounter a URL...
-                m = patternUrl.match(line)
-                if m is not None:
-                    # Add URL attribute
-                    entry["url"] = m.group(1)
-                    # Must have "gps" attribut with latitude / longitude
-                    if "gps" in entry and "url" in entry:
-                        m = patternGps.match(entry["gps"])
-                        if m is not None:
-                            # Save accumulated attributes, use hostname as key
-                            lat = float(m.group(1))
-                            lon = float(m.group(2))
-                            rl = MarkerLocation({
-                                "type"    : "latlon",
-                                "mode"    : "KiwiSDR",
-                                "id"      : re.sub(r"^.*://(.*?)(/.*)?$", r"\1", entry["url"]),
-                                "lat"     : lat,
-                                "lon"     : lon,
-                                "comment" : entry["name"],
-                                "url"     : entry["url"],
-                                "users"   : int(entry["users"]),
-                                "maxusers": int(entry["users_max"]),
-                                "loc"     : entry["loc"],
-                                "altitude": int(entry["asl"]),
-                                "antenna" : entry["antenna"],
-                                "device"  : re.sub("_v", " ", entry["sw_version"])
-                            })
-                            result[rl.getId()] = rl
-                    # Clear current entry
-                    entry = {}
-                else:
-                    # Save all parsed attributes in the current entry
-                    m = patternAttr.match(line)
-                    if m is not None:
-                        # Save attribute in the current entry
-                        entry[m.group(1).lower()] = m.group(2)
-
-        except Exception as e:
-            logger.error("scrapeKiwiSDR() exception: {0}".format(e))
-
-        # Done
-        return result
-

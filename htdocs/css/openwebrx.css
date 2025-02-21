@@ -1376,6 +1376,62 @@ img.openwebrx-mirror-img
     text-align: right;
 }
 
+#openwebrx-panel-cwskimmer-message {
+    height: 310px;
+}
+
+#openwebrx-panel-cwskimmer-message tbody {
+    height: 280px;
+}
+
+#openwebrx-panel-cwskimmer-message .freq {
+    width: 70px;
+}
+
+#openwebrx-panel-cwskimmer-message td.freq {
+    text-align: right;
+}
+
+#openwebrx-panel-cwskimmer-message .text {
+    width: 500px;
+}
+
+#openwebrx-panel-cwskimmer-message td.text {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+#openwebrx-panel-ism-message {
+    height: 310px;
+}
+
+#openwebrx-panel-ism-message tbody {
+    height: 280px;
+}
+
+#openwebrx-panel-ism-message .address {
+    width: 120px;
+    text-align: center;
+}
+
+#openwebrx-panel-ism-message .device {
+    width: 220px;
+    text-align: center;
+}
+
+#openwebrx-panel-ism-message .timestamp {
+    width: 246px;
+    max-width: 486px;
+    white-space: pre;
+    text-align: center;
+}
+
+#openwebrx-panel-ism-message .attr {
+    width: 283px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 #openwebrx-panel-dsc-message {
     height: 310px;
 }
@@ -1413,37 +1469,6 @@ img.openwebrx-mirror-img
     max-width: 566px;
     column-span: all;
     word-wrap: break-word;
-}
-
-#openwebrx-panel-ism-message {
-    height: 310px;
-}
-
-#openwebrx-panel-ism-message tbody {
-    height: 280px;
-}
-
-#openwebrx-panel-ism-message .address {
-    width: 120px;
-    text-align: center;
-}
-
-#openwebrx-panel-ism-message .device {
-    width: 220px;
-    text-align: center;
-}
-
-#openwebrx-panel-ism-message .timestamp {
-    width: 246px;
-    max-width: 486px;
-    white-space: pre;
-    text-align: center;
-}
-
-#openwebrx-panel-ism-message .attr {
-    width: 283px;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 #openwebrx-panel-sstv-message {
@@ -1588,6 +1613,7 @@ img.openwebrx-mirror-img
 #openwebrx-panel-digimodes[data-mode="fax"]     #openwebrx-digimode-content-container,
 #openwebrx-panel-digimodes[data-mode="ism"]     #openwebrx-digimode-content-container,
 #openwebrx-panel-digimodes[data-mode="dsc"]     #openwebrx-digimode-content-container,
+#openwebrx-panel-digimodes[data-mode="cwskimmer"] #openwebrx-digimode-content-container,
 #openwebrx-panel-digimodes[data-mode="ft8"]     #openwebrx-digimode-select-channel,
 #openwebrx-panel-digimodes[data-mode="wspr"]    #openwebrx-digimode-select-channel,
 #openwebrx-panel-digimodes[data-mode="jt65"]    #openwebrx-digimode-select-channel,
@@ -1611,7 +1637,8 @@ img.openwebrx-mirror-img
 #openwebrx-panel-digimodes[data-mode="ism"]     #openwebrx-digimode-select-channel,
 #openwebrx-panel-digimodes[data-mode="selcall"] #openwebrx-digimode-select-channel,
 #openwebrx-panel-digimodes[data-mode="zvei"]    #openwebrx-digimode-select-channel,
-#openwebrx-panel-digimodes[data-mode="eas"]     #openwebrx-digimode-select-channel
+#openwebrx-panel-digimodes[data-mode="eas"]     #openwebrx-digimode-select-channel,
+#openwebrx-panel-digimodes[data-mode="cwskimmer"] #openwebrx-digimode-select-channel
 {
     display: none;
 }
@@ -1637,7 +1664,8 @@ img.openwebrx-mirror-img
 #openwebrx-panel-digimodes[data-mode="sstv"]    #openwebrx-digimode-canvas-container,
 #openwebrx-panel-digimodes[data-mode="fax"]     #openwebrx-digimode-canvas-container,
 #openwebrx-panel-digimodes[data-mode="ism"]     #openwebrx-digimode-canvas-container,
-#openwebrx-panel-digimodes[data-mode="dsc"]     #openwebrx-digimode-canvas-container
+#openwebrx-panel-digimodes[data-mode="dsc"]     #openwebrx-digimode-canvas-container,
+#openwebrx-panel-digimodes[data-mode="cwskimmer"] #openwebrx-digimode-canvas-container
 {
     height: 200px;
     margin: -10px;

@@ -745,6 +745,10 @@ class SdrDeviceDescription(object):
                 options=[Option(str(i), "{} Hz".format(i)) for i in [1, 10, 20, 50, 100, 500, 1000, 2500, 3000, 5000, 6000, 6250, 8330, 9000, 10000, 12000, 12500, 25000, 50000]],
                 converter=IntConverter(),
             ),
+            CheckboxInput(
+                "rig_enabled",
+                "Enable sending changes to a standalone transceiver",
+            ),
             NumberInput(
                 "eibi_bookmarks_range",
                 "Shortwave bookmarks range",
@@ -798,7 +802,8 @@ class SdrDeviceDescription(object):
             "waterfall_levels",
             "waterfall_auto_level_default_mode",
             "eibi_bookmarks_range",
-            "repeater_range"
+            "repeater_range",
+            "rig_enabled",
         ]
 
     def getDeviceSection(self):

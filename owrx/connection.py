@@ -8,8 +8,8 @@ from owrx.feature import FeatureDetector
 from owrx.version import openwebrx_version
 from owrx.bands import Bandplan
 from owrx.bookmarks import Bookmarks
-from owrx.repeaters import Repeaters
-from owrx.eibi import EIBI
+from owrx.web.repeaters import Repeaters
+from owrx.web.eibi import EIBI
 from owrx.map import Map
 from owrx.property import PropertyStack, PropertyDeleted
 from owrx.modes import Modes, DigitalMode

@@ -1,16 +1,11 @@
-from owrx.config.core import CoreConfig
 from owrx.config import Config
 from owrx.bookmarks import Bookmark
+from owrx.web import WebScraper
 from datetime import datetime
-from json import JSONEncoder
 
-import urllib
 import threading
 import logging
-import json
 import re
-import os
-import time
 import math
 
 logger = logging.getLogger(__name__)
@@ -21,7 +16,7 @@ logger = logging.getLogger(__name__)
 MAX_DISTANCE = 25000
 
 
-class EIBI(object):
+class EIBI(WebScraper):
     sharedInstance = None
     creationLock = threading.Lock()
 
@@ -29,25 +24,8 @@ class EIBI(object):
     def getSharedInstance():
         with EIBI.creationLock:
             if EIBI.sharedInstance is None:
-                EIBI.sharedInstance = EIBI()
+                EIBI.sharedInstance = EIBI("eibi.json")
         return EIBI.sharedInstance
-
-    @staticmethod
-    def _getCachedScheduleFile():
-        coreConfig = CoreConfig()
-        return "{data_directory}/eibi.json".format(data_directory=coreConfig.get_data_directory())
-
-    # Get last downloaded timestamp or 0 for none
-    @staticmethod
-    def lastDownloaded():
-        try:
-            file = EIBI._getCachedScheduleFile()
-            if os.path.isfile(file) and os.path.getsize(file) > 0:
-                return os.path.getmtime(file)
-            else:
-                return 0
-        except Exception as e:
-            return 0
 
     # Offset frequency for proper tuning
     @staticmethod
@@ -110,57 +88,10 @@ class EIBI(object):
         # Done
         return " ".join(description)
 
-    def __init__(self):
+    def __init__(self, dataName: str):
+        super().__init__(dataName)
         self.patternCSV = re.compile(r"^([\d\.]+);(\d\d\d\d)-(\d\d\d\d);(\S*);(\S+);(.*);(.*);(.*);(.*);(\d+);(.*);(.*)$")
         self.patternDays = re.compile(r"^(.*)(Mo|Tu|We|Th|Fr|Sa|Su)-(Mo|Tu|We|Th|Fr|Sa|Su)(.*)$")
-        self.refreshPeriod = 60*60*24
-        self.lock = threading.Lock()
-        self.schedule = []
-
-    # Load cached schedule or refresh it from the web
-    def refresh(self):
-        # This file contains cached schedule
-        file = self._getCachedScheduleFile()
-        # If cached schedule is stale...
-        if time.time() - self.lastDownloaded() >= self.refreshPeriod:
-            # Load EIBI database file from the web
-            schedule = self.loadFromWeb()
-            if schedule:
-                # Save parsed data into a file
-                self.saveSchedule(file, schedule)
-                # Update current schedule
-                with self.lock:
-                    self.schedule = schedule
-
-        # If no current schedule, load it from cached file
-        if not self.schedule:
-            schedule = self.loadSchedule(file)
-            with self.lock:
-                self.schedule = schedule
-
-    # Save schedule to a given JSON file
-    def saveSchedule(self, file: str, schedule):
-        logger.info("Saving {0} schedule entries to '{1}'...".format(len(schedule), file))
-        try:
-            with open(file, "w") as f:
-                json.dump(schedule, f, indent=2)
-                f.close()
-        except Exception as e:
-            logger.error("saveSchedule() exception: {0}".format(e))
-
-    # Load schedule from a given JSON file
-    def loadSchedule(self, file: str):
-        logger.info("Loading schedule from '{0}'...".format(file))
-        try:
-            with open(file, "r") as f:
-                result = json.load(f)
-                f.close()
-        except Exception as e:
-            logger.error("loadSchedule() exception: {0}".format(e))
-            result = []
-        # Done
-        logger.info("Loaded {0} entries from '{1}'...".format(len(result), file))
-        return result
 
     # Find all current broadcasts for a given source
     def findBySource(self, src: str):
@@ -170,7 +101,7 @@ class EIBI(object):
         result = []
         # Search for entries originating from given source at current time
         with self.lock:
-            for entry in self.schedule:
+            for entry in self.data:
                 if entry["time1"] <= now and entry["time2"] > now:
                     if entry["src"] == src:
                         result.append(entry)
@@ -189,7 +120,7 @@ class EIBI(object):
         result = []
         # Search for entries within given frequency and time ranges
         with self.lock:
-            for entry in self.schedule:
+            for entry in self.data:
                 f = entry["freq"]
                 if f >= freq1 and f <= freq2:
                     if entry["time1"] <= time2 and entry["time2"] > time1:
@@ -209,7 +140,7 @@ class EIBI(object):
         result = {}
         # Search for current entries
         with self.lock:
-            for entry in self.schedule:
+            for entry in self.data:
                 try:
                     # Check if entry is currently active
                     entryActive = (
@@ -283,7 +214,7 @@ class EIBI(object):
 
         # Search for current entries
         with self.lock:
-            for entry in self.schedule:
+            for entry in self.data:
                 try:
                     # No distance or duration yet
                     dist = MAX_DISTANCE
@@ -390,7 +321,10 @@ class EIBI(object):
         # Done
         return "".join(result)
 
-    def loadFromWeb(self, url: str = "http://www.eibispace.de/dx/sked-{0}.csv"):
+    def _loadFromWeb(self):
+        return self.loadFromWeb("http://www.eibispace.de/dx/sked-{0}.csv")
+
+    def loadFromWeb(self, url: str):
         # Figure out CSV file name based on the current date
         # SUMMER: Apr - Oct - sked-aNN.csv
         # WINTER: Nov - Mar - sked-bNN.csv
@@ -404,7 +338,7 @@ class EIBI(object):
         result = []
         try:
             logger.info("Scraping '{0}'...".format(url))
-            for line in urllib.request.urlopen(url).readlines():
+            for line in self._openUrl(url).readlines():
                 # Convert read bytes to a string
                 line = line.decode('cp1252').rstrip()
 

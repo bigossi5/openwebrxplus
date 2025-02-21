@@ -196,6 +196,10 @@ AudioEngine.prototype.isAllowed = function() {
     return this.audioContext.state === 'running';
 };
 
+AudioEngine.prototype.isStarted = function() {
+    return this.started;
+};
+
 AudioEngine.prototype.reportStats = function() {
     if (this.audioNode.port) {
         this.audioNode.port.postMessage(JSON.stringify({cmd:'getStats'}));

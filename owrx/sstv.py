@@ -28,7 +28,7 @@ modeNames = {
     60: "Scottie 1",
     63: "SC2 120",
     68: "AVT 90",
-    75: "Scottie DX",
+    76: "Scottie DX",
     93: "PD 50",
     94: "PD 290",
     95: "PD 120",

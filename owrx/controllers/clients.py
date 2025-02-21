@@ -60,7 +60,7 @@ class ClientController(AuthorizationMixin, WebpageController):
             c["name"] if "name" in c else "",
             "banned" if c["ban"] else c["sdr"] + " " + c["band"] if "sdr" in c else "n/a",
             "until" if c["ban"] else "since",
-            c["ts"].strftime('%H:%M:%S'),
+            c["ts"].strftime("%H:%M:%S"),
             ClientController.renderButtons(c)
         )
 

@@ -18,6 +18,7 @@ GIT_CSDR_ETI=https://github.com/luarvique/csdr-eti.git
 GIT_PYCSDR_ETI=https://github.com/luarvique/pycsdr-eti.git
 GIT_JS8PY=https://github.com/jketterl/js8py.git
 GIT_REDSEA=https://github.com/luarvique/redsea.git
+GIT_CWSKIMMER=https://github.com/luarvique/csdr-cwskimmer.git
 GIT_SOAPYSDRPLAY3=https://github.com/luarvique/SoapySDRPlay3.git
 GIT_OPENWEBRX=https://github.com/luarvique/openwebrx.git
 
@@ -45,6 +46,8 @@ if [ "${1:-}" == "--ask" ]; then
 	[[ "$ret" == [Yy]* ]] && BUILD_JS8PY=y || BUILD_JS8PY=n
 	echo;read -n1 -p "Build Redsea? [yN] " ret
 	[[ "$ret" == [Yy]* ]] && BUILD_REDSEA=y || BUILD_REDSEA=n
+	echo;read -n1 -p "Build csdr-cwskimmer? [yN] " ret
+	[[ "$ret" == [Yy]* ]] && BUILD_CWSKIMMER=y || BUILD_CWSKIMMER=n
 	echo;read -n1 -p "Build SoapySDRPlay3? [yN] " ret
 	[[ "$ret" == [Yy]* ]] && BUILD_SOAPYSDRPLAY3=y || BUILD_SOAPYSDRPLAY3=n
 	echo;read -n1 -p "Build OpenWebRX+? [Yn] " ret
@@ -65,6 +68,7 @@ else
 	BUILD_PYCSDR_ETI=y
 	BUILD_JS8PY=y
 	BUILD_REDSEA=y
+	BUILD_CWSKIMMER=y
 	CLEAN_OUTPUT=y
 fi
 
@@ -84,7 +88,7 @@ fi
 if [ "${BUILD_DIGIHAM:-}" == "y" ]; then
 	BUILD_CODECSERVER=y
 fi
-if [ "${BUILD_PYCSDR:-}" == "y" ] || [ "${BUILD_OWRXCONNECTOR:-}" == "y" ] || [ "${BUILD_CSDR_ETI:-}" == "y" ]; then
+if [ "${BUILD_PYCSDR:-}" == "y" ] || [ "${BUILD_OWRXCONNECTOR:-}" == "y" ] || [ "${BUILD_CSDR_ETI:-}" == "y" || [ "${BUILD_CWSKIMMER:-}" == "y" ] ]; then
 	BUILD_CSDR=y
 fi
 
@@ -100,6 +104,7 @@ echo "csdr-eti: $BUILD_CSDR_ETI"
 echo "pycsdr-eti: $BUILD_PYCSDR_ETI"
 echo "js8py: $BUILD_JS8PY"
 echo "redsea: $BUILD_REDSEA"
+echo "csdr-cwskimmer: $BUILD_CWSKIMMER"
 echo "SoapySDRPlay3: $BUILD_SOAPYSDRPLAY3"
 echo "OpenWebRx: $BUILD_OWRX"
 echo "Clean OUTPUT folder: $CLEAN_OUTPUT"
@@ -224,6 +229,17 @@ if [ "${BUILD_REDSEA:-}" == "y" ]; then
 	# Not installing Redsea here since there are no further
 	# build steps depending on it
 	#sudo dpkg -i *redsea*.deb
+fi
+
+if [ "${BUILD_CWSKIMMER:-}" == "y" ]; then
+	echo "##### Building csdr-cwskimmer... #####"
+	git clone "$GIT_CWSKIMMER"
+	pushd csdr-cwskimmer
+	dpkg-buildpackage -us -uc
+	popd
+	# Not installing csdr-cwskimmer here since there are no further
+	# build steps depending on it
+	#sudo dpkg -i csdr-cwskimmer*.deb
 fi
 
 if [ "${BUILD_SOAPYSDRPLAY3:-}" == "y" ]; then

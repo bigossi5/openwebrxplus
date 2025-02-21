@@ -5,6 +5,9 @@
 function Shortcuts() {}
 
 Shortcuts.init = function(target) {
+    // Do not initialize twice
+    if (this.overlay) return;
+
     var that = this;
     target.addEventListener('keydown', function(e) { that.handleKey(e); });
 

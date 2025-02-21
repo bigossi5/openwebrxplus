@@ -4,6 +4,7 @@ from owrx.map import Map, LatLngLocation
 from owrx.aprs import getSymbolData
 from owrx.config import Config
 from owrx.reporting import ReportingEngine
+from owrx.icao import IcaoRegistration, IcaoCountry
 from datetime import datetime, timedelta
 import threading
 import pickle
@@ -96,7 +97,7 @@ class AircraftLocation(LatLngLocation):
         res = super(AircraftLocation, self).__dict__()
         res["symbol"] = self.getSymbol()
         # Convert aircraft-specific data into APRS-like data
-        for x in ["icao", "aircraft", "flight", "speed", "altitude", "course", "destination", "origin", "vspeed", "squawk", "rssi", "msglog", "ttl"]:
+        for x in ["icao", "aircraft", "flight", "country", "ccode", "speed", "altitude", "course", "destination", "origin", "vspeed", "squawk", "rssi", "msglog", "ttl"]:
             if x in self.data:
                 res[x] = self.data[x]
         # Return APRS-like dictionary object
@@ -368,6 +369,22 @@ class AircraftParser(TextParser):
         # Done
         return out
 
+    # Common function to get country and aircraft registration from ICAO ID
+    def parseIcaoId(self, icao, out):
+        # Convert hex ICAO ID to an integer, if required
+        if isinstance(icao, str):
+            icao = int(icao, 16)
+        country  = IcaoCountry.find(icao)
+        aircraft = IcaoRegistration.find(icao)
+        if country and country[0]:
+            out["country"] = country[0]
+        if country and country[1]:
+            out["ccode"] = country[1]
+        if aircraft:
+            out["aircraft"] = aircraft
+        # Done
+        return out
+
 
 #
 # Parser for HFDL messages coming from DumpHFDL in JSON format.
@@ -415,7 +432,11 @@ class HfdlParser(AircraftParser):
         out["type"] = data["type"]["name"]
         # Add aircraft info, if present, assign color right away
         if "ac_info" in data and "icao" in data["ac_info"]:
+            # Get ICAO ID
             out["icao"] = data["ac_info"]["icao"].strip()
+            # Get country and aircraft registration from ICAO ID
+            self.parseIcaoId(out["icao"], out)
+
         # Source might be a ground station
         #if data["src"]["type"] == "Ground station":
         #    out["flight"] = "GS-%d" % data["src"]["id"]
@@ -485,6 +506,8 @@ class Vdl2Parser(AircraftParser):
             return out
         # Address is the ICAO ID
         out["icao"] = p["addr"]
+        # Get country and aircraft registration from ICAO ID
+        self.parseIcaoId(out["icao"], out)
         # Clarify message type as much as possible
         if "status" in p:
             out["type"] = p["status"]
@@ -598,6 +621,9 @@ class AdsbParser(AircraftParser):
                 "msgs"      : entry["messages"],
                 "rssi"      : entry["rssi"]
             }
+
+            # Country and aircraft registration from ICAO ID
+            self.parseIcaoId(entry["hex"], out)
 
             # Position
             if "lat" in entry and "lon" in entry:
