@@ -61,7 +61,7 @@ class Storage(object):
         dir = CoreConfig().get_temporary_directory()
         with self.lock:
             files = [os.path.join(dir, f) for f in os.listdir(dir) if re.match(self.filePattern, f)]
-        files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+        files.sort(key=lambda x: os.path.getctime(x), reverse=True)
         return [os.path.basename(f) for f in files]
 
     # Delete all stored files except for <keep_files> newest ones
@@ -72,7 +72,7 @@ class Storage(object):
 
         with self.lock:
             files = [os.path.join(dir, f) for f in os.listdir(dir) if re.match(self.filePattern, f)]
-            files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+            files.sort(key=lambda x: os.path.getctime(x), reverse=True)
 
             for f in files[keep:]:
                 logger.debug("Deleting stored file '%s'." % os.path.basename(f))

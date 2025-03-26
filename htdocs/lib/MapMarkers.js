@@ -364,6 +364,8 @@ AprsMarker.prototype.update = function(update) {
     this.gain     = update.location.gain;
     this.device   = update.location.device;
     this.directivity = update.location.directivity;
+    this.country  = update.location.country;
+    this.ccode    = update.location.ccode;
 
     // Implementation-dependent function call
     this.setMarkerPosition(update.callsign, update.location.lat, update.location.lon);
@@ -562,11 +564,10 @@ AprsMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
         detailsString += Utils.makeListItem('Altitude', this.altitude.toFixed(0) + ' m');
     }
 
-    if (this.mode === 'AIS') {
-        var country = Utils.mmsi2country(name);
-        if (country) {
-            detailsString += Utils.makeListItem('Country', Utils.truncate(country, 24));
-        }
+    if (this.country) {
+        detailsString += Utils.makeListItem('Country', Lookup.cdata2country([this.ccode, this.country]));
+    } else if (this.mode === 'AIS') {
+        detailsString += Utils.makeListItem('Country', Lookup.mmsi2country(name));
     }
 
     if (detailsString.length > 0) {
@@ -745,11 +746,8 @@ AircraftMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
         detailsString += Utils.makeListItem('Aircraft', Utils.linkifyFlight(this.aircraft));
     }
 
-    if (this.country || this.ccode) {
-        var country = '';
-        if (this.ccode)   country += Utils.ccode2flag(this.ccode);
-        if (this.country) country += '&nbsp;' + this.country;
-        detailsString += Utils.makeListItem('Country', country);
+    if (this.country) {
+        detailsString += Utils.makeListItem('Country', Lookup.cdata2country([this.ccode, this.country]));
     }
 
     if (this.squawk) {

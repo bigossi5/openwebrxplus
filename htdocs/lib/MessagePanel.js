@@ -214,6 +214,19 @@ PacketMessagePanel.prototype.pushMessage = function(msg) {
         link = '<div ' + attrs + '>' + overlay + '</div>'
     }
 
+    // Compose comment
+    var comment = msg.comment || msg.message || '';
+    if (comment !== '') {
+        // Escape all special characters
+        comment = Utils.htmlEscape(comment);
+    } else if (msg.country) {
+        // Add country flag and name in lieu of comment
+        comment = Lookup.cdata2country([msg.ccode, msg.country]);
+    } else if (msg.mode === 'AIS') {
+        // Get country flag and name from the MMSI
+        comment = Lookup.mmsi2country(source);
+    }
+
     // Linkify source based on what it is (vessel or HAM callsign)
     source = msg.mode === 'AIS'?
         Utils.linkifyVessel(source) : Utils.linkifyCallsign(source);
@@ -223,7 +236,7 @@ PacketMessagePanel.prototype.pushMessage = function(msg) {
         '<td class="time">' + timestamp + '</td>' +
         '<td class="callsign">' + source + '</td>' +
         '<td class="coord">' + link + '</td>' +
-        '<td class="message">' + Utils.htmlEscape(msg.comment || msg.message || '') + '</td>' +
+        '<td class="message">' + comment + '</td>' +
         '</tr>'
     ));
     this.scrollToBottom();

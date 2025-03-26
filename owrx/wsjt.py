@@ -5,6 +5,7 @@ from owrx.metrics import Metrics, CounterMetric
 from owrx.reporting import ReportingEngine
 from owrx.audio import AudioChopperProfile, StaticProfileSource, ConfigWiredProfileSource
 from owrx.audio.chopper import AudioChopperParser
+from owrx.lookup import HamCallsign
 from abc import ABC, ABCMeta, abstractmethod
 from owrx.config import Config
 from enum import Enum
@@ -279,14 +280,23 @@ class WsjtParser(AudioChopperParser):
                 decoder = WsprDecoder(profile, messageParser)
             else:
                 decoder = Jt9Decoder(profile, messageParser)
+
             out = decoder.parse(msg, freq)
             if isinstance(profile, Q65Profile) and not out["msg"]:
                 # all efforts in vain, it's just a potential signal indicator
                 return
+
             out["mode"] = mode
             out["interval"] = profile.getInterval()
+            if "callsign" in out:
+                country = HamCallsign.getCountry(out["callsign"])
+                if country and country[0]:
+                    out["ccode"] = country[0]
+                if country and country[1]:
+                    out["country"] = country[1]
 
             self.pushDecode(mode, band)
+
             if "callsign" in out and "locator" in out:
                 Map.getSharedInstance().updateLocation(
                     out["callsign"], LocatorLocation(out["locator"]), mode, band

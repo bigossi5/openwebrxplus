@@ -125,6 +125,12 @@ class DecodingSettingsController(SettingsFormController):
                     validator=RangeValidator(30, 480),
                     append="lpm",
                 ),
+                NumberInput(
+                    "fax_length",
+                    "Page length limit",
+                    validator=RangeValidator(500, 3000),
+                    append="lines",
+                ),
                 CheckboxInput("fax_postprocess", "Post-process received images to reduce noise"),
                 CheckboxInput("fax_color", "Receive color images"),
                 CheckboxInput("fax_am", "Use amplitude modulation"),

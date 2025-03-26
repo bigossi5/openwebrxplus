@@ -1,3 +1,33 @@
+**1.2.80**
+- Added server-side background audio recording to MP3.
+- Audio recordings are shown at the "Files" page.
+- Audio recorder requires Linux "lame" package.
+- Sorted contents of "Files" page by creation time.
+- Sorted services in background decoding settings.
+- Moved mode requirements check from client to server.
+- Retaining underlying modulation on mode changes.
+- Fixed frequency scale background in default theme.
+- Fixed missing math import in toolbox.py.
+- Fixed typo in Northwood bookmarks.
+- Randomized web user agent string.
+- Updated NRSC5 Python library.
+
+**1.2.79**
+- Added configurable fax page length limit.
+- Added OWRX+ version to RepeaterBook agent string.
+- Shrunk SDRPlay rfgain_sel range to 0..27.
+- Refactored and improved web agents.
+- Added newer Yaesu radios to APRS (Geoffrey Phillips).
+- Fixed Leaflet geodesic line bugs (Stanislav Lechev).
+
+**1.2.78**
+- Randomized web refresh times for repeaters and receivers.
+- Introduced web refresh cutoff after several failures.
+- Added server lookup from callsigns to countries.
+- Added server lookup from MMSIs to countries.
+- Added more profiles to the default RTLSDR device.
+- Fixed NumericMapping bug.
+
 **1.2.77**
 - Refactored web data sources (EIBI, receivers, repeaters).
 - Fixed RepeaterBook updates to happen daily.

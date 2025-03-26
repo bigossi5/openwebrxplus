@@ -2,6 +2,7 @@ from owrx.map import Map, LatLngLocation
 from owrx.metrics import Metrics, CounterMetric
 from owrx.bands import Bandplan
 from owrx.reporting import ReportingEngine
+from owrx.lookup import MmsiNumber
 from datetime import datetime, timezone
 from csdr.module import PickleModule
 import re
@@ -152,7 +153,7 @@ class AprsLocation(LatLngLocation):
 
     def __dict__(self):
         res = super(AprsLocation, self).__dict__()
-        for key in ["comment", "symbol", "course", "speed", "altitude", "weather", "device", "power", "height", "gain", "directivity"]:
+        for key in ["comment", "symbol", "course", "speed", "altitude", "weather", "device", "power", "height", "gain", "directivity", "country", "ccode"]:
             if key in self.data:
                 res[key] = self.data[key]
         return res
@@ -205,7 +206,7 @@ class AprsParser(PickleModule):
             aprsData = self.parseAprsData(data)
 
             # the frontend uses this to distinguish messages from the different parsers
-            aprsData["mode"] = "AIS" if aprsData.get("source")=="AIS" else "APRS"
+            aprsData["mode"] = "AIS" if data["source"] == "AIS" else "APRS"
 
             logger.debug("decoded APRS data: %s", aprsData)
             self.updateMap(aprsData)
@@ -325,6 +326,14 @@ class AprsParser(PickleModule):
         elif dti == "{":
             # NMEA sentence
             aprsData.update(self.parseNmea(information[1:]))
+
+        # look up ship's registration country by its MMSI number
+        if data["source"] == "AIS" and "object" in aprsData:
+            country = MmsiNumber.getCountry(aprsData["object"])
+            if country and country[0]:
+                aprsData["ccode"] = country[0]
+            if country and country[1]:
+                aprsData["country"] = country[1]
 
         return aprsData
 
@@ -567,14 +576,18 @@ class MicEParser(object):
             if len(comment) > 2 and (comment[0] == "`" or comment[0] == "'"):
                 if comment[-2] == "_":
                     devices = {
-                        "b": "VX-8",
+                        ")": "FTM-100D",
+                        "2": "FTM-200D",
+                        "1": "FTM-300D",
                         '"': "FTM-350",
+                        "4": "FTM-500D",
+                        "%": "FTM-400DR",
+                        "b": "VX-8",
                         "#": "VX-8G",
                         "$": "FT1D",
-                        "%": "FTM-400DR",
-                        ")": "FTM-100D",
                         "(": "FT2D",
                         "0": "FT3D",
+                        "1": "FT5D",
                     }
                     return comment[1:-2], {"manufacturer": "Yaesu", "device": devices.get(comment[-1], "Unknown")}
                 if comment[-2:] == " X":
