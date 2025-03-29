@@ -347,7 +347,7 @@ class Modes(object):
         ),
         ServiceOnlyMode(
             "elektro-lrit",
-            "ELEKTRO-L LRIT",
+            "Elektro-L LRIT",
             underlying=["empty"],
             bandpass=Bandpass(-200000, 200000),
             requirements=["wxsat"],

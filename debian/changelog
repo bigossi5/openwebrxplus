@@ -1,3 +1,15 @@
+openwebrx (1.2.81) bullseye jammy; urgency=low
+
+  * Now truncating FAX images as transmission ends.
+  * Now saving SSTV images if at least half is received.
+  * Added function to adjust image size when closing image.
+  * Added configurable minimum fax length parameter.
+  * Fixed error when entering profile with default digital mode.
+  * Fixed noise reduction level display.
+  * Refactored data recording.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Mon, 31 Mar 2025 16:12:00 +0000
+
 openwebrx (1.2.80) bullseye jammy; urgency=low
 
   * Added server-side background audio recording to MP3.

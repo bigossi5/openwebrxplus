@@ -1,3 +1,12 @@
+**1.2.81**
+- Now truncating FAX images as transmission ends.
+- Now saving SSTV images if at least half is received.
+- Added function to adjust image size when closing image.
+- Added configurable minimum fax length parameter.
+- Fixed error when entering profile with default digital mode.
+- Fixed noise reduction level display.
+- Refactored data recording.
+
 **1.2.80**
 - Added server-side background audio recording to MP3.
 - Audio recordings are shown at the "Files" page.
