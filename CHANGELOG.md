@@ -1,3 +1,7 @@
+**1.2.82**
+- Added check for a specific end-of-fax-page marker.
+- Set default maximum fax page length to 1500.
+
 **1.2.81**
 - Now truncating FAX images as transmission ends.
 - Now saving SSTV images if at least half is received.
