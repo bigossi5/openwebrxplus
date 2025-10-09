@@ -124,8 +124,8 @@ class Modes(object):
         AnalogMode("nfm", "FM", bandpass=Bandpass(-4000, 4000)),
         AnalogMode("wfm", "WFM", bandpass=Bandpass(-75000, 75000)),
         AnalogMode("am", "AM", bandpass=Bandpass(-4000, 4000)),
-        AnalogMode("lsb", "LSB", bandpass=Bandpass(-3000, -300)),
-        AnalogMode("usb", "USB", bandpass=Bandpass(300, 3000)),
+        AnalogMode("lsb", "LSB", bandpass=Bandpass(-2750, -150)),
+        AnalogMode("usb", "USB", bandpass=Bandpass(150, 2750)),
         AnalogMode("cw", "CW", bandpass=Bandpass(700, 900)),
         AnalogMode("sam", "SAM", bandpass=Bandpass(-4000, 4000)),
         AnalogMode("usbd", "DATA", bandpass=Bandpass(0, 24000)),
@@ -250,6 +250,16 @@ class Modes(object):
             "ism",
             "ISM",
             underlying=["empty"],
+            bandpass=None,
+            ifRate=250000,
+            requirements=["ism"],
+            service=True,
+            squelch=False
+        ),
+        DigitalMode(
+            "wmbus",
+            "WMBus",
+            underlying=["empty"],
             bandpass=Bandpass(-125000, 125000),
             requirements=["ism"],
             service=True,
@@ -277,7 +287,7 @@ class Modes(object):
             "acars",
             "ACARS",
             underlying=["am"],
-            bandpass=Bandpass(-6250, 6250),
+            bandpass=Bandpass(-6000, 6000),
             requirements=["acars"],
             service=True,
             squelch=False
@@ -308,16 +318,6 @@ class Modes(object):
         ServiceOnlyMode(
             "noaa-apt-15",
             "NOAA-15 APT",
-            underlying=["empty"],
-            bandpass=Bandpass(-25000, 25000),
-            requirements=["wxsat"],
-            service=True,
-            squelch=False,
-            secondaryFft=False
-        ),
-        ServiceOnlyMode(
-            "noaa-apt-18",
-            "NOAA-18 APT",
             underlying=["empty"],
             bandpass=Bandpass(-25000, 25000),
             requirements=["wxsat"],

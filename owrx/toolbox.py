@@ -16,9 +16,9 @@ logger = logging.getLogger(__name__)
 
 
 class Mp3Recorder(ThreadModule, DataRecorder):
-    def __init__(self, service: bool = False):
+    def __init__(self, service: bool = False, maxBytes: int = 32 * 1024 * 1024):
         self.service = service
-        DataRecorder.__init__(self, "REC", ".mp3")
+        DataRecorder.__init__(self, "REC", ".mp3", maxBytes)
         ThreadModule.__init__(self)
 
     def getInputFormat(self) -> Format:
@@ -376,7 +376,7 @@ class EasParser(TextParser):
 
 class CwSkimmerParser(TextParser):
     def __init__(self, service: bool = False):
-        self.reLine = re.compile("^([0-9]+):(.+)$")
+        self.reLine = re.compile(r"^([0-9]+):(.+)$")
         self.freqChanged = False
         # Construct parent object
         super().__init__(filePrefix="CW", service=service)

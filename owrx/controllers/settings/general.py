@@ -16,6 +16,7 @@ from owrx.form.input.receiverid import ReceiverKeysInput
 from owrx.form.input.gfx import AvatarInput, TopPhotoInput
 from owrx.form.input.device import WaterfallLevelsInput, WaterfallAutoLevelsInput
 from owrx.form.input.location import LocationInput
+from owrx.form.input.country import CountryInput
 from owrx.waterfall import WaterfallOptions
 from owrx.breadcrumb import Breadcrumb, BreadcrumbItem
 from owrx.controllers.settings import SettingsBreadcrumb
@@ -58,6 +59,13 @@ class GeneralSettingsController(SettingsFormController):
                         Option("3", "ITU Region 3 (South Asia, Pacific)"),
                     ],
                     converter=IntConverter(),
+                    infotext="Band plan ribbons and region-specific default bookmarks will folow "
+                    + "the selected ITU region.",
+                ),
+                CountryInput(
+                    "receiver_country",
+                    "Receiver country",
+                    infotext="Country-specific default bookmarks will folow the selected country.",
                 ),
                 LocationInput("receiver_gps", "Receiver coordinates"),
                 CheckboxInput(
@@ -90,6 +98,11 @@ class GeneralSettingsController(SettingsFormController):
                     infotext="Number of people who can connect at the same time.",
                 ),
                 NumberInput(
+                    "max_clients_per_ip",
+                    "Number of clients per IP",
+                    infotext="Number of people who can connect from the same IP address.",
+                ),
+                NumberInput(
                     "keep_files",
                     "Maximum number of files",
                     infotext="Number of received images and other files to keep.",
@@ -107,6 +120,10 @@ class GeneralSettingsController(SettingsFormController):
                     + "and shown when a client session times out.",
                 ),
                 CheckboxInput(
+                    "bot_ban_enabled",
+                    "Detect and ban bots trying to connect",
+                ),
+                CheckboxInput(
                     "allow_chat",
                     "Allow users to chat with each other",
                 ),
@@ -121,7 +138,7 @@ class GeneralSettingsController(SettingsFormController):
                 TextInput(
                     "magic_key",
                     "Magic key",
-                    infotext="Enter a key the user has to supply to change center frequency."
+                    infotext="Enter the key users have to supply to change center frequency."
                     + " Leave empty if you do not want to protect frequency changes with a key."
                     + " When enabled, the key has to be added to receiver's URL after the hash"
                     + " sign: http://my.receiver.com/#key=keyvalue.",
@@ -155,7 +172,14 @@ class GeneralSettingsController(SettingsFormController):
                     + "Higher values will give you a faster waterfall, but will also use more CPU.",
                     append="frames per second",
                 ),
-                NumberInput("fft_size", "FFT size", append="bins"),
+                NumberInput(
+                    "fft_size",
+                    "FFT size",
+                    infotext="This setting specifies the horizontal resolution of the waterfall. "
+                    + "Raising it higher than 16384 bins may break waterfall display on some web browsers.",
+                    append="bins",
+                    validator=RangeValidator(256, 16384),
+                ),
                 FloatInput(
                     "fft_voverlap_factor",
                     "FFT vertical overlap factor",
@@ -204,6 +228,21 @@ class GeneralSettingsController(SettingsFormController):
             ),
             Section(
                 "Display settings",
+                DropdownInput(
+                    "ui_theme",
+                    "User interface color theme",
+                    options=[
+                        Option("default", "Gray"),
+                        Option("brown", "Brown"),
+                        Option("red", "Red"),
+                        Option("green", "Green"),
+                        Option("khaki", "Khaki"),
+                        Option("blue", "Blue"),
+                        Option("navy", "Navy"),
+                        Option("black", "Black"),
+                        Option("night", "Night")
+                    ]
+                ),
                 DropdownInput(
                     "tuning_precision",
                     "Tuning precision",

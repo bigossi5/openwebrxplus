@@ -121,11 +121,13 @@ class Repeaters(WebAgent):
         result = []
         try:
             pm   = Config.get()
+            itu  = pm["bandplan_region"]
+            ctry = pm["receiver_country"]
             lat  = pm["receiver_gps"]["lat"]
             lon  = pm["receiver_gps"]["lon"]
             hdrs = { "User-Agent": "(OpenWebRX+ " + openwebrx_version + ", luarvique@gmail.com)" }
-            # Start with US/Canada database for north-wester quartersphere
-            if lat > 0 and lon < 0:
+            # Start with US/Canada database for north-western quartersphere
+            if itu == 2 or ctry == "US" or ctry == "CA" or (lat > 0 and lon < 0):
                 scps = ["export.php", "exportROW.php"]
             else:
                 scps = ["exportROW.php", "export.php"]

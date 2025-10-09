@@ -182,8 +182,10 @@ DemodulatorPanel.prototype.updatePanels = function() {
     toggle_panel("openwebrx-panel-hfdl-message", ['hfdl', 'vdl2', 'acars'].indexOf(modulation) >= 0);
     // Packet modes share the same panel
     toggle_panel("openwebrx-panel-packet-message", ['packet', 'ais'].indexOf(modulation) >= 0);
+    // ISM modes share the same panel
+    toggle_panel("openwebrx-panel-ism-message", ['ism', 'wmbus'].indexOf(modulation) >= 0);
     // These modes come with their own panels
-    ['js8', 'page', 'pocsag', 'sstv', 'fax', 'ism', 'dsc', 'adsb', 'cwskimmer'].forEach(function(m) {
+    ['js8', 'page', 'pocsag', 'sstv', 'fax', 'dsc', 'adsb', 'cwskimmer'].forEach(function(m) {
         toggle_panel('openwebrx-panel-' + m + '-message', modulation === m);
     });
 

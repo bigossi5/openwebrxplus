@@ -317,9 +317,9 @@ class AircraftManager(object):
 #
 class AircraftParser(TextParser):
     def __init__(self, filePrefix: str = None, service: bool = False):
-        self.reFlight = re.compile("^([0-9A-Z]{2}|[A-Z]{3})0*([0-9]+[A-Z]*)$")
-        self.reDots   = re.compile (r"^\.*([^\.].*?)\.*$")
-        self.reIATA   = re.compile("^..[0-9]+$")
+        self.reFlight = re.compile(r"^([0-9A-Z]{2}|[A-Z]{3})0*([0-9]+[A-Z]*)$")
+        self.reDots   = re.compile(r"^\.*([^\.].*?)\.*$")
+        self.reIATA   = re.compile(r"^..[0-9]+$")
         super().__init__(filePrefix=filePrefix, service=service)
 
     def parse(self, msg: bytes):
@@ -550,7 +550,7 @@ class Vdl2Parser(AircraftParser):
 
 
 #
-# Parser for ADSB messages coming from Dump1090 in hexadecimal format.
+# Parser for Dump1090 JSON file containing currently tracked aircraft.
 #
 class AdsbParser(AircraftParser):
     def __init__(self, service: bool = False, jsonFile: str = "/tmp/dump1090/aircraft.json"):
@@ -678,8 +678,10 @@ class AdsbParser(AircraftParser):
             elif "tat" in entry:
                 out["temperature"] = entry["tat"]
 
-            # Update aircraft database with the new data
-            AircraftManager.getSharedInstance().update(out)
+            # Update aircraft database
+            if AircraftManager.getSharedInstance().update(out):
+                # Report any new/updated data
+                ReportingEngine.getSharedInstance().spot(out)
 
         # Save last parsed time
         self.lastParse = now
