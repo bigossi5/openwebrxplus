@@ -168,7 +168,7 @@ class Bookmarks(object):
             except Exception:
                 logger.exception("error while processing bookmarks from %s", file)
         # Return bookmarks, not the frequencies used as keys
-        return result.values()
+        return list(result.values())
 
     def getEditableBookmarks(self):
         # Only return bookmarks that can be saved

@@ -126,7 +126,7 @@ BookmarkBar.prototype.showEditDialog = function(bookmark) {
         }
         bookmark = {
             name        : '',
-            frequency   : mode1 === 'cw'? freq + 800 : freq,
+            frequency   : freq,
             modulation  : mode1,
             underlying  : mode2,
             description : '',

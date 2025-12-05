@@ -101,7 +101,7 @@ class WFm(BaseDemodulatorChain, FixedIfSampleRateChain, DeemphasisTauChain, HdAu
         self.rdsRbds = rdsRbds
         if self.metaChain is not None:
             self.metaChain.stop()
-            self.metaChain = Redsea(self.getFixedIfSampleRate(), self.rdsRbds)
+            self.metaChain = RdsDemodulator(self.getFixedIfSampleRate(), self.rdsRbds)
             self.metaChain.setReader(self.metaTapBuffer.getReader())
             self.metaChain.setWriter(self.metaWriter)
 

@@ -59,13 +59,13 @@ class GeneralSettingsController(SettingsFormController):
                         Option("3", "ITU Region 3 (South Asia, Pacific)"),
                     ],
                     converter=IntConverter(),
-                    infotext="Band plan ribbons and region-specific default bookmarks will folow "
+                    infotext="Band plan ribbons and region-specific default bookmarks will follow "
                     + "the selected ITU region.",
                 ),
                 CountryInput(
                     "receiver_country",
                     "Receiver country",
-                    infotext="Country-specific default bookmarks will folow the selected country.",
+                    infotext="Country-specific default bookmarks will follow the selected country.",
                 ),
                 LocationInput("receiver_gps", "Receiver coordinates"),
                 CheckboxInput(

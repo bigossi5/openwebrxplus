@@ -97,14 +97,17 @@ class ClientRegistry(object):
 
     # Report client events
     def reportClient(self, client, data):
-        from owrx.reporting import ReportingEngine
-        data.update({
-            "mode"      : "CLIENT",
-            "timestamp" : round(datetime.now().timestamp() * 1000),
-            "ip"        : self.getIp(client.conn.handler),
-            "banned"    : self.isBanned(client.conn.handler)
-        })
-        ReportingEngine.getSharedInstance().spot(data)
+        pm = Config.get()
+        if pm["report_clients"]:
+            from owrx.reporting import ReportingEngine
+            data.update({
+                "mode"      : "CLIENT",
+                "timestamp" : round(datetime.now().timestamp() * 1000),
+                "ip"        : self.getIp(client.conn.handler),
+                "banned"    : self.isBanned(client.conn.handler),
+                "clients"   : self.clientCount()
+            })
+            ReportingEngine.getSharedInstance().spot(data)
 
     # Report chat message from a client
     def reportChatMessage(self, client, text: str):
@@ -155,6 +158,11 @@ class ClientRegistry(object):
 
         # Report message
         self.reportChatMessage(client, text)
+
+    # Relay external chat message to all connected clients.
+    def RelayChatMessage(self, name: str, text: str):
+        for c in self.clients:
+            c.write_chat_message(name, text, "#ccc")
 
     # Broadcast administrative message to all connected clients.
     def broadcastAdminMessage(self, text: str):

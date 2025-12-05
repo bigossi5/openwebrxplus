@@ -126,6 +126,7 @@ class OpenWebRxReceiverClient(OpenWebRxClient, SdrSourceEventClient):
         "center_freq",
         "tuning_step",
         "initial_squelch_level",
+        "initial_nr_level",
         "sdr_id",
         "profile_id",
         "squelch_auto_margin",

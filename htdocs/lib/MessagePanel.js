@@ -355,7 +355,7 @@ $.fn.pageMessagePanel = function() {
 HfdlMessagePanel = function(el) {
     MessagePanel.call(this, el);
     this.initClearTimer();
-    this.modes = ['HFDL', 'VDL2', 'ADSB', 'ACARS'];
+    this.modes = ['HFDL', 'VDL2', 'ADSB', 'ACARS', 'UAT'];
 }
 
 HfdlMessagePanel.prototype = Object.create(MessagePanel.prototype);
@@ -914,7 +914,7 @@ CwSkimmerMessagePanel = function(el) {
 CwSkimmerMessagePanel.prototype = Object.create(MessagePanel.prototype);
 
 CwSkimmerMessagePanel.prototype.supportsMessage = function(message) {
-    return message['mode'] === 'CW';
+    return (message['mode'] === 'CW') || (message['mode'] === 'RTTY');
 };
 
 CwSkimmerMessagePanel.prototype.render = function() {

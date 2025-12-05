@@ -884,6 +884,16 @@ function on_ws_recv(evt) {
                         if ('initial_squelch_level' in config)
                             initial_demodulator_params['squelch_level'] = Number.isInteger(config['initial_squelch_level']) ? config['initial_squelch_level'] : -150;
 
+                        if ('initial_nr_level' in config) {
+                            if (Number.isInteger(config['initial_nr_level'])) {
+                                UI.setNR(config['initial_nr_level']);
+                                UI.toggleNR(true);
+                            } else {
+                                UI.setNR(0);
+                                UI.toggleNR(false);
+                            }
+                        }
+
                         if ('samp_rate' in config)
                             bandwidth = config['samp_rate'];
                         if ('center_freq' in config)

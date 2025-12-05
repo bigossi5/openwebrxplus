@@ -63,7 +63,7 @@ Utils.printFreq = function(freq) {
 Utils.offsetFreq = function(freq, mod) {
     switch(mod) {
         case 'cw':
-            return freq - 800;
+            return freq - UI.getCwOffset();
         case 'fax':
             return freq - 1900;
         case 'cwdecoder':

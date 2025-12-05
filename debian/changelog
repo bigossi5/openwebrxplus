@@ -1,3 +1,70 @@
+openwebrx (1.2.100) bullseye jammy; urgency=low
+
+  * Added option to chat between OWRX+ servers via MQTT.
+  * Added option to relay WSJT spots between OWRX+ servers.
+  * Added option to relay APRS/AIS data between OWRX+ servers.
+  * Added option to relay aircraft data between OWRX+ servers.
+  * Added number of connected clients to CLIENT MQTT reports.
+  * Added options to disable RX and CLIENT MQTT reports.
+  * Fixed MQTT code to work with Paho MQTT 2.x.
+  * Fixed some maps not wrapping properly.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Thu, 4 Dec 2025 16:12:00 +0000
+
+openwebrx (1.2.99) bullseye jammy; urgency=low
+
+  * Fixing RTLSDR issues caused by 'dump978-fa'.
+  * Switched to 'dump978-fa-minimal' package.
+  * Please, do 'sudo apt remove dump978-fa'.
+  * Please, do 'sudo apt remove skyaware978'.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Sun, 16 Nov 2025 16:12:00 +0000
+
+openwebrx (1.2.98) bullseye jammy; urgency=low
+
+  * Added UAT decoder using Dump978.
+  * Added RTTY skimmer (please, test).
+  * Added PSKReporter rig info reports.
+  * Added 131.825MHz ACARS frequency.
+  * Added 978MHz UAT frequency.
+  * Added cosmetic fixes to DRM panel.
+  * Fixed PSKReporter packets [dchristle].
+  * Switched to csdr-skimmer package.
+  * Removed AGC from CW skimmer.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Thu, 13 Nov 2025 16:12:00 +0000
+
+openwebrx (1.2.97) bullseye jammy; urgency=low
+
+  * Added Dream 2.2 support, with AAC.
+  * Added DRM metadata display.
+  * Fixed saving cloned profiles.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Mon, 3 Nov 2025 16:12:00 +0000
+
+openwebrx (1.2.96) bullseye jammy; urgency=low
+
+  * Added WebSDR and OpenWebRX logos to the map.
+  * Added WebSDR and KiwiSDR bands to the map.
+  * Added KiwiSDR connections limit to the map.
+  * CW tone now changes when shifting bandpass.
+  * Disabled scanning for NOAA weather bookmarks.
+  * Fixed CW offset caching when bandpass changes.
+  * Fixed RDS demodulator reference.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Mon, 27 Oct 2025 16:12:00 +0000
+
+openwebrx (1.2.95) bullseye jammy; urgency=low
+
+  * Added per-profile noise reduction option.
+  * Can now change CW tone by moving bandpass.
+  * Fixed frequency display/entry in CW mode.
+  * Fixed typos in several setting cues.
+  * Fixed creating new CW bookmarks.
+  * Fixed bookmarks editor.
+
+ -- Marat Fayzullin <luarvique@gmail.com>  Mon, 20 Oct 2025 16:12:00 +0000
+
 openwebrx (1.2.94) bullseye jammy; urgency=low
 
   * Added a button for cloning SDR profiles.
@@ -9,7 +76,7 @@ openwebrx (1.2.94) bullseye jammy; urgency=low
   * Disabling scanner when profile side-stepped.
   * Updated bookmarks infrastructure.
 
- -- Marat Fayzullin <luarvique@gmail.com>  Fri, 03 Oct 2025 16:12:00 +0000
+ -- Marat Fayzullin <luarvique@gmail.com>  Fri, 10 Oct 2025 16:12:00 +0000
 
 openwebrx (1.2.93) bullseye jammy; urgency=low
 

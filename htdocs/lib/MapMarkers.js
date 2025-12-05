@@ -17,7 +17,8 @@ function MarkerManager() {
         'ACARS'     : '#800000',
         'HFDL'      : '#004000',
         'VDL2'      : '#000080',
-        'ADSB'      : '#000000'
+        'ADSB'      : '#000000',
+        'UAT'       : '#800080'
     };
 
     // Symbols used for marker types
@@ -33,6 +34,7 @@ function MarkerManager() {
         'VDL2'      : '&#9992;',
         'ADSB'      : '&#9992;',
         'ACARS'     : '&#9992;',
+        'UAT'       : '&#9992;',
         'HDR'       : '&#9836;'
     };
 
@@ -190,9 +192,16 @@ FeatureMarker.prototype.update = function(update) {
     this.comment  = update.location.comment;
     this.ttl      = update.location.ttl;
     // Receivers
+    this.logourl  = update.location.logourl;
     this.altitude = update.location.altitude;
     this.device   = update.location.device;
     this.antenna  = update.location.antenna;
+    this.users    = update.location.users;
+    this.maxusers = update.location.maxusers;
+    this.freql    = update.location.freql;
+    this.freqh    = update.location.freqh;
+    this.qth      = update.location.qth;
+    this.bands    = update.location.bands;
     // EIBI
     this.schedule = update.location.schedule;
     // Repeaters
@@ -254,12 +263,13 @@ FeatureMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
     var distance = '';
 
     // If it is a repeater, its name is a callsign
-    if(!this.url && this.freq) {
+    if (!this.url && this.freq) {
         nameString = Utils.linkifyCallsign(name);
     }
 
-    if (this.altitude) {
-        detailsString += Utils.makeListItem('Altitude', this.altitude.toFixed(0) + ' m');
+    // If there is a logo, add it in
+    if (this.logourl) {
+        nameString = '<p><img height=80 src="' + this.logourl + '"></p>' + nameString;
     }
 
     if (this.device) {
@@ -272,10 +282,46 @@ FeatureMarker.prototype.getInfoHTML = function(name, receiverMarker = null) {
         detailsString += Utils.makeListItem('Antenna', Utils.truncate(this.antenna, 24));
     }
 
+    if (this.altitude) {
+        detailsString += Utils.makeListItem('Altitude', this.altitude.toFixed(0) + ' m');
+    }
+
     if (this.freq) {
         detailsString += Utils.makeListItem('Frequency', Utils.linkifyFreq(
-            this.freq, this.mmode? this.mmode:'fm'
+            this.freq, this.mmode? this.mmode : 'nfm'
         ));
+    }
+
+    // If there is band information...
+    if (this.freql || this.freqh) {
+        detailsString += Utils.makeListItem('Band',
+            Utils.printFreq(this.freql) + '&nbsp;&hellip;&nbsp;' + Utils.printFreq(this.freqh)
+        );
+    }
+
+    // If there are multiple bands...
+    if (this.bands) {
+        var antenna = this.bands[0].antenna;
+
+        // For each band...
+        for (var j = 0 ; j < this.bands.length ; j++) {
+            var band = this.bands[j];
+            // Keep track of available antennas
+            if (band.antenna != antenna) antenna = 'Multiple';
+            // Show frequency ranges by band
+            detailsString += Utils.makeListItem('Band',
+                Utils.printFreq(band.freql) + '&nbsp;&hellip;&nbsp;' + Utils.printFreq(band.freqh)
+            );
+        }
+
+        // Add computed antenna entry, if missing
+        if (antenna && !this.antenna) {
+            detailsString += Utils.makeListItem('Antenna', Utils.truncate(antenna, 24));
+        }
+    }
+
+    if (this.maxusers) {
+        detailsString += Utils.makeListItem('Max Users', this.maxusers);
     }
 
     if (this.mmode) {

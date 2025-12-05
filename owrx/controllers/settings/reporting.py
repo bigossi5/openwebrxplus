@@ -78,6 +78,12 @@ class ReportingController(SettingsFormController):
                     infotext="Antenna description to be sent along with spots to pskreporter",
                     converter=OptionalConverter(),
                 ),
+                TextInput(
+                    "pskreporter_rig_information",
+                    "Rig information",
+                    infotext="SDR description to be sent along with spots to pskreporter",
+                    converter=OptionalConverter(),
+                ),
             ),
             Section(
                 "WSPRnet settings",
@@ -97,10 +103,18 @@ class ReportingController(SettingsFormController):
                     "mqtt_enabled",
                     "Enable publishing reports to MQTT",
                 ),
+                CheckboxInput(
+                    "report_clients",
+                    "Report clients connecting to the server (disable for public MQTT brokers!)",
+                ),
+                CheckboxInput(
+                    "report_radio",
+                    "Report server startup and SDR profile changes (disable for public MQTT brokers!)",
+                ),
                 TextInput(
                     "mqtt_host",
                     "Broker address",
-                    infotext="Addresss of the MQTT broker to send reports to (address[:port])",
+                    infotext="Address of the MQTT broker to send reports to (address[:port])",
                     validator=AddressAndOptionalPortValidator(),
                 ),
                 TextInput(
@@ -127,6 +141,26 @@ class ReportingController(SettingsFormController):
                     "MQTT topic",
                     infotext="MQTT topic to publish reports to (default: openwebrx)",
                     converter=OptionalConverter(),
+                ),
+                CheckboxInput(
+                    "mqtt_chat",
+                    "Receive chat messages over MQTT",
+                ),
+                CheckboxInput(
+                    "mqtt_aircraft",
+                    "Receive aircraft data over MQTT",
+                ),
+                CheckboxInput(
+                    "mqtt_ais",
+                    "Receive marine data over MQTT",
+                ),
+                CheckboxInput(
+                    "mqtt_aprs",
+                    "Receive APRS reports over MQTT",
+                ),
+                CheckboxInput(
+                    "mqtt_wsjt",
+                    "Receive WSJT decodes over MQTT",
                 ),
             ),
             Section(

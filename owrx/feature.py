@@ -88,7 +88,9 @@ class FeatureDetector(object):
         "pocsag": ["digiham"],
         "js8call": ["js8", "js8py"],
         "drm": ["dream"],
+        "dream-2-2": ["dream_2_2"],
         "adsb": ["dump1090"],
+        "uat": ["dump978"],
         "ism": ["rtl_433"],
         "hfdl": ["dumphfdl"],
         "vdl2": ["dumpvdl2"],
@@ -103,7 +105,7 @@ class FeatureDetector(object):
         "mqtt": ["paho_mqtt"],
         "hdradio": ["nrsc5"],
         "rigcontrol": ["hamlib"],
-        "cwskimmer": ["csdr_cwskimmer"],
+        "skimmer": ["csdr_skimmer"],
         "mp3": ["lame"],
     }
 
@@ -590,12 +592,40 @@ class FeatureDetector(object):
         """
         OpenWebRX uses the [Dream](https://sourceforge.net/projects/drm/)
         software to decode DRM broadcasts. The default version of Dream,
-        supplied in most Linux distributions, will not work with OpenWebRX,
-        so you will have to compile Dream from the sources. The detailed
-        installation instructions are available from the
-        [OpenWebRX Wiki](https://github.com/jketterl/openwebrx/wiki/DRM-demodulator-notes).
+        supplied in most Linux distributions, so you will have to install
+        the specially built `dream` package from the OpenWebRX+
+        repositories.
         """
         return self.command_is_runnable("dream --help", 0)
+
+    def has_dream_2_2(self):
+        """
+        [Dream 2.2](https://github.com/wwek/dream) has some extended
+        features, such as status reporting. With Dream 2.2 installed,
+        you will be able to observe what the DRM decoder is doing and
+        what radio programs are available from the data stream. You can
+        install the `dream` package from the OpenWebRX+ repositories.
+        """
+        # Will be looking for the --status-socket option
+        dream_status_regex = re.compile(".*--status-socket.*")
+        # Look through the --help output
+        try:
+            process = subprocess.Popen(["dream", "--help"], stderr=subprocess.PIPE)
+            while process.poll() is None:
+                line = process.stderr.readline()
+                if line is None:
+                    # Output ended, old Dream
+                    return False
+                else:
+                    matches = dream_status_regex.match(line.decode())
+                    if matches is not None:
+                        # --status-socket option supported, new Dream!
+                        return True
+        except Exception as e:
+            # Something bad happens, probably no Dream
+            return False
+        # Process ended, old Dream
+        return False
 
     def has_sddc_connector(self):
         """
@@ -671,6 +701,14 @@ class FeatureDetector(object):
         achieve this.
         """
         return self.command_is_runnable("dump1090 --version")
+
+    def has_dump978(self):
+        """
+        OpenWebRX supports decoding UAT airplane communications by using the
+        [Dump978](https://github.com/flightaware/dump978) decoder. You can install the
+        `dump978-fa-minimal` package from the OpenWebRX+ repositories.
+        """
+        return self.command_is_runnable("dump978 --version")
 
     def has_rtl_433(self):
         """
@@ -817,13 +855,13 @@ class FeatureDetector(object):
         """
         return self.command_is_runnable("rigctl -V")
 
-    def has_csdr_cwskimmer(self):
+    def has_csdr_skimmer(self):
         """
-        OpenWebRX uses the [CSDR CWSkimmer](https://github.com/luarvique/csdr-cwskimmer)
-        to decode multiple CW signals at once. You can install the
-        `csdr-cwskimmer` package from the OpenWebRX+ repositories.
+        OpenWebRX uses the [CSDR Skimmer](https://github.com/luarvique/csdr-skimmer)
+        to decode multiple CW and RTTY signals at once. You can install
+        the `csdr-skimmer` package from the OpenWebRX+ repositories.
         """
-        return self.command_is_runnable("csdr-cwskimmer -h")
+        return self.command_is_runnable("csdr-rttyskimmer -h")
 
     def has_lame(self):
         """

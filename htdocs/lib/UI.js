@@ -17,6 +17,7 @@ UI.nrEnabled = false;
 UI.wheelSwap = false;
 UI.spectrum = false;
 UI.bandplan = false;
+UI.cwOffset = null;
 
 // Foldable UI sections and their initial states
 UI.sections = {
@@ -107,6 +108,29 @@ UI.setModulation = function(mode, underlying) {
 // Frequency Controls
 //
 
+UI.getCwOffset = function() {
+    // If no value cached yet...
+    if (this.cwOffset == null) {
+        // First, try getting CW bandpass from local storage
+        var bp = this.loadBandpass('cw');
+        // If no saved bandpass, try getting the default one
+        if (!bp) {
+            var mode = Modes.findByModulation('cw');
+            bp = mode? mode.bandpass : null;
+        }
+        // Center offset within bandpass, if present, else assume 800Hz
+        this.cwOffset = bp? Math.round((bp.low_cut + bp.high_cut) / 2) : 800;
+    }
+
+    // Return cached value
+    return this.cwOffset;
+};
+
+UI.getCwBandpass = function() {
+    var cwOffset = this.getCwOffset();
+    return { low_cut: cwOffset - 100, high_cut: cwOffset + 100 };
+};
+
 UI.getOffsetFrequency = function(x) {
     return this.getFrequency(x) - center_freq;
 };
@@ -114,7 +138,7 @@ UI.getOffsetFrequency = function(x) {
 UI.getFrequency = function(x) {
     if (typeof(x) === 'undefined') {
         // When in CW mode, offset by 800Hz
-        var delta = this.getModulation() === 'cw'? 800 : 0;
+        var delta = this.getModulation() === 'cw'? this.getCwOffset() : 0;
         // No argument: return currently tuned frequency
         var demod = this.getDemodulator();
         return demod? demod.get_offset_frequency() + center_freq + delta : 0;
@@ -132,7 +156,7 @@ UI.setOffsetFrequency = function(offset) {
 
 UI.setFrequency = function(freq, snap = true) {
     // When in CW mode, offset by 800Hz
-    var delta = this.getModulation() === 'cw'? 800 : 0;
+    var delta = this.getModulation() === 'cw'? this.getCwOffset() : 0;
     // Snap frequency to the tuning step
     if (snap) freq = Utils.snapFrequency(freq, tuning_step);
     // Tune to the frequency offset
@@ -207,6 +231,9 @@ UI.toggleMute = function(on) {
 
 // Clear saved bandpasses
 UI.resetAllBandpasses = function() {
+    // Get current frequency
+    var freq = this.getFrequency();
+
     // Delete all saved bandpass data
     Modes.getModes().forEach(function(mode, i) {
         LS.delete('bp-' + mode.modulation);
@@ -214,14 +241,32 @@ UI.resetAllBandpasses = function() {
 
     // Reset current bandpass to default
     var mode = Modes.findByModulation(this.getModulation());
-    var bp = mode? mode.bandpass : null; 
+    var bp = mode? mode.bandpass : null;
     if (bp) this.getDemodulator().setBandpass(bp);
+
+    // Clear cached CW offset
+    this.cwOffset = null;
+
+    // Update current frequency (may shift in CW mode)
+    this.setFrequency(freq, false);
 };
 
 // Set bandpass for given modulation.
 UI.saveBandpass = function(mode, low, high) {
+    // Get current frequency
+    var cwFreq = mode === 'cw'? this.getFrequency() : null;
+
+    // Save new bandpass boundaries
     var bp = { low_cut: low, high_cut: high };
     LS.save('bp-' + mode, JSON.stringify(bp));
+
+    // If changing CW bandpass...
+    if (cwFreq != null) {
+        // Clear cached CW offset
+        this.cwOffset = null;
+        // Current CW frequency has shifted
+        this.setFrequency(cwFreq, false);
+    }
 };
 
 // Get saved bandpass for given modulation.
