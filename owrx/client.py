@@ -5,7 +5,6 @@ from ipaddress import ip_address
 import threading
 import re
 import time
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -241,6 +240,7 @@ class ClientRegistry(object):
         old = [ip for ip in self.bans if now >= self.bans[ip]]
         for ip in old:
             del self.bans[ip]
+
     # New method to log clients periodically
     def logClients(self):
         while True:
