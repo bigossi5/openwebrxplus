@@ -462,7 +462,13 @@ class SdrSource(ABC):
     def isAvailable(self):
         return self.monitor is not None
 
-    def isLocked(self):
+    def isLocked(self, profile_id = None):
+        # if target profile ID given, check that profile
+        if profile_id is not None:
+            profile = self.getProfiles()[profile_id]
+            if "key_locked" in profile and profile["key_locked"]:
+                return True
+        # check current profile and the overall source setting
         return "key_locked" in self.props and self.props["key_locked"]
 
     def stop(self):
@@ -487,12 +493,16 @@ class SdrSource(ABC):
                 except AttributeError:
                     # self.process has been overwritten by the monitor since we checked it, which is fine
                     pass
+
             if self.monitor:
                 self.monitor.join()
+                self.monitor = None
+
             if self.tcpSource is not None:
                 self.tcpSource.stop()
                 self.tcpSource = None
-                self.buffer = None
+
+            self.buffer = None
 
     def shutdown(self):
         self.stop()
@@ -585,30 +595,28 @@ class SdrSource(ABC):
         for c in self.clients.copy():
             c.onBusyStateChange(state)
 
-    def reportStateChange(self):
+    def reportRxEvent(self, data):
         pm = Config.get()
         if pm["report_radio"]:
-            ReportingEngine.getSharedInstance().spot({
+            out = {
                 "mode"      : "RX",
                 "timestamp" : round(datetime.now().timestamp() * 1000),
                 "source_id" : self.id,
-                "source"    : self.getName(),
-                "state"     : str(self.state)
-            })
+                "source"    : self.getName()
+            }
+            out.update(data)
+            ReportingEngine.getSharedInstance().spot(out)
+
+    def reportStateChange(self):
+        self.reportRxEvent({ "state" : str(self.state) })
 
     def reportProfileChange(self):
-        pm = Config.get()
-        if pm["report_radio"]:
-            ReportingEngine.getSharedInstance().spot({
-                "mode"       : "RX",
-                "timestamp"  : round(datetime.now().timestamp() * 1000),
-                "source_id"  : self.id,
-                "source"     : self.getName(),
-                "profile_id" : self.getProfileId(),
-                "profile"    : self.getProfileName(),
-                "freq"       : self.props["center_freq"],
-                "samplerate" : self.props["samp_rate"]
-            })
+        self.reportRxEvent({
+            "profile_id" : self.getProfileId(),
+            "profile"    : self.getProfileName(),
+            "freq"       : self.props["center_freq"],
+            "samplerate" : self.props["samp_rate"]
+        })
 
 
 class SdrDeviceDescriptionMissing(Exception):
@@ -711,7 +719,8 @@ class SdrDeviceDescription(object):
             ),
             CheckboxInput(
                 "key_locked",
-                "Require magic key to switch profiles on this device",
+                "Require magic key to switch profile",
+                infotext="A device will require the key to switch profiles. A profile will require the key to switch to or from.",
             ),
             GainInput("rf_gain", "Device gain", self.hasAgc()),
             NumberInput(
@@ -809,7 +818,7 @@ class SdrDeviceDescription(object):
         return ["name", "center_freq", "samp_rate", "start_freq", "start_mod", "tuning_step"]
 
     def getProfileOptionalKeys(self):
-        return [
+        keys = [
             "initial_squelch_level",
             "initial_nr_level",
             "rf_gain",
@@ -819,7 +828,11 @@ class SdrDeviceDescription(object):
             "eibi_bookmarks_range",
             "repeater_range",
             "rig_enabled",
+            "key_locked",
         ]
+        if self.supportsPpm():
+            keys += ["ppm"]
+        return keys
 
     def getDeviceSection(self):
         return OptionalSection(

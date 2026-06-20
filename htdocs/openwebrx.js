@@ -40,6 +40,7 @@ var scanner = null;
 var bookmarks = null;
 var audioEngine = null;
 var wf_data = null;
+var battery_shown = false;
 
 function zoomInOneStep() {
     zoom_set(zoom_level + 1);
@@ -60,7 +61,10 @@ function zoomOutTotal() {
 function tuneBySteps(steps) {
     steps = Math.round(steps);
     if (steps != 0) {
-        UI.setFrequency(UI.getFrequency() + steps * tuning_step);
+        var f = UI.getFrequency() / tuning_step;
+        var i = Math.floor(f);
+        if (i != f && steps < 0) steps++;
+        UI.setFrequency((i + steps) * tuning_step);
     }
 }
 
@@ -108,10 +112,12 @@ function jumpBySteps(steps) {
     if (steps != 0) {
         var key = UI.getDemodulatorPanel().getMagicKey();
         var f = center_freq + steps * bandwidth / 4;
-        ws.send(JSON.stringify({
-            "type": "setfrequency", "params": { "frequency": f, "key": key }
-        }));
-        UI.toggleScanner(false);
+        if (f >= 0) {
+            ws.send(JSON.stringify({
+                "type": "setfrequency", "params": { "frequency": f, "key": key }
+            }));
+            UI.toggleScanner(false);
+        }
     }
 }
 
@@ -980,6 +986,10 @@ function on_ws_recv(evt) {
                             Utils.setVesselUrl(config['vessel_url']);
                         }
 
+                        if ('sonde_url' in config) {
+                            Utils.setSondeUrl(config['sonde_url']);
+                        }
+
                         // Load user interface settings from local storage
                         UI.loadSettings();
                         Chat.loadSettings();
@@ -1007,6 +1017,14 @@ function on_ws_recv(evt) {
                         break;
                     case "temperature":
                         $('#openwebrx-bar-server-cpu').progressbar().setTemp(json['value']);
+                        break;
+                    case "battery":
+                        $('#openwebrx-bar-battery').progressbar().setBattery(json['value']);
+                        if (!battery_shown) {
+                            $('#openwebrx-bar-audio-speed').hide();
+                            $('#openwebrx-bar-battery').show();
+                            battery_shown = true;
+                        }
                         break;
                     case "clients":
                         $('#openwebrx-bar-clients').progressbar().setClients(json['value']);
@@ -1065,7 +1083,7 @@ function on_ws_recv(evt) {
                         break;
                     case 'secondary_demod':
                         var value = json['value'];
-                        var panels = ['wsjt', 'packet', 'pocsag', 'page', 'sstv', 'fax', 'ism', 'hfdl', 'adsb', 'dsc', 'cwskimmer'].map(function(id) {
+                        var panels = ['wsjt', 'packet', 'pocsag', 'page', 'sstv', 'fax', 'ism', 'hfdl', 'adsb', 'dsc', 'skimmer', 'meshtastic'].map(function(id) {
                             return $('#openwebrx-panel-' + id + '-message')[id + 'MessagePanel']();
                         });
                         panels.push($('#openwebrx-panel-js8-message').js8());
@@ -1205,7 +1223,7 @@ var mute = false;
 var audio_buffer_maximal_length_sec = 1; //actual number of samples are calculated from sample rate
 
 function onAudioStart(apiType){
-    divlog('Web Audio API succesfully initialized, using ' + apiType  + ' API, sample rate: ' + audioEngine.getSampleRate() + " Hz");
+    divlog('Web Audio API successfully initialized, using ' + apiType  + ' API, sample rate: ' + audioEngine.getSampleRate() + " Hz");
 
     hideOverlay();
 
@@ -1396,6 +1414,11 @@ function audioReporter(stats) {
 function openwebrx_init() {
     // Name used by map links to tune receiver
     frames.name = 'openwebrx-rx';
+
+    // Show Android app link when running on Android
+    if (/android/i.test(navigator.userAgent)) {
+        $('#openwebrx-get-android-app').show();
+    }
 
     audioEngine = new AudioEngine(audio_buffer_maximal_length_sec, audioReporter);
     var $overlay = $('#openwebrx-autoplay-overlay');
@@ -1659,7 +1682,7 @@ function secondary_demod_init() {
         .mousedown(secondary_demod_canvas_container_mousedown)
         .mouseenter(secondary_demod_canvas_container_mousein)
         .mouseleave(secondary_demod_canvas_container_mouseleave);
-    ['wsjt', 'packet', 'pocsag', 'page', 'sstv', 'fax', 'ism', 'hfdl', 'adsb', 'dsc', 'cwskimmer'].forEach(function(id){
+    ['wsjt', 'packet', 'pocsag', 'page', 'sstv', 'fax', 'ism', 'hfdl', 'adsb', 'dsc', 'skimmer', 'meshtastic'].forEach(function(id){
         $('#openwebrx-panel-' + id + '-message')[id + 'MessagePanel']();
     })
     $('#openwebrx-panel-js8-message').js8();

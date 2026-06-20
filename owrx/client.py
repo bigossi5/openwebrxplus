@@ -1,4 +1,5 @@
 from owrx.config import Config
+from owrx.config.core import CoreConfig
 from owrx.color import ColorCache
 from datetime import datetime, timedelta
 from ipaddress import ip_address
@@ -159,7 +160,7 @@ class ClientRegistry(object):
         self.reportChatMessage(client, text)
 
     # Relay external chat message to all connected clients.
-    def RelayChatMessage(self, name: str, text: str):
+    def relayChatMessage(self, name: str, text: str):
         for c in self.clients:
             c.write_chat_message(name, text, "#ccc")
 
@@ -170,10 +171,12 @@ class ClientRegistry(object):
 
     # Get client IP address from the handler.
     def getIp(self, handler):
+        trusted = CoreConfig().get_web_trusted_proxies()
         ip = handler.client_address[0]
-        # If address private and there is X-Forwarded-For header...
-        if ip_address(ip).is_private and hasattr(handler, "headers"):
-            if "x-forwarded-for" in handler.headers:
+        # Parse X-Forwarded-For header when incoming connection is
+        # from a local address or a trusted proxy
+        if ip_address(ip).is_private or (trusted is not None and ip in trusted):
+            if hasattr(handler, "headers") and "x-forwarded-for" in handler.headers:
                 ip = handler.headers['x-forwarded-for'].split(',')[0]
         # Done
         return ip

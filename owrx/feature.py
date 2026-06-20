@@ -57,7 +57,9 @@ class FeatureDetector(object):
         "rtl_sdr_soapy": ["soapy_connector", "soapy_rtl_sdr"],
         "rtl_tcp": ["rtl_tcp_connector"],
         "sdrplay": ["soapy_connector", "soapy_sdrplay"],
+        "elad": ["soapy_connector", "soapy_elad"],
         "mirics": ["soapy_connector", "soapy_mirics"],
+        "malahit_rr": ["soapy_connector", "soapy_malahit_rr"],
         "hackrf": ["soapy_connector", "soapy_hackrf"],
         "perseussdr": ["perseustest", "nmux"],
         "airspy": ["soapy_connector", "soapy_airspy"],
@@ -79,6 +81,7 @@ class FeatureDetector(object):
         # optional features and their requirements
         "digital_voice_digiham": ["digiham", "codecserver_ambe"],
         "digital_voice_freedv": ["freedv_rx"],
+        "digital_voice_rade": ["webrx_rade_decode"],
         "digital_voice_m17": ["m17_demod"],
         "wsjt-x": ["wsjtx"],
         "wsjt-x-2-3": ["wsjtx_2_3"],
@@ -95,6 +98,7 @@ class FeatureDetector(object):
         "hfdl": ["dumphfdl"],
         "vdl2": ["dumpvdl2"],
         "acars": ["acarsdec"],
+        "tetra": ["tetrarx"],
         "page": ["multimon"],
         "selcall": ["multimon"],
         "eas": ["multimon"],
@@ -106,7 +110,10 @@ class FeatureDetector(object):
         "hdradio": ["nrsc5"],
         "rigcontrol": ["hamlib"],
         "skimmer": ["csdr_skimmer"],
+        "sonde": ["sonde_rs"],
         "mp3": ["lame"],
+        "lora": ["lorarx"],
+        "meshtastic": ["lorarx", "py_meshtastic"],
     }
 
     def feature_availability(self):
@@ -351,6 +358,13 @@ class FeatureDetector(object):
         """
         return self._has_soapy_driver("sdrplay")
 
+    def has_soapy_elad(self):
+        """
+        The [SoapySDR module for ELAD](https://github.com/DisagioDigitale/SoapyELAD)
+        devices is required for interfacing with the ELAD FDM-S2 hardware.
+        """
+        return self._has_soapy_driver("elad")
+
     def has_soapy_mirics(self):
         """
         The [SoapySDR module for Mirics](https://github.com/ericek111/SoapyMiri)
@@ -360,6 +374,14 @@ class FeatureDetector(object):
         library.
         """
         return self._has_soapy_driver("soapyMiri")
+
+    def has_soapy_malahit_rr(self):
+        """
+        The [SoapySDR module for Malahit Remote Radio](https://github.com/luarvique/SoapyMalahitR1)
+        is required for interfacing with Malahit-R1 devices. You can install the
+        `soapysdr-module-malahit-rr` package from the OpenWebRX+ repositories.
+        """
+        return self._has_soapy_driver("malahitrr")
 
     def has_soapy_airspy(self):
         """
@@ -588,6 +610,17 @@ class FeatureDetector(object):
         """
         return self.command_is_runnable("freedv_rx")
 
+    def has_webrx_rade_decode(self):
+        """
+        The `webrx_rade_decode` executable is required to demodulate more
+        modern FreeDV RADE digital transmissions. To obtain it, you will
+        have to compile the
+        [RADAE Project](https://github.com/peterbmarks/radae_decoder)
+        from sources and then manually install the `tools/webrx_rade_decode`
+        executable.
+        """
+        return self.command_is_runnable("webrx_rade_decode")
+
     def has_dream(self):
         """
         OpenWebRX uses the [Dream](https://sourceforge.net/projects/drm/)
@@ -723,7 +756,7 @@ class FeatureDetector(object):
         """
         OpenWebRX supports decoding HFDL airplane communications by using the
         [DumpHFDL](https://github.com/szpajder/dumphfdl) decoder. You can
-        install the `dumphfdl` package from the OpenWebRX repositories.
+        install the `dumphfdl` package from the OpenWebRX+ repositories.
         """
         return self.command_is_runnable("dumphfdl --version")
 
@@ -731,7 +764,7 @@ class FeatureDetector(object):
         """
         OpenWebRX supports decoding VDL Mode 2 airplane communications by using the
         [DumpVDL2](https://github.com/szpajder/dumpvdl2) decoder. You can
-        install the `dumpvdl2` package from the OpenWebRX repositories.
+        install the `dumpvdl2` package from the OpenWebRX+ repositories.
         """
         return self.command_is_runnable("dumpvdl2 --version")
 
@@ -788,7 +821,7 @@ class FeatureDetector(object):
             return False
 
     def _has_acarsdec_version(self, required_version):
-        acarsdec_version_regex = re.compile(r"^Acarsdec\s+v?(\S+)\s+")
+        acarsdec_version_regex = re.compile(r"^Acarsdec\S*\s+v?(\S+)\s+Copyright")
         try:
             process = subprocess.Popen(["acarsdec"], stderr=subprocess.PIPE)
             matches = None
@@ -808,8 +841,8 @@ class FeatureDetector(object):
     def has_acarsdec(self):
         """
         OpenWebRX supports decoding ACARS airplane communications by using the
-        [AcarsDec](https://github.com/TLeconte/acarsdec) decoder. You can
-        install the `acarsdec` package from the OpenWebRX repositories.
+        [AcarsDec](https://github.com/f00b4r0/acarsdec) decoder. You can
+        install the `acarsdec` package from the OpenWebRX+ repositories.
         """
         return self._has_acarsdec_version(LooseVersion("4"))
 
@@ -825,8 +858,8 @@ class FeatureDetector(object):
         """
         OpenWebRX supports decoding FLEX, POCSAG, and several other digital modes
         by using the [MultiMon-NG](https://github.com/EliasOenal/multimon-ng)
-        decoder suite. The `multimon-ng` package is available in most Linux
-        distributions.
+        decoder suite. You can install the `multimon-ng` package from the
+        OpenWebRX+ repositories.
         """
         return self.command_is_runnable("multimon-ng --help")
 
@@ -863,6 +896,34 @@ class FeatureDetector(object):
         """
         return self.command_is_runnable("csdr-rttyskimmer -h")
 
+    def has_sonde_rs(self):
+        """
+        OpenWebRX uses Zilog decoders in [Project Horus](https://github.com/projecthorus/radiosonde_auto_rx)
+        to decode radiosonde data. You can install the
+        `sonde-decoders` package from the OpenWebRX+ repositories.
+        """
+        return self.command_is_runnable("rs41mod -h")
+
+    def has_lorarx(self):
+        """
+        OpenWebRX uses the LoraRX decoder from the [dxlAPRS](http://oe5dxl.hamspirit.at:8025/aprs/c/)
+        project to decode LoRa data. You can install the
+        `dxlaprs-lora` package from the OpenWebRX+ repositories.
+        """
+        return self.command_is_runnable("lorarx -h")
+
+    def has_py_meshtastic(self):
+        """
+        OpenWebRX uses [Meshtastic](https://pypi.org/project/meshtastic/) Python library
+        to decode Meshtastic traffic. You can install the
+        `python3-meshtastic` package from the OpenWebRX+ repositories.
+        """
+        try:
+            from meshtastic import OUR_APP_VERSION
+            return True
+        except ImportError:
+            return False
+
     def has_lame(self):
         """
         OpenWebRX uses the [LAME](https://lame.sourceforge.io/) tool
@@ -878,3 +939,12 @@ class FeatureDetector(object):
         from the OpenWebRX repositories.
         """
         return os.path.isdir("/usr/share/aprs-symbols")
+
+    def has_tetrarx(self):
+        """
+        OpenWebRX uses TetraRX decoder from the [dxlAPRS](http://oe5dxl.hamspirit.at:8025/aprs/c)
+        project to decode TETRA signals. Compile and install it by placing
+        the `tetrarx` binary in your PATH (e.g. /usr/local/bin).
+        """
+        return self.command_is_runnable("tetrarx -h")
+

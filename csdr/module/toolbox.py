@@ -3,6 +3,7 @@ from pycsdr.types import Format
 from csdr.module import PopenModule
 from owrx.config import Config
 
+
 class Rtl433Module(ExecModule):
     def __init__(self, sampleRate: int = 250000, jsonOutput: bool = False):
         cmd = [
@@ -10,8 +11,10 @@ class Rtl433Module(ExecModule):
             "-M", "time:unix" if jsonOutput else "time:utc",
             "-F", "json" if jsonOutput else "kv",
             "-A", "-Y", "autolevel",
-            # "-M", "level",
         ]
+        pm = Config.get()
+        if pm["ism_report_levels"]:
+            cmd += ["-M", "level"]
         super().__init__(Format.COMPLEX_FLOAT, Format.CHAR, cmd)
 
 
@@ -58,13 +61,13 @@ class WavFileModule(PopenModule):
 
 
 class CwSkimmerModule(ExecModule):
-    def __init__(self, sampleRate: int = 48000, charCount: int = 4):
+    def __init__(self, sampleRate: int = 96000, charCount: int = 4):
         cmd = ["csdr-cwskimmer", "-f", "-r", str(sampleRate), "-n", str(charCount)]
         super().__init__(Format.FLOAT, Format.CHAR, cmd)
 
 
 class RttySkimmerModule(ExecModule):
-    def __init__(self, sampleRate: int = 48000, charCount: int = 4):
+    def __init__(self, sampleRate: int = 96000, charCount: int = 4):
         cmd = ["csdr-rttyskimmer", "-f", "-r", str(sampleRate), "-n", str(charCount)]
         super().__init__(Format.FLOAT, Format.CHAR, cmd)
 
@@ -99,6 +102,6 @@ class LameModule(ExecModule):
     def __init__(self, sampleRate: int = 24000):
         cmd = [
             "lame", "-r", "-m", "m", "--signed", "--bitwidth", "16",
-            "-s", str(sampleRate / 1000), "-", "-"
+            "-s", str(sampleRate / 1000), "-b", "128", "-", "-"
         ]
         super().__init__(Format.SHORT, Format.CHAR, cmd)
