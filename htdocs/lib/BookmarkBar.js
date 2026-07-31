@@ -23,7 +23,9 @@ function BookmarkBar() {
     me.$container.on('click', '.action[data-action=delete]', function(e){
         e.stopPropagation();
         var $bookmark = $(e.target).closest('.bookmark');
-        me.localBookmarks.deleteBookmark($bookmark.data());
+        var data = $bookmark.data();
+        if (!confirm('Delete bookmark "' + data.name + '"?')) return;
+        me.localBookmarks.deleteBookmark(data);
         me.loadLocalBookmarks();
     });
 
@@ -46,6 +48,7 @@ function BookmarkBar() {
     me.$dialog.find('.openwebrx-button[data-action=cancel]').click(function(){
         me.$dialog.hide();
     });
+    me.$dialogError = me.$dialog.find('#bookmark-error');
     me.$dialog.find('.openwebrx-button[data-action=submit]').click(function(){
         me.storeBookmark();
     });
@@ -161,6 +164,7 @@ BookmarkBar.prototype.showEditDialog = function(bookmark) {
             scannable   : this.modesToScan.indexOf(mode1) >= 0
         }
     }
+    this.$dialogError.hide().text('');
     this.$dialog.bookmarkDialog().setValues(bookmark);
     this.$dialog.show();
     this.$dialog.find('#name').focus();
@@ -200,7 +204,8 @@ BookmarkBar.prototype.storeBookmark = function() {
     if (!bookmark) return;
 
     var error = this.sanitizeBookmark(bookmark);
-    if (error) { alert(error); return; }
+    if (error) { this.$dialogError.text(error).show(); return; }
+    this.$dialogError.hide().text('');
 
     var bookmarks = me.localBookmarks.getBookmarks();
 

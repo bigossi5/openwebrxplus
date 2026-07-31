@@ -18,7 +18,8 @@ ${header}
         <input class="form-control form-control-sm" id="broadcast-text" placeholder="Message to broadcast to all clients" type="text" />
     </div>
     <div style="text-align:right;margin:10px 0 30px 0;">
-        <button type="button" class="btn btn-sm btn-danger" id="broadcast-send">send</button>
+        <span id="broadcast-status" class="mr-3"></span>
+        <button type="button" class="btn btn-sm btn-primary" id="broadcast-send">send</button>
     </div>
     <div class="row client-list">
         ${clients}

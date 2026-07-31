@@ -2,7 +2,7 @@ from owrx.wifi import WiFi
 from owrx.controllers.settings import SettingsFormController
 from owrx.form.section import Section
 from owrx.form.input.wifi import WifiSsidValidator, WifiPassValidator
-from owrx.form.input import CheckboxInput, TextInput
+from owrx.form.input import CheckboxInput, TextInput, PasswordInput
 from owrx.breadcrumb import Breadcrumb, BreadcrumbItem
 from owrx.controllers.settings import SettingsBreadcrumb
 
@@ -24,31 +24,31 @@ class WifiSettingsController(SettingsFormController):
                 "Self-Hosted Access Point",
                 CheckboxInput("wifi_enable_ap", "Enable access point (192.168.10.1)"),
                 TextInput("wifi_name_ap", "SSID", validator=WifiSsidValidator()),
-                TextInput("wifi_pass_ap", "Password", validator=WifiPassValidator()),
+                PasswordInput("wifi_pass_ap", "Password", validator=WifiPassValidator()),
             ),
             Section(
                 "Connection 1",
                 CheckboxInput("wifi_enable_1", "Enable this connection"),
                 TextInput("wifi_name_1", "SSID", validator=WifiSsidValidator()),
-                TextInput("wifi_pass_1", "Password", validator=WifiPassValidator()),
+                PasswordInput("wifi_pass_1", "Password", validator=WifiPassValidator()),
             ),
             Section(
                 "Connection 2",
                 CheckboxInput("wifi_enable_2", "Enable this connection"),
                 TextInput("wifi_name_2", "SSID", validator=WifiSsidValidator()),
-                TextInput("wifi_pass_2", "Password", validator=WifiPassValidator()),
+                PasswordInput("wifi_pass_2", "Password", validator=WifiPassValidator()),
             ),
             Section(
                 "Connection 3",
                 CheckboxInput("wifi_enable_3", "Enable this connection"),
                 TextInput("wifi_name_3", "SSID", validator=WifiSsidValidator()),
-                TextInput("wifi_pass_3", "Password", validator=WifiPassValidator()),
+                PasswordInput("wifi_pass_3", "Password", validator=WifiPassValidator()),
             ),
             Section(
                 "Connection 4",
                 CheckboxInput("wifi_enable_4", "Enable this connection"),
                 TextInput("wifi_name_4", "SSID", validator=WifiSsidValidator()),
-                TextInput("wifi_pass_4", "Password", validator=WifiPassValidator()),
+                PasswordInput("wifi_pass_4", "Password", validator=WifiPassValidator()),
             ),
         ]
 
