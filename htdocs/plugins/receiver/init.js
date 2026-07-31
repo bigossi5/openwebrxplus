@@ -14,7 +14,7 @@ const rp_url = 'https://0xaf.github.io/openwebrxplus-plugins/receiver';
 Plugins.load(rp_url + '/utils/utils.js').then(async function () {
 	// to load local plugins use a plugin folder name directly
 	//Plugins.load('example');
-	//Plugins.load('band_alert');
+	Plugins.load('band_alert');
 
 	// otherwise, you can load the remote plugins like this:
 
