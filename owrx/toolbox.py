@@ -9,6 +9,9 @@ from datetime import datetime, timezone
 
 import json
 import re
+import os
+import time
+import threading
 
 import logging
 
@@ -35,6 +38,64 @@ class Mp3Recorder(ThreadModule, DataRecorder):
             else:
                 self.writeFile(data)
         self.closeFile()
+
+
+class AlertRecorder(Mp3Recorder):
+    """
+    Like Mp3Recorder, but treats each burst of squelch-gated audio as a
+    separate clip: an idle-timeout watchdog closes the file once the
+    signal disappears, and reports the completed clip via ReportingEngine
+    so it can be forwarded (e.g. to Discord) as a "signal_alert" spot.
+    """
+
+    def __init__(self, service: bool = False, maxBytes: int = 5 * 1024 * 1024):
+        super().__init__(service, maxBytes)
+        pm = Config.get()
+        self.idleTimeout = (pm["signal_alert_hang_time"] + 500) / 1000.0
+        self.minDuration = pm["signal_alert_min_duration"] / 1000.0
+        self.cooldown = pm["signal_alert_cooldown"]
+        self.timerLock = threading.Lock()
+        self.idleTimer = None
+        self.startTime = None
+        self.lastAlert = 0
+
+    def writeFile(self, data):
+        with self.timerLock:
+            if self.startTime is None:
+                self.startTime = time.time()
+            if self.idleTimer is not None:
+                self.idleTimer.cancel()
+            self.idleTimer = threading.Timer(self.idleTimeout, self._onIdle)
+            self.idleTimer.daemon = True
+            self.idleTimer.start()
+        super().writeFile(data)
+
+    def _onIdle(self):
+        with self.timerLock:
+            filePath = self.file.name if self.file is not None else None
+            duration = time.time() - self.startTime if self.startTime is not None else 0
+            self.startTime = None
+            self.idleTimer = None
+        self.closeFile()
+        if filePath is None or duration < self.minDuration:
+            if filePath is not None:
+                try:
+                    os.unlink(filePath)
+                except Exception:
+                    logger.debug("Could not delete short clip '%s'" % filePath)
+            return
+        now = time.time()
+        if now - self.lastAlert < self.cooldown:
+            return
+        self.lastAlert = now
+        ReportingEngine.getSharedInstance().spot({
+            "mode": "signal_alert",
+            "name": "Signal Alert",
+            "freq": self.frequency,
+            "timestamp": int(now * 1000),
+            "duration": duration,
+            "file": filePath,
+        })
 
 
 class TextParser(LineBasedModule, DataRecorder):

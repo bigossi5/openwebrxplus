@@ -2,7 +2,7 @@ from csdr.chain.demodulator import ServiceDemodulator, DialFrequencyReceiver
 from csdr.module.toolbox import Rtl433Module, MultimonModule, RedseaModule, CwSkimmerModule, RttySkimmerModule, LameModule
 from pycsdr.modules import Convert, Agc, FmDemod, RealPart, SnrSquelch
 from pycsdr.types import Format
-from owrx.toolbox import TextParser, PageParser, SelCallParser, EasParser, IsmParser, RdsParser, Mp3Recorder
+from owrx.toolbox import TextParser, PageParser, SelCallParser, EasParser, IsmParser, RdsParser, Mp3Recorder, AlertRecorder
 from owrx.skimmer import CwSkimmerParser, RttySkimmerParser
 from owrx.config import Config
 
@@ -177,6 +177,46 @@ class AudioRecorder(ServiceDemodulator, DialFrequencyReceiver):
         self.sampleRate = sampleRate
         self.recorder = Mp3Recorder(service)
         self.squelch = SnrSquelch(Format.FLOAT, 2048, 512, hangTime, 0, 1, produceSilence)
+        # Set recording squelch level
+        self.setSquelchLevel(squelchLevel)
+        workers = [
+            self.squelch,
+            Convert(Format.FLOAT, Format.SHORT),
+            LameModule(sampleRate),
+            self.recorder,
+        ]
+        # Connect all the workers
+        super().__init__(workers)
+
+    def _convertToLinear(self, db: float) -> float:
+        return float(math.pow(10, db / 10))
+
+    def setSquelchLevel(self, level: float) -> None:
+        self.squelch.setSquelchLevel(self._convertToLinear(level))
+
+    def getFixedAudioRate(self) -> int:
+        return self.sampleRate
+
+    def supportsSquelch(self) -> bool:
+        return True
+
+    def setDialFrequency(self, frequency: int) -> None:
+        # Not restarting LAME, it is ok to continue on a new file
+        self.recorder.setDialFrequency(frequency)
+
+
+class SignalAlertRecorder(ServiceDemodulator, DialFrequencyReceiver):
+    def __init__(self, sampleRate: int = 24000, service: bool = False):
+        # Get settings
+        pm = Config.get()
+        squelchLevel = pm["signal_alert_squelch"]
+        hangTime = int(sampleRate * pm["signal_alert_hang_time"] / 1000)
+        # Initialize state
+        self.sampleRate = sampleRate
+        self.recorder = AlertRecorder(service)
+        # Never produce silence: the alert relies on the gap in output to
+        # detect when activity stops.
+        self.squelch = SnrSquelch(Format.FLOAT, 2048, 512, hangTime, 0, 1, False)
         # Set recording squelch level
         self.setSquelchLevel(squelchLevel)
         workers = [

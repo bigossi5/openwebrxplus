@@ -211,6 +211,19 @@ class ReportingController(SettingsFormController):
                 ),
             ),
             Section(
+                "Discord alert settings",
+                CheckboxInput(
+                    "discord_enabled",
+                    "Enable sending signal alerts to Discord",
+                ),
+                TextInput(
+                    "discord_webhook_url",
+                    "Discord webhook URL",
+                    infotext="Webhook URL of the Discord channel to send signal alerts to",
+                    converter=OptionalConverter(),
+                ),
+            ),
+            Section(
                 "RigControl settings",
                 CheckboxInput(
                     "rig_enabled",

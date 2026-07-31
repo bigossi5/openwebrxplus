@@ -465,6 +465,16 @@ class Modes(object):
             service=True,
             squelch=True
         ),
+        # Detects signal activity in the background and reports it (with a
+        # short recorded clip) via the reporting engine, e.g. to Discord.
+        ServiceOnlyMode(
+            "signal_alert",
+            "Signal Alert",
+            underlying=["am", "usb", "lsb", "nfm", "sam", "cw"],
+            requirements=["mp3"],
+            service=True,
+            squelch=True
+        ),
         # SatDump-based weather satellite reception is not real-time
         # and thus only works as background services.
         ServiceOnlyMode(
