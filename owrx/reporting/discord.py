@@ -60,17 +60,47 @@ class Worker(threading.Thread):
         url = config["discord_webhook_url"]
         if not url:
             return
+        mode = spot.get("mode")
+        if mode == "signal_alert":
+            content = self._formatSignalAlert(spot)
+            filePath = spot.get("file")
+        elif mode == "CLIENT":
+            content = self._formatClientEvent(spot)
+            filePath = None
+        else:
+            return
+        if content is None:
+            return
+        body, contentType = _buildMultipart({"content": content}, filePath)
+        req = request.Request(url, data=body, method="POST")
+        req.add_header("Content-Type", contentType)
+        request.urlopen(req, timeout=30)
+
+    def _formatSignalAlert(self, spot):
         ts = datetime.fromtimestamp(spot["timestamp"] / 1000, tz=timezone.utc)
-        content = "\U0001F514 **{name}** — {freq:.4f} MHz\nDuration: {duration:.1f}s\n{time} UTC".format(
+        return "\U0001F514 **{name}** — {freq:.4f} MHz\nDuration: {duration:.1f}s\n{time} UTC".format(
             name=spot.get("name", "Signal Alert"),
             freq=spot["freq"] / 1e6,
             duration=spot.get("duration", 0),
             time=ts.strftime("%Y-%m-%d %H:%M:%S"),
         )
-        body, contentType = _buildMultipart({"content": content}, spot.get("file"))
-        req = request.Request(url, data=body, method="POST")
-        req.add_header("Content-Type", contentType)
-        request.urlopen(req, timeout=30)
+
+    def _formatClientEvent(self, spot):
+        state = spot.get("state")
+        ip = spot.get("ip", "?")
+        online = spot.get("clients")
+        suffix = " ({0} online)".format(online) if online is not None else ""
+        if state == "Connected":
+            return "\U0001F7E2 Client connected: `{0}`{1}".format(ip, suffix)
+        elif state == "Disconnected":
+            return "\U0001F534 Client disconnected: `{0}`{1}".format(ip, suffix)
+        elif state == "ChatMessage":
+            return "\U0001F4AC **{0}**: {1}".format(spot.get("name", "???"), spot.get("message", ""))
+        elif state == "Banned":
+            minutes = spot.get("minutes")
+            duration = " for {0} min".format(minutes) if minutes else ""
+            return "\U0001F6AB Banned `{0}`{1}".format(ip, duration)
+        return None
 
 
 class DiscordReporter(FilteredReporter):
@@ -99,4 +129,4 @@ class DiscordReporter(FilteredReporter):
             logger.warning("Discord Queue overflow, one spot lost")
 
     def getSupportedModes(self):
-        return ["signal_alert"]
+        return ["signal_alert", "CLIENT"]

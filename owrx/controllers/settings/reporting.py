@@ -141,18 +141,23 @@ class ReportingController(SettingsFormController):
                 ),
             ),
             Section(
+                "Client & radio event reporting",
+                CheckboxInput(
+                    "report_clients",
+                    "Report clients connecting, disconnecting, chatting and being banned "
+                    + "(feeds MQTT and Discord reporters; disable for public MQTT brokers!)",
+                ),
+                CheckboxInput(
+                    "report_radio",
+                    "Report server startup and SDR profile changes "
+                    + "(feeds MQTT and Discord reporters; disable for public MQTT brokers!)",
+                ),
+            ),
+            Section(
                 "MQTT settings",
                 CheckboxInput(
                     "mqtt_enabled",
                     "Enable publishing reports to MQTT",
-                ),
-                CheckboxInput(
-                    "report_clients",
-                    "Report clients connecting to the server (disable for public MQTT brokers!)",
-                ),
-                CheckboxInput(
-                    "report_radio",
-                    "Report server startup and SDR profile changes (disable for public MQTT brokers!)",
                 ),
                 TextInput(
                     "mqtt_host",

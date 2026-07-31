@@ -109,6 +109,21 @@ class ClientRegistry(object):
             })
             ReportingEngine.getSharedInstance().spot(data)
 
+    # Report a ban, by IP.
+    def reportBan(self, ip: str, minutes: int):
+        pm = Config.get()
+        if pm["report_clients"]:
+            from owrx.reporting import ReportingEngine
+            ReportingEngine.getSharedInstance().spot({
+                "mode"      : "CLIENT",
+                "state"     : "Banned",
+                "timestamp" : round(datetime.now().timestamp() * 1000),
+                "ip"        : ip,
+                "minutes"   : minutes,
+                "banned"    : True,
+                "clients"   : self.clientCount()
+            })
+
     # Report chat message from a client
     def reportChatMessage(self, client, text: str):
         name = self.chat[client]["name"] if client in self.chat else "???"
@@ -217,6 +232,7 @@ class ClientRegistry(object):
     def banIp(self, ip: str, minutes: int):
         self.expireBans()
         self.bans[ip] = datetime.now() + timedelta(minutes=minutes)
+        self.reportBan(ip, minutes)
         banned = []
         for c in self.clients:
             if ip == self.getIp(c.conn.handler):
