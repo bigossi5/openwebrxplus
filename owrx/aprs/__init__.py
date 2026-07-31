@@ -214,8 +214,8 @@ class AprsParser(PickleModule):
     def updateMap(mapData, band = None, timestamp = None):
         mode = mapData["mode"] if "mode" in mapData else "APRS"
         hops = AprsParser.getHops(mapData)
-        if "type" in mapData and mapData["type"] == "thirdparty" and "data" in mapData:
-            mapData = mapData["data"]
+        if "type" in mapData and mapData["type"] == "thirdparty" and "forwarded" in mapData:
+            mapData = mapData["forwarded"]
         if "lat" in mapData and "lon" in mapData:
             loc = AprsLocation(mapData)
             source = mapData["source"]
@@ -294,7 +294,8 @@ class AprsParser(PickleModule):
         aprsData = {
             "source": data["source"],
             "destination": data["destination"],
-            "path": data["path"]
+            "path": data["path"],
+            "data": information.decode(encoding, "replace")
         }
 
         if "raw" in data:
@@ -304,7 +305,7 @@ class AprsParser(PickleModule):
             aprsData.update(MicEParser().parse(data))
             return aprsData
 
-        information = information.decode(encoding, "replace")
+        information = aprsData["data"]
 
         # APRS data type identifier
         dti = information[0]
@@ -374,7 +375,7 @@ class AprsParser(PickleModule):
     def parseMessage(self, information):
         result = {"type": "message"}
         if len(information) > 9 and information[9] == ":":
-            result["adressee"] = information[0:9]
+            result["addressee"] = information[0:9].strip()
             message = information[10:]
             if len(message) > 3 and message[0:3] == "ack":
                 result["type"] = "messageacknowledgement"
@@ -403,7 +404,7 @@ class AprsParser(PickleModule):
                     "data": matches.group(6).encode(encoding),
                 }
             )
-            return {"type": "thirdparty", "data": data}
+            return {"type": "thirdparty", "forwarded": data}
 
         return {"type": "thirdparty"}
 

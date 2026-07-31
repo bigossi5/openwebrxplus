@@ -1,3 +1,24 @@
+**1.2.120**
+- Fixed reporting third party APRS packets.
+- Fixed reporting non-reportable APRS packets.
+- Fixed typo in APRS "adressee" name.
+- Stripped whitespace from APRS addressee.
+
+**1.2.119**
+- Added unencrypted P25 support (please test).
+- Added total spot metrics to CW/RTTY skimmers.
+- Switched to forked Digiham libraries with P25.
+- Removed online font dependency from Settings.
+- Removed discontinued CHU beacon.
+
+**1.2.118**
+- Added native APRS IGate reporter module.
+- Added option for legacy Direwold IGate.
+- Added bookmark search (right button on icon).
+- Added [Y] shortcut to search bookmarks.
+- Handled case when feature binary not executable.
+- Multiple APRS decoders can report to APRS-IS.
+
 **1.2.117**
 - Added unencrypted Tetra support [Yiannis Sam].
 - Added support for ELAD FDM-S2 [DisagioDigitale].

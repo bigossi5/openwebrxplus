@@ -988,6 +988,73 @@ TetraMetaPanel.prototype.clear = function() {
     this.el.find('.openwebrx-meta-slot').empty();
 };
 
+function P25MetaPanel(el) {
+    MetaPanel.call(this, el);
+    this.clear();
+}
+
+P25MetaPanel.prototype = new MetaPanel();
+
+P25MetaPanel.prototype.isSupported = function(data) {
+    return data.protocol === 'P25';
+};
+
+P25MetaPanel.prototype.setSource = function(source) {
+    if (this.source === source) return;
+    this.source = source;
+    this.el.find('.openwebrx-p25-source').text(source || '');
+};
+
+P25MetaPanel.prototype.setDestination = function(destination) {
+    if (this.destination === destination) return;
+    this.destination = destination;
+    this.el.find('.openwebrx-p25-destination').text(destination || '');
+};
+
+P25MetaPanel.prototype.setEncryption = function(encryption) {
+    if (this.encryption === encryption) return;
+    this.encryption = encryption;
+    this.el.find('.openwebrx-p25-encryption').text(encryption || '');
+};
+
+P25MetaPanel.prototype.setMode = function(mode) {
+    if (this.mode === mode) return;
+    this.mode = mode;
+    var classes = ['group', 'direct'].filter(function(c){
+        return c !== mode;
+    });
+    this.el.find('.openwebrx-meta-slot').removeClass(classes.join(' ')).addClass(mode);
+}
+
+P25MetaPanel.prototype.update = function(data) {
+    if (!this.isSupported(data)) return;
+
+    if (data.sync === 'voice') {
+        this.el.find('.openwebrx-meta-slot').addClass('active');
+
+        this.setSource(data.source);
+        this.setDestination(data.destination);
+        this.setMode(['group', 'direct'].includes(data.type) ? data.type : undefined);
+
+        if ((data.encryption === 'encrypted') && data.algid) {
+            var encryption = data.algorithm || ('ALGID=0x' + parseInt(data.algid).toString(16).toUpperCase());
+            this.setEncryption(encryption);
+        } else {
+            this.setEncryption();
+        }
+    } else {
+        this.clear();
+    }
+};
+
+P25MetaPanel.prototype.clear = function() {
+    MetaPanel.prototype.clear.call(this);
+    this.setMode();
+    this.setSource();
+    this.setDestination();
+    this.setEncryption();
+};
+
 MetaPanel.types = {
     dmr: DmrMetaPanel,
     ysf: YsfMetaPanel,
@@ -998,6 +1065,7 @@ MetaPanel.types = {
     dab: DabMetaPanel,
     hdr: HdrMetaPanel,
     drm: DrmMetaPanel,
+    p25: P25MetaPanel,
     tetra: TetraMetaPanel
 };
 
