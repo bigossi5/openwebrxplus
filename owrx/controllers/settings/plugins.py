@@ -62,8 +62,9 @@ class PluginManagerController(AuthorizationMixin, BreadcrumbMixin, WebpageContro
         """
         return """
             <div class="alert alert-info">
-                After enabling, disabling, installing, or uninstalling a plugin, restart OpenWebRX
-                (button below) for the change to take effect.
+                Enabling, disabling, installing, or uninstalling a plugin takes effect immediately
+                on the next page refresh (Ctrl+F5 if you don't see the change right away) &mdash; no
+                restart needed. The restart button below is only there for troubleshooting.
             </div>
             <ul class="list-group list-group-flush">
                 {plugins}

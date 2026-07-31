@@ -2,6 +2,8 @@ from owrx.storage import DataRecorder
 from owrx.config import Config
 from owrx.color import ColorCache
 from owrx.reporting import ReportingEngine
+from owrx.bands import Bandplan
+from owrx.alertcooldown import AlertCooldown
 from csdr.module import ThreadModule, LineBasedModule
 from pycsdr.types import Format
 from owrx.dsame3.dsame import same_decode_string
@@ -57,7 +59,6 @@ class AlertRecorder(Mp3Recorder):
         self.timerLock = threading.Lock()
         self.idleTimer = None
         self.startTime = None
-        self.lastAlert = 0
 
     def writeFile(self, data):
         with self.timerLock:
@@ -65,32 +66,48 @@ class AlertRecorder(Mp3Recorder):
                 self.startTime = time.time()
             if self.idleTimer is not None:
                 self.idleTimer.cancel()
-            self.idleTimer = threading.Timer(self.idleTimeout, self._onIdle)
+            self.idleTimer = threading.Timer(self.idleTimeout, self._onIdleTimer)
             self.idleTimer.daemon = True
             self.idleTimer.start()
-        super().writeFile(data)
+            # keep file writes serialized with idle-close/maxBytes-close to
+            # avoid racing the idle-timeout watchdog closing the same file
+            super().writeFile(data)
 
-    def _onIdle(self):
+    def _onIdleTimer(self):
         with self.timerLock:
-            filePath = self.file.name if self.file is not None else None
-            duration = time.time() - self.startTime if self.startTime is not None else 0
-            self.startTime = None
-            self.idleTimer = None
+            self._onIdleLocked()
+
+    def _discardClip(self, filePath):
+        if filePath is not None:
+            try:
+                os.unlink(filePath)
+            except Exception:
+                logger.debug("Could not delete clip '%s'" % filePath)
+
+    def _onIdleLocked(self):
+        filePath = self.file.name if self.file is not None else None
+        duration = time.time() - self.startTime if self.startTime is not None else 0
+        self.startTime = None
+        self.idleTimer = None
         self.closeFile()
+
         if filePath is None or duration < self.minDuration:
-            if filePath is not None:
-                try:
-                    os.unlink(filePath)
-                except Exception:
-                    logger.debug("Could not delete short clip '%s'" % filePath)
+            self._discardClip(filePath)
             return
+
         now = time.time()
-        if now - self.lastAlert < self.cooldown:
+        if not AlertCooldown.shouldAlert(self.frequency, self.cooldown, now):
+            # discard the clip rather than letting it linger and compete
+            # with legitimately-alerted recordings for the storage quota
+            self._discardClip(filePath)
             return
-        self.lastAlert = now
+
+        band = Bandplan.getSharedInstance().findBand(self.frequency)
+        name = band.getName() if band is not None else "Signal Alert"
+
         ReportingEngine.getSharedInstance().spot({
             "mode": "signal_alert",
-            "name": "Signal Alert",
+            "name": name,
             "freq": self.frequency,
             "timestamp": int(now * 1000),
             "duration": duration,

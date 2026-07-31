@@ -20,6 +20,10 @@ ALLOWED_EXTENSIONS = {".js", ".css", ".json", ".png", ".jpg", ".jpeg", ".gif", "
 
 NAME_PATTERN = re.compile(r"^[A-Za-z0-9_-]{1,64}$")
 
+# guards against zip bombs: this caps the *decompressed* size, independent of
+# the (much smaller) max upload size enforced on the compressed request body
+MAX_UNCOMPRESSED_SIZE = 20 * 1024 * 1024
+
 # Fixed remote plugins that ship as part of the default init.js, unrelated to
 # locally installed/managed plugins.
 REMOTE_PLUGIN_BASE_URL = "https://0xaf.github.io/openwebrxplus-plugins/receiver"
@@ -37,8 +41,9 @@ class PluginManager(object):
         return PluginManager.sharedInstance
 
     def __init__(self):
+        # wireProperty() immediately fires once with the current value, which
+        # already triggers the first regenerateInitJs() call
         Config.get().wireProperty("plugins_enabled", self._onEnabledChanged)
-        self.regenerateInitJs()
 
     def _onEnabledChanged(self, *args):
         self.regenerateInitJs()
@@ -92,38 +97,46 @@ class PluginManager(object):
             except zipfile.BadZipFile:
                 raise ValueError("Not a valid zip file")
 
-            entries = [i for i in zf.infolist() if i.filename and not i.filename.endswith("/")]
-            if not entries:
-                raise ValueError("Zip file is empty")
+            # always close the ZipFile handle before this function returns,
+            # otherwise its file descriptor keeps zipPath locked (breaks
+            # TemporaryDirectory cleanup on Windows, and is a leak everywhere)
+            with zf:
+                entries = [i for i in zf.infolist() if i.filename and not i.filename.endswith("/")]
+                if not entries:
+                    raise ValueError("Zip file is empty")
 
-            topLevels = set(e.filename.split("/")[0] for e in entries)
-            if len(topLevels) != 1:
-                raise ValueError("Zip must contain exactly one top-level plugin folder")
-            pluginName = next(iter(topLevels))
+                totalUncompressed = sum(e.file_size for e in entries)
+                if totalUncompressed > MAX_UNCOMPRESSED_SIZE:
+                    raise ValueError("Package too large when uncompressed")
 
-            if not NAME_PATTERN.match(pluginName):
-                raise ValueError("Invalid plugin folder name: " + pluginName)
-            if pluginName in RESERVED_NAMES:
-                raise ValueError("'{}' is a reserved name".format(pluginName))
+                topLevels = set(e.filename.split("/")[0] for e in entries)
+                if len(topLevels) != 1:
+                    raise ValueError("Zip must contain exactly one top-level plugin folder")
+                pluginName = next(iter(topLevels))
 
-            extractRoot = os.path.join(tmp, "extract")
-            os.makedirs(extractRoot)
-            prefix = pluginName + "/"
+                if not NAME_PATTERN.match(pluginName):
+                    raise ValueError("Invalid plugin folder name: " + pluginName)
+                if pluginName in RESERVED_NAMES:
+                    raise ValueError("'{}' is a reserved name".format(pluginName))
 
-            for entry in entries:
-                name = entry.filename
-                norm = os.path.normpath(name)
-                if norm.startswith("..") or os.path.isabs(norm) or not name.startswith(prefix):
-                    raise ValueError("Unsafe path in zip: " + name)
-                ext = os.path.splitext(norm)[1].lower()
-                if ext not in ALLOWED_EXTENSIONS:
-                    raise ValueError("Disallowed file type in package: " + name)
-                target = os.path.join(extractRoot, norm)
-                if not os.path.abspath(target).startswith(os.path.abspath(extractRoot) + os.sep):
-                    raise ValueError("Unsafe path in zip: " + name)
-                os.makedirs(os.path.dirname(target), exist_ok=True)
-                with zf.open(entry) as src, open(target, "wb") as dst:
-                    shutil.copyfileobj(src, dst)
+                extractRoot = os.path.join(tmp, "extract")
+                os.makedirs(extractRoot)
+                prefix = pluginName + "/"
+
+                for entry in entries:
+                    name = entry.filename
+                    norm = os.path.normpath(name)
+                    if norm.startswith("..") or os.path.isabs(norm) or not name.startswith(prefix):
+                        raise ValueError("Unsafe path in zip: " + name)
+                    ext = os.path.splitext(norm)[1].lower()
+                    if ext not in ALLOWED_EXTENSIONS:
+                        raise ValueError("Disallowed file type in package: " + name)
+                    target = os.path.join(extractRoot, norm)
+                    if not os.path.abspath(target).startswith(os.path.abspath(extractRoot) + os.sep):
+                        raise ValueError("Unsafe path in zip: " + name)
+                    os.makedirs(os.path.dirname(target), exist_ok=True)
+                    with zf.open(entry) as src, open(target, "wb") as dst:
+                        shutil.copyfileobj(src, dst)
 
             jsPath = os.path.join(extractRoot, pluginName, pluginName + ".js")
             if not os.path.isfile(jsPath):

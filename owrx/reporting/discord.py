@@ -3,8 +3,10 @@ from owrx.config import Config
 from owrx.metrics import Metrics, CounterMetric
 from queue import Queue, Full
 from urllib import request
+from urllib.error import HTTPError
 from datetime import datetime, timezone
 import threading
+import time
 import json
 import os
 import uuid
@@ -50,12 +52,14 @@ class Worker(threading.Thread):
                 if spot is PoisonPill:
                     self.doRun = False
                 else:
-                    self.uploadSpot(spot)
-                    self.queue.task_done()
+                    try:
+                        self.uploadSpot(spot)
+                    finally:
+                        self.queue.task_done()
             except Exception:
                 logger.exception("Exception while sending Discord alert")
 
-    def uploadSpot(self, spot):
+    def uploadSpot(self, spot, retryOn429=True):
         config = Config.get()
         url = config["discord_webhook_url"]
         if not url:
@@ -77,7 +81,21 @@ class Worker(threading.Thread):
         # Discord's edge (Cloudflare) rejects the default "Python-urllib/x.y"
         # User-Agent with a 403, so we need to send something else.
         req.add_header("User-Agent", "OpenWebRXplus-DiscordReporter/1.0")
-        request.urlopen(req, timeout=30)
+        try:
+            request.urlopen(req, timeout=30)
+        except HTTPError as e:
+            if e.code == 429 and retryOn429:
+                # rate limited: wait as instructed (capped) and retry once
+                retryAfter = 1.0
+                try:
+                    retryAfter = min(float(e.headers.get("Retry-After", 1.0)), 30.0)
+                except (TypeError, ValueError):
+                    pass
+                logger.warning("Discord rate limit hit, retrying in %.1fs", retryAfter)
+                time.sleep(retryAfter)
+                self.uploadSpot(spot, retryOn429=False)
+            else:
+                raise
 
     def _formatSignalAlert(self, spot):
         ts = datetime.fromtimestamp(spot["timestamp"] / 1000, tz=timezone.utc)
