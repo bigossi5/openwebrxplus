@@ -61,6 +61,10 @@ class PluginManagerController(AuthorizationMixin, BreadcrumbMixin, WebpageContro
             <li class="list-group-item">No plugins installed yet. Upload a plugin package below.</li>
         """
         return """
+            <div class="alert alert-info">
+                After enabling, disabling, installing, or uninstalling a plugin, restart OpenWebRX
+                (button below) for the change to take effect.
+            </div>
             <ul class="list-group list-group-flush">
                 {plugins}
             </ul>
