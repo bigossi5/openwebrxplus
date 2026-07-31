@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>OpenWebRX+ Settings</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../static/favicon.ico" />
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/admin.css" />
+    <script src="../compiled/settings.js"></script>
+    <meta charset="utf-8">
+    <style>
+        #monaco-container {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+        }
+    </style>
+</head>
+<body>
+${header}
+<div class="container">
+    ${breadcrumb}
+    <div class="row">
+        <h1 class="col-12">JSON File Editor</h1>
+    </div>
+    <div class="row">
+        <div class="col-12">Select a file to edit. Files are loaded from <code>/etc/openwebrx/</code>.</div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-8">
+            <label for="file-selector">Select file:</label>
+            <select id="file-selector" class="form-control">
+                <option value="">-- Select a file --</option>
+                ${file_options}
+            </select>
+        </div>
+        <div class="col-4 d-flex align-items-end">
+            <button type="button" class="btn btn-danger" id="btn-restart">Restart OpenWebRX</button>
+            <span id="restart-status" class="ml-3"></span>
+        </div>
+    </div>
+    <div id="editor-section" style="display:none">
+        <div class="row mt-3">
+            <div class="col-12">
+                <div id="monaco-container"></div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" id="btn-save">Save</button>
+                <button type="button" class="btn btn-secondary ml-2" id="btn-reload">Reload from disk</button>
+                <span id="save-status" class="ml-3"></span>
+            </div>
+        </div>
+    </div>
+    ${breadcrumb}
+</div>
+
+<div class="modal" id="restartModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Please confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to restart OpenWebRX? All connected clients will be disconnected.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="btn-restart-confirm">Restart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var require = { paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs" } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/loader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/editor/editor.main.nls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.46.0/min/vs/editor/editor.main.js"></script>
+<script>
+    var editor = null;
+    var currentFile = null;
+
+    require(["vs/editor/editor.main"], function() {
+        editor = monaco.editor.create(document.getElementById("monaco-container"), {
+            value: "",
+            language: "json",
+            theme: "vs",
+            fontSize: 13,
+            minimap: { enabled: false },
+            automaticLayout: true,
+            scrollBeyondLastLine: false,
+            tabSize: 2,
+        });
+    });
+
+    function setStatus(id, msg, cls) {
+        var el = document.getElementById(id);
+        el.textContent = msg;
+        el.className = "ml-3 " + (cls || "");
+    }
+
+    function loadFile(rel) {
+        setStatus("save-status", "Loading...", "text-muted");
+        fetch("/settings/fileeditor/load?file=" + encodeURIComponent(rel))
+            .then(function(r) {
+                if (!r.ok) return r.text().then(function(t) { throw new Error(t); });
+                return r.text();
+            })
+            .then(function(t) {
+                if (editor) editor.setValue(t);
+                currentFile = rel;
+                document.getElementById("editor-section").style.display = "";
+                setStatus("save-status", "", "");
+            })
+            .catch(function(e) {
+                setStatus("save-status", "Error loading: " + e.message, "text-danger");
+            });
+    }
+
+    document.getElementById("file-selector").addEventListener("change", function() {
+        var rel = this.value;
+        if (rel) {
+            loadFile(rel);
+        } else {
+            document.getElementById("editor-section").style.display = "none";
+            if (editor) editor.setValue("");
+            currentFile = null;
+            setStatus("save-status", "", "");
+        }
+    });
+
+    document.getElementById("btn-save").addEventListener("click", function() {
+        if (!editor || !currentFile) return;
+        var content = editor.getValue();
+        try { JSON.parse(content); } catch(e) {
+            setStatus("save-status", "Invalid JSON: " + e.message, "text-danger");
+            return;
+        }
+        setStatus("save-status", "Saving...", "text-muted");
+        fetch("/settings/fileeditor/save?file=" + encodeURIComponent(currentFile), {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: content
+        }).then(function(r) {
+            if (r.ok) {
+                setStatus("save-status", "Saved successfully.", "text-success");
+            } else {
+                r.text().then(function(t) { setStatus("save-status", "Error: " + t, "text-danger"); });
+            }
+        }).catch(function(e) {
+            setStatus("save-status", "Error: " + e, "text-danger");
+        });
+    });
+
+    document.getElementById("btn-reload").addEventListener("click", function() {
+        if (currentFile) loadFile(currentFile);
+    });
+
+    document.getElementById("btn-restart").addEventListener("click", function() {
+        $("#restartModal").modal("show");
+    });
+
+    document.getElementById("btn-restart-confirm").addEventListener("click", function() {
+        $("#restartModal").modal("hide");
+        setStatus("restart-status", "Restarting...", "text-warning");
+        document.getElementById("btn-restart").disabled = true;
+        fetch("/settings/fileeditor/restart", { method: "POST" })
+            .then(function(r) {
+                if (r.ok) {
+                    setStatus("restart-status", "Restarted. Page will reload in 5s...", "text-success");
+                    setTimeout(function() { location.reload(); }, 5000);
+                } else {
+                    r.text().then(function(t) {
+                        setStatus("restart-status", "Error: " + t, "text-danger");
+                        document.getElementById("btn-restart").disabled = false;
+                    });
+                }
+            })
+            .catch(function(e) {
+                setStatus("restart-status", "Error: " + e, "text-danger");
+                document.getElementById("btn-restart").disabled = false;
+            });
+    });
+
+    document.addEventListener("keydown", function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+            e.preventDefault();
+            document.getElementById("btn-save").click();
+        }
+    });
+</script>
+</body>
+</html>

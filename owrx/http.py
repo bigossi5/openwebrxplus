@@ -22,6 +22,7 @@ from owrx.controllers.settings.reporting import ReportingController
 from owrx.controllers.settings.backgrounddecoding import BackgroundDecodingController
 from owrx.controllers.settings.decoding import DecodingSettingsController
 from owrx.controllers.settings.bookmarks import BookmarksController
+from owrx.controllers.settings.fileeditor import FileEditorController
 from owrx.controllers.session import SessionController
 from owrx.controllers.profile import ProfileController
 from owrx.controllers.imageupload import ImageUploadController
@@ -154,6 +155,14 @@ class Router(object):
             RegexRoute("^/settings/bookmarks/(.+)$", BookmarksController, method="POST", options={"action": "update"}),
             RegexRoute(
                 "^/settings/bookmarks/(.+)$", BookmarksController, method="DELETE", options={"action": "delete"}
+            ),
+            StaticRoute("/settings/fileeditor", FileEditorController),
+            StaticRoute("/settings/fileeditor/load", FileEditorController, options={"action": "load"}),
+            StaticRoute(
+                "/settings/fileeditor/save", FileEditorController, method="POST", options={"action": "save"}
+            ),
+            StaticRoute(
+                "/settings/fileeditor/restart", FileEditorController, method="POST", options={"action": "restart"}
             ),
             StaticRoute("/settings/reporting", ReportingController),
             StaticRoute(

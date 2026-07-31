@@ -8,6 +8,8 @@ OWRX_DATADIR="/var/lib/openwebrx"
 OWRX_USERS_FILE="${OWRX_DATADIR}/users.json"
 OWRX_SETTINGS_FILE="${OWRX_DATADIR}/settings.json"
 OWRX_BOOKMARKS_FILE="${OWRX_DATADIR}/bookmarks.json"
+OWRX_ETCDIR="/etc/openwebrx"
+OWRX_SUDOERS_FILE="/etc/sudoers.d/openwebrx-fileeditor-restart"
 
 case "$1" in
   configure|reconfigure)
@@ -39,6 +41,19 @@ case "$1" in
     if [ ! -e "${OWRX_BOOKMARKS_FILE}" ]; then
       touch "${OWRX_BOOKMARKS_FILE}"
       chown "${OWRX_USER}": "${OWRX_BOOKMARKS_FILE}"
+    fi
+
+    # let the built-in JSON File Editor (Settings -> JSON File Editor) write
+    # the bandplan/bookmarks.d config files without world-writable permissions
+    if [ -d "${OWRX_ETCDIR}" ]; then
+      find "${OWRX_ETCDIR}" -maxdepth 2 -name '*.json' -exec chown "${OWRX_USER}": {} \; -exec chmod 0644 {} \;
+    fi
+
+    # allow the JSON File Editor's "Restart" button to restart the service
+    # without exposing full root access
+    if [ ! -e "${OWRX_SUDOERS_FILE}" ]; then
+      echo "${OWRX_USER} ALL=(root) NOPASSWD: /bin/systemctl restart openwebrx" > "${OWRX_SUDOERS_FILE}"
+      chmod 0440 "${OWRX_SUDOERS_FILE}"
     fi
 
     db_get openwebrx/admin_user_password
