@@ -23,6 +23,7 @@ from owrx.controllers.settings.backgrounddecoding import BackgroundDecodingContr
 from owrx.controllers.settings.decoding import DecodingSettingsController
 from owrx.controllers.settings.bookmarks import BookmarksController
 from owrx.controllers.settings.fileeditor import FileEditorController
+from owrx.controllers.settings.plugins import PluginManagerController
 from owrx.controllers.session import SessionController
 from owrx.controllers.profile import ProfileController
 from owrx.controllers.imageupload import ImageUploadController
@@ -163,6 +164,19 @@ class Router(object):
             ),
             StaticRoute(
                 "/settings/fileeditor/restart", FileEditorController, method="POST", options={"action": "restart"}
+            ),
+            StaticRoute("/settings/plugins", PluginManagerController),
+            StaticRoute(
+                "/settings/plugins/upload", PluginManagerController, method="POST", options={"action": "upload"}
+            ),
+            RegexRoute(
+                "^/settings/plugins/enable/(.+)$", PluginManagerController, options={"action": "enable"}
+            ),
+            RegexRoute(
+                "^/settings/plugins/disable/(.+)$", PluginManagerController, options={"action": "disable"}
+            ),
+            RegexRoute(
+                "^/settings/plugins/uninstall/(.+)$", PluginManagerController, options={"action": "uninstall"}
             ),
             StaticRoute("/settings/reporting", ReportingController),
             StaticRoute(

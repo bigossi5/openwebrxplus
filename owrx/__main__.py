@@ -15,6 +15,7 @@ from owrx.feature import FeatureDetector
 from owrx.sdr import SdrService
 from socketserver import ThreadingMixIn
 from owrx.service import Services
+from owrx.pluginmanager import PluginManager
 from owrx.websocket import WebSocketConnection
 from owrx.reporting import ReportingEngine
 from owrx.version import openwebrx_version
@@ -155,6 +156,9 @@ Support and info:       https://groups.io/g/openwebrx
     SdrService.getAllSources()
 
     Services.start()
+
+    # Sync the receiver plugin loader (init.js) with the configured plugin list
+    PluginManager.getSharedInstance()
 
     # Instantiate and start GPS location updater
     GpsUpdater.init()

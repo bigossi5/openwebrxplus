@@ -456,6 +456,7 @@ defaultConfig = PropertyLayer(
     signal_alert_cooldown=30,
     discord_enabled=False,
     discord_webhook_url="",
+    plugins_enabled=["band_alert"],
     ssb_agc_profile="Fast",
     am_agc_profile="Slow",
     nfm_agc_profile="Slow",
