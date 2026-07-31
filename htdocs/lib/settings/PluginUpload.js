@@ -43,4 +43,29 @@ $(function () {
             $button.prop('disabled', false);
         };
     });
+
+    var $restartButton = $('#plugin-restart-button');
+    if (!$restartButton.length) return;
+
+    var $restartStatus = $('#plugin-restart-status');
+
+    $restartButton.click(function () {
+        $('#pluginRestartModal').modal('show');
+    });
+
+    $('#plugin-restart-confirm').click(function () {
+        $('#pluginRestartModal').modal('hide');
+        $restartStatus.text('Restarting...').removeClass('text-danger text-success').addClass('text-warning');
+        $restartButton.prop('disabled', true);
+        $.ajax({
+            url: $restartButton.data('restart-url'),
+            type: 'POST',
+        }).done(function () {
+            $restartStatus.text('Restarted. Page will reload in 5s...').removeClass('text-warning').addClass('text-success');
+            setTimeout(function () { location.reload(); }, 5000);
+        }).fail(function (xhr) {
+            $restartStatus.text('Error: ' + xhr.responseText).removeClass('text-warning').addClass('text-danger');
+            $restartButton.prop('disabled', false);
+        });
+    });
 });

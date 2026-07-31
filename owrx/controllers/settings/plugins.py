@@ -64,20 +64,47 @@ class PluginManagerController(AuthorizationMixin, BreadcrumbMixin, WebpageContro
             <ul class="list-group list-group-flush">
                 {plugins}
             </ul>
-            <div class="buttons container mt-3">
+            <div class="buttons container mt-3 d-flex align-items-center">
                 <input type="file" id="plugin-upload-input" accept=".zip" style="display:none" />
                 <button type="button" class="btn btn-success" id="plugin-upload-button">Upload plugin package...</button>
                 <span id="plugin-upload-status" class="ml-3"></span>
+                <button type="button" class="btn btn-danger ml-auto" id="plugin-restart-button"
+                        data-restart-url="{restart_url}">Restart OpenWebRX</button>
+                <span id="plugin-restart-status" class="ml-3"></span>
             </div>
         """.format(
-            plugins="".join(render_plugin(p) for p in plugins) if plugins else emptyText
+            plugins="".join(render_plugin(p) for p in plugins) if plugins else emptyText,
+            restart_url="{}settings/fileeditor/restart".format(self.get_document_root()),
         )
+
+    def render_restart_modal(self):
+        return """
+            <div class="modal" id="pluginRestartModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Please confirm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Do you really want to restart OpenWebRX? All connected clients will be disconnected.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" id="plugin-restart-confirm">Restart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        """
 
     def template_variables(self):
         variables = super().template_variables()
         variables["content"] = self.render_plugins()
         variables["title"] = "Plugins"
-        variables["modal"] = ""
+        variables["modal"] = self.render_restart_modal()
         variables["error"] = ""
         return variables
 
