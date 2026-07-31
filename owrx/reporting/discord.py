@@ -74,6 +74,9 @@ class Worker(threading.Thread):
         body, contentType = _buildMultipart({"content": content}, filePath)
         req = request.Request(url, data=body, method="POST")
         req.add_header("Content-Type", contentType)
+        # Discord's edge (Cloudflare) rejects the default "Python-urllib/x.y"
+        # User-Agent with a 403, so we need to send something else.
+        req.add_header("User-Agent", "OpenWebRXplus-DiscordReporter/1.0")
         request.urlopen(req, timeout=30)
 
     def _formatSignalAlert(self, spot):
