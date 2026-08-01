@@ -376,6 +376,15 @@ class GeneralSettingsController(SettingsFormController):
                 ),
             ),
             Section(
+                "Debugging",
+                CheckboxInput(
+                    "debug_enabled",
+                    "Debug",
+                    infotext="Enables verbose (DEBUG level) logging and shows the Server Logs page "
+                    + "under Settings",
+                ),
+            ),
+            Section(
                 "Change password for '{0}'".format(self.user.name),
                 PasswordInput(
                     "admin_pass_0",

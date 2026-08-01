@@ -21,6 +21,15 @@ class SettingsController(AuthorizationMixin, WebpageController):
         variables = super().template_variables()
         variables["clients"] = ClientController.renderClients()
         variables["services"] = ServiceController.renderServices()
+        variables["logs_button"] = (
+            """
+                <div class="col-4">
+                    <a class="btn btn-secondary" href="settings/logs">Server Logs</a>
+                </div>
+            """
+            if Config.get()["debug_enabled"]
+            else ""
+        )
         return variables
 
 

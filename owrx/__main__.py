@@ -16,6 +16,7 @@ from owrx.sdr import SdrService
 from socketserver import ThreadingMixIn
 from owrx.service import Services
 from owrx.pluginmanager import PluginManager
+from owrx.log import HistoryHandler, GLOBAL_LOGGER_NAME
 from owrx.websocket import WebSocketConnection
 from owrx.reporting import ReportingEngine
 from owrx.version import openwebrx_version
@@ -129,10 +130,22 @@ Support and info:       https://groups.io/g/openwebrx
     coreConfig = CoreConfig()
 
     # passed loglevel takes priority (used for the --debug argument)
-    logging.getLogger().setLevel(coreConfig.get_log_level() if loglevel is None else loglevel)
+    baseLogLevel = coreConfig.get_log_level() if loglevel is None else loglevel
+    logging.getLogger().setLevel(baseLogLevel)
+
+    # capture app-wide log history for the Settings -> Server Logs GUI page
+    if GLOBAL_LOGGER_NAME not in HistoryHandler.handlers:
+        HistoryHandler.handlers[GLOBAL_LOGGER_NAME] = HistoryHandler(maxRecords=1000)
+    logging.getLogger().addHandler(HistoryHandler.getHandler(GLOBAL_LOGGER_NAME))
 
     # config warmup
     Config.validateConfig()
+
+    # "Debug" toggle in General settings raises/lowers the effective log level at runtime
+    Config.get().wireProperty(
+        "debug_enabled",
+        lambda enabled: logging.getLogger().setLevel(logging.DEBUG if enabled else baseLogLevel),
+    )
 
     # Check for WiFi connection and become hotspot if none
     WiFi.getSharedInstance().startConnectionCheck(15)

@@ -191,6 +191,7 @@ class CompiledAssetsController(GzipMixin, ModificationAwareController):
             "lib/settings/MapInput.js",
             "lib/settings/ImageUpload.js",
             "lib/settings/PluginUpload.js",
+            "lib/settings/LogViewer.js",
             "lib/BookmarkLocalStorage.js",
             "lib/settings/BookmarkTable.js",
             "lib/settings/WsjtDecodingDepthsInput.js",

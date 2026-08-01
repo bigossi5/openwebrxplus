@@ -2,6 +2,10 @@ import threading
 import os
 from logging import Logger, Handler, LogRecord, Formatter
 
+# name under which the root-logger-wide history handler (used by the
+# Settings -> Server Logs GUI page) is registered
+GLOBAL_LOGGER_NAME = "global"
+
 
 class LogPipe(threading.Thread):
 

@@ -457,6 +457,7 @@ defaultConfig = PropertyLayer(
     discord_enabled=False,
     discord_webhook_url="",
     plugins_enabled=["band_alert"],
+    debug_enabled=False,
     ssb_agc_profile="Fast",
     am_agc_profile="Slow",
     nfm_agc_profile="Slow",
