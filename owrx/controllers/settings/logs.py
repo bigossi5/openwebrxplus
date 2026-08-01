@@ -22,6 +22,27 @@ class LogsController(AuthorizationMixin, BreadcrumbMixin, WebpageController):
         )
         return """
             {debug_hint}
+            <div class="row mb-2 align-items-center">
+                <div class="col-auto">
+                    <label for="log-refresh-interval" class="mb-0">Auto-refresh:</label>
+                </div>
+                <div class="col-auto">
+                    <select id="log-refresh-interval" class="form-control form-control-sm">
+                        <option value="0">Off</option>
+                        <option value="2000">Every 2s</option>
+                        <option value="5000">Every 5s</option>
+                        <option value="10000">Every 10s</option>
+                        <option value="30000">Every 30s</option>
+                        <option value="60000">Every 60s</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-sm btn-secondary" id="log-refresh-now">Refresh now</button>
+                </div>
+                <div class="col-auto">
+                    <span id="log-refresh-status" class="text-muted"></span>
+                </div>
+            </div>
             <div class="card mt-2">
                 <div class="card-header">Recent server log messages</div>
                 <div class="card-body">

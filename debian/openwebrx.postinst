@@ -49,6 +49,14 @@ case "$1" in
       find "${OWRX_ETCDIR}" -maxdepth 2 -name '*.json' -exec chown "${OWRX_USER}": {} \; -exec chmod 0644 {} \;
     fi
 
+    # let the Plugin Manager (Settings -> Plugins) install/uninstall plugins
+    # and regenerate init.js inside the installed package directory, which
+    # dpkg otherwise leaves owned by root (not writable by the service user)
+    OWRX_PLUGINSDIR="$(python3 -c 'import pkg_resources; print(pkg_resources.resource_filename("htdocs", "plugins/receiver"))' 2>/dev/null || true)"
+    if [ -n "${OWRX_PLUGINSDIR}" ] && [ -d "${OWRX_PLUGINSDIR}" ]; then
+      chown -R "${OWRX_USER}": "${OWRX_PLUGINSDIR}"
+    fi
+
     # allow the JSON File Editor's "Restart" button to restart the service
     # without exposing full root access
     if [ ! -e "${OWRX_SUDOERS_FILE}" ]; then
