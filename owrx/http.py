@@ -170,6 +170,13 @@ class Router(object):
             StaticRoute(
                 "/settings/plugins/upload", PluginManagerController, method="POST", options={"action": "upload"}
             ),
+            StaticRoute("/settings/plugins/catalog", PluginManagerController, options={"action": "catalog"}),
+            StaticRoute(
+                "/settings/plugins/installremote",
+                PluginManagerController,
+                method="POST",
+                options={"action": "installRemote"},
+            ),
             RegexRoute(
                 "^/settings/plugins/enable/(.+)$", PluginManagerController, options={"action": "enable"}
             ),

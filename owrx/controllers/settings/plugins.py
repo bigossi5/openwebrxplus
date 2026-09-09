@@ -72,10 +72,23 @@ class PluginManagerController(AuthorizationMixin, BreadcrumbMixin, WebpageContro
             <div class="buttons container mt-3 d-flex align-items-center">
                 <input type="file" id="plugin-upload-input" accept=".zip" style="display:none" />
                 <button type="button" class="btn btn-success" id="plugin-upload-button">Upload plugin package...</button>
+                <button type="button" class="btn btn-secondary ml-2" id="plugin-catalog-button">Browse plugin catalog...</button>
                 <span id="plugin-upload-status" class="ml-3"></span>
                 <button type="button" class="btn btn-danger ml-auto" id="plugin-restart-button"
                         data-restart-url="{restart_url}">Restart OpenWebRX</button>
                 <span id="plugin-restart-status" class="ml-3"></span>
+            </div>
+            <div id="plugin-catalog-section" style="display:none" class="mt-3">
+                <div class="card">
+                    <div class="card-header">
+                        Official plugin catalog
+                        <small class="text-muted">(openwebrxplus-plugins on GitHub)</small>
+                    </div>
+                    <div class="card-body">
+                        <div id="plugin-catalog-status" class="text-muted">Loading...</div>
+                        <ul class="list-group list-group-flush" id="plugin-catalog-list"></ul>
+                    </div>
+                </div>
             </div>
         """.format(
             plugins="".join(render_plugin(p) for p in plugins) if plugins else emptyText,
@@ -132,6 +145,35 @@ class PluginManagerController(AuthorizationMixin, BreadcrumbMixin, WebpageContro
             return
         except Exception as e:
             logger.exception("Error installing plugin")
+            self.send_json_response({"error": "Server error: " + str(e)}, code=500)
+            return
+        self.send_json_response({"name": name}, code=200)
+
+    def catalog(self):
+        try:
+            names = PluginManager.getSharedInstance().listRemotePlugins()
+        except ValueError as e:
+            self.send_json_response({"error": str(e)}, code=502)
+            return
+        installed = {p["name"] for p in PluginManager.getSharedInstance().listPlugins()}
+        self.send_json_response(
+            {"plugins": [{"name": n, "installed": n in installed} for n in names]}, code=200
+        )
+
+    def installRemote(self):
+        try:
+            data = json.loads((self.get_body() or b"{}").decode("utf-8"))
+            name = data.get("name", "")
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            self.send_json_response({"error": "Invalid request"}, code=400)
+            return
+        try:
+            name = PluginManager.getSharedInstance().installFromRemote(name)
+        except ValueError as e:
+            self.send_json_response({"error": str(e)}, code=400)
+            return
+        except Exception as e:
+            logger.exception("Error installing plugin from remote catalog")
             self.send_json_response({"error": "Server error: " + str(e)}, code=500)
             return
         self.send_json_response({"name": name}, code=200)

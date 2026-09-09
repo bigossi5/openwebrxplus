@@ -456,6 +456,7 @@ defaultConfig = PropertyLayer(
     signal_alert_cooldown=30,
     discord_enabled=False,
     discord_webhook_url="",
+    discord_speech_enabled=False,
     plugins_enabled=["band_alert"],
     debug_enabled=False,
     ssb_agc_profile="Fast",

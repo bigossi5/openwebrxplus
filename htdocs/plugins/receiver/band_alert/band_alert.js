@@ -5,61 +5,31 @@
  */
 
 Plugins.band_alert = {
-    _version: 1,
+    _version: 2,
     no_css: true,
 
     _rules: [],
     _checkInterval: null,
-    _panelVisible: false,
     _storageKey: 'owrx_band_alert_rules',
 
     init: function () {
         Plugins.band_alert._injectCSS();
         Plugins.band_alert._loadRules();
-        Plugins.band_alert._injectPanel();
+        Plugins.band_alert._injectToasts();
         Plugins.band_alert._startMonitor();
-        // Czekaj na pełną inicjalizację strony bez limitu prób
-        Plugins.band_alert._waitAndInjectButton();
+        Plugin.addButton('band_alert', '🔔 Alerts', Plugins.band_alert._toggleWindow);
         return true;
     },
 
-    _waitAndInjectButton: function () {
-        var panel = document.getElementById('openwebrx-panel-receiver');
-        if (!panel) {
-            setTimeout(Plugins.band_alert._waitAndInjectButton, 300);
-            return;
-        }
-        // Panel istnieje — wstaw przycisk
-        Plugins.band_alert._injectButton(panel);
-    },
-
-    _injectButton: function (panel) {
-        if (document.getElementById('ba-toggle-btn')) return; // już wstrzyknięty
-        var line = document.createElement('div');
-        line.className = 'openwebrx-panel-line';
-        line.style.cssText = 'padding: 4px 8px;';
-        var btn = document.createElement('button');
-        btn.id = 'ba-toggle-btn';
-        btn.textContent = '\uD83D\uDD14 Alerts';
-        btn.title = 'Band activity alerts';
-        btn.onclick = function () { Plugins.band_alert._togglePanel(); };
-        line.appendChild(btn);
-        panel.appendChild(line);
+    _toggleWindow: function () {
+        Plugin.addWindow('band_alert', 'Band Activity Alerts', Plugins.band_alert._buildContent());
+        Plugin.toggleWindow('band_alert');
+        Plugins.band_alert._renderRules();
+        Plugins.band_alert._updateNotifStatus();
     },
 
     _injectCSS: function () {
         var css = [
-            '#band-alert-panel {',
-            '  position: fixed; top: 60px; right: 10px; z-index: 9999;',
-            '  background: var(--color-panel, #2a2a2a);',
-            '  color: var(--color-text, #ddd);',
-            '  border: 1px solid var(--color-border, #555);',
-            '  border-radius: 4px; padding: 10px; width: 340px;',
-            '  box-shadow: 0 4px 12px rgba(0,0,0,0.6);',
-            '  font-size: 12px; display: none;',
-            '}',
-            '#band-alert-panel h3 { margin: 0 0 8px 0; font-size: 13px;',
-            '  border-bottom: 1px solid #555; padding-bottom: 4px; }',
             '#band-alert-rules { width: 100%; border-collapse: collapse; margin-bottom: 8px; }',
             '#band-alert-rules th { color: #aaa; font-weight: normal; font-size: 11px;',
             '  text-align: left; padding: 2px 4px; }',
@@ -67,7 +37,7 @@ Plugins.band_alert = {
             '#band-alert-rules tr:hover td { background: rgba(255,255,255,0.05); }',
             '.ba-del { cursor: pointer; color: #e74c3c; font-weight: bold; padding: 0 4px; }',
             '.ba-del:hover { color: #ff6b6b; }',
-            '#band-alert-add { background: #2c3e50; border: 1px solid #555;',
+            '#band-alert-add { background: rgba(0,0,0,0.2); border: 1px solid #555;',
             '  border-radius: 3px; padding: 6px 4px; width: 100%; margin-top: 4px; }',
             '#band-alert-add input {',
             '  background: #1a1a1a; border: 1px solid #555; color: #ddd;',
@@ -78,8 +48,6 @@ Plugins.band_alert = {
             '  background: #3498db; color: #fff; border: none; border-radius: 3px;',
             '  padding: 3px 8px; font-size: 11px; margin-left: 4px; }',
             '.ba-btn:hover { background: #2980b9; }',
-            '.ba-btn.red { background: #e74c3c; }',
-            '.ba-btn.red:hover { background: #c0392b; }',
             '#band-alert-toasts { position: fixed; bottom: 20px; right: 20px;',
             '  z-index: 10000; display: flex; flex-direction: column; gap: 8px; }',
             '.ba-toast { background: #2c3e50; color: #fff;',
@@ -92,21 +60,20 @@ Plugins.band_alert = {
             '@keyframes ba-slide-in {',
             '  from { opacity:0; transform:translateX(40px); }',
             '  to   { opacity:1; transform:translateX(0); } }',
-            '#ba-toggle-btn { cursor: pointer; font-size: 11px;',
-            '  background: #e74c3c; color: #fff; border: none;',
-            '  border-radius: 3px; padding: 3px 10px; }',
-            '#ba-toggle-btn:hover { background: #c0392b; }',
         ].join('\n');
         var style = document.createElement('style');
         style.textContent = css;
         document.head.appendChild(style);
     },
 
-    _injectPanel: function () {
-        var panel = document.createElement('div');
-        panel.id = 'band-alert-panel';
-        panel.innerHTML = [
-            '<h3>\uD83D\uDD14 Band Activity Alerts</h3>',
+    _injectToasts: function () {
+        var toasts = document.createElement('div');
+        toasts.id = 'band-alert-toasts';
+        document.body.appendChild(toasts);
+    },
+
+    _buildContent: function () {
+        return [
             '<table id="band-alert-rules">',
             '  <thead><tr>',
             '    <th>Name</th><th>From MHz</th><th>To MHz</th>',
@@ -127,25 +94,8 @@ Plugins.band_alert = {
             '  <span style="color:#aaa;font-size:11px;">Browser notifications:</span>',
             '  <span class="ba-btn" onclick="Plugins.band_alert._requestNotifPerm()">Enable</span>',
             '  <span id="ba-notif-status" style="font-size:11px;color:#aaa;"></span>',
-            '  <span class="ba-btn red" style="margin-left:auto"',
-            '    onclick="Plugins.band_alert._togglePanel()">Close</span>',
             '</div>',
         ].join('');
-        document.body.appendChild(panel);
-
-        var toasts = document.createElement('div');
-        toasts.id = 'band-alert-toasts';
-        document.body.appendChild(toasts);
-
-        Plugins.band_alert._updateNotifStatus();
-    },
-
-    _togglePanel: function () {
-        var panel = document.getElementById('band-alert-panel');
-        if (!panel) return;
-        Plugins.band_alert._panelVisible = !Plugins.band_alert._panelVisible;
-        panel.style.display = Plugins.band_alert._panelVisible ? 'block' : 'none';
-        if (Plugins.band_alert._panelVisible) Plugins.band_alert._renderRules();
     },
 
     _loadRules: function () {
@@ -246,11 +196,11 @@ Plugins.band_alert = {
     },
 
     _alert: function (rule, level) {
-        var range = (rule.freqLow/1e6).toFixed(3) + ' \u2013 ' + (rule.freqHigh/1e6).toFixed(3) + ' MHz';
+        var range = (rule.freqLow/1e6).toFixed(3) + ' – ' + (rule.freqHigh/1e6).toFixed(3) + ' MHz';
         var msg   = 'Level: ' + level.toFixed(1) + ' dB';
         Plugins.band_alert._showToast(rule.name, msg, range);
         if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-            new Notification('\uD83D\uDD14 ' + rule.name + ' \u2013 Band Activity', {
+            new Notification('🔔 ' + rule.name + ' – Band Activity', {
                 body: range + '\n' + msg,
                 icon: 'static/favicon.ico',
                 tag:  'band_alert_' + rule.name,
@@ -264,7 +214,7 @@ Plugins.band_alert = {
         if (!container) return;
         var toast = document.createElement('div');
         toast.className = 'ba-toast';
-        toast.innerHTML = '<div class="ba-toast-title">\uD83D\uDD14 ' + title + '</div>' +
+        toast.innerHTML = '<div class="ba-toast-title">🔔 ' + title + '</div>' +
                           '<div class="ba-toast-body">' + msg + '<br>' + sub + '</div>';
         toast.onclick = function () { toast.remove(); };
         container.appendChild(toast);
@@ -302,9 +252,9 @@ Plugins.band_alert = {
         if (typeof Notification === 'undefined') {
             el.textContent = 'not supported';
         } else if (Notification.permission === 'granted') {
-            el.textContent = '\u2714 enabled'; el.style.color = '#2ecc71';
+            el.textContent = '✔ enabled'; el.style.color = '#2ecc71';
         } else if (Notification.permission === 'denied') {
-            el.textContent = '\u2718 blocked'; el.style.color = '#e74c3c';
+            el.textContent = '✘ blocked'; el.style.color = '#e74c3c';
         } else {
             el.textContent = 'not yet granted';
         }

@@ -231,6 +231,12 @@ class ReportingController(SettingsFormController):
                     infotext="Webhook URL of the Discord channel to send signal alerts to",
                     converter=OptionalConverter(),
                 ),
+                CheckboxInput(
+                    "discord_speech_enabled",
+                    "Forward speech-to-text transcriptions to Discord",
+                    infotext="Requires the \"speech\" background decoding service to be enabled; "
+                    + "posts every transcribed utterance to the webhook above",
+                ),
             ),
             Section(
                 "RigControl settings",

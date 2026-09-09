@@ -1,5 +1,6 @@
 from owrx.reporting.reporter import FilteredReporter
 from owrx.config import Config
+from owrx.bands import Bandplan
 from owrx.metrics import Metrics, CounterMetric
 from queue import Queue, Full
 from urllib import request
@@ -71,6 +72,11 @@ class Worker(threading.Thread):
         elif mode == "CLIENT":
             content = self._formatClientEvent(spot)
             filePath = None
+        elif mode == "SPEECH":
+            if not config["discord_speech_enabled"]:
+                return
+            content = self._formatSpeech(spot)
+            filePath = None
         else:
             return
         if content is None:
@@ -103,6 +109,17 @@ class Worker(threading.Thread):
             name=spot.get("name", "Signal Alert"),
             freq=spot["freq"] / 1e6,
             duration=spot.get("duration", 0),
+            time=ts.strftime("%Y-%m-%d %H:%M:%S"),
+        )
+
+    def _formatSpeech(self, spot):
+        band = Bandplan.getSharedInstance().findBand(spot["freq"])
+        name = band.getName() if band is not None else "Speech"
+        ts = datetime.fromtimestamp(spot["timestamp"] / 1000, tz=timezone.utc)
+        return "\U0001F3A4 **{name}** — {freq:.4f} MHz\n{text}\n{time} UTC".format(
+            name=name,
+            freq=spot["freq"] / 1e6,
+            text=spot.get("text", "").strip(),
             time=ts.strftime("%Y-%m-%d %H:%M:%S"),
         )
 
@@ -150,4 +167,4 @@ class DiscordReporter(FilteredReporter):
             logger.warning("Discord Queue overflow, one spot lost")
 
     def getSupportedModes(self):
-        return ["signal_alert", "CLIENT"]
+        return ["signal_alert", "CLIENT", "SPEECH"]

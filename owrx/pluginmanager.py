@@ -1,4 +1,6 @@
 from owrx.config import Config
+from urllib import request
+from urllib.error import HTTPError, URLError
 import importlib.resources
 import zipfile
 import tempfile
@@ -6,6 +8,7 @@ import shutil
 import json
 import os
 import re
+import time
 import threading
 
 import logging
@@ -28,6 +31,13 @@ MAX_UNCOMPRESSED_SIZE = 20 * 1024 * 1024
 # locally installed/managed plugins.
 REMOTE_PLUGIN_BASE_URL = "https://0xaf.github.io/openwebrxplus-plugins/receiver"
 
+# GitHub's content-listing API is used to enumerate the catalog since the
+# plugin repo publishes no machine-readable manifest of its own
+REMOTE_CATALOG_API = "https://api.github.com/repos/0xaf/openwebrxplus-plugins/contents/receiver"
+REMOTE_CATALOG_CACHE_SECONDS = 600
+REMOTE_FETCH_MAX_SIZE = 2 * 1024 * 1024
+USER_AGENT = "OpenWebRXplus-PluginManager/1.0"
+
 
 class PluginManager(object):
     sharedInstance = None
@@ -44,6 +54,8 @@ class PluginManager(object):
         # wireProperty() immediately fires once with the current value, which
         # already triggers the first regenerateInitJs() call
         Config.get().wireProperty("plugins_enabled", self._onEnabledChanged)
+        self._catalogCache = None
+        self._catalogCacheTime = 0
 
     def _onEnabledChanged(self, *args):
         self.regenerateInitJs()
@@ -159,6 +171,83 @@ class PluginManager(object):
         shutil.rmtree(full)
         self.setEnabled(name, False)
         logger.info("Uninstalled plugin '%s'", name)
+
+    def _fetchUrl(self, url: str, maxSize: int = REMOTE_FETCH_MAX_SIZE) -> bytes:
+        req = request.Request(url)
+        # GitHub's API (and its Cloudflare edge) rejects requests with no
+        # User-Agent header, same issue we hit with the Discord webhook
+        req.add_header("User-Agent", USER_AGENT)
+        with request.urlopen(req, timeout=15) as resp:
+            data = resp.read(maxSize + 1)
+            if len(data) > maxSize:
+                raise ValueError("Remote file exceeds the maximum allowed size")
+            return data
+
+    def listRemotePlugins(self, forceRefresh: bool = False):
+        now = time.time()
+        if not forceRefresh and self._catalogCache is not None and now - self._catalogCacheTime < REMOTE_CATALOG_CACHE_SECONDS:
+            return self._catalogCache
+        try:
+            data = self._fetchUrl(REMOTE_CATALOG_API)
+            entries = json.loads(data.decode("utf-8"))
+        except (HTTPError, URLError, ValueError, json.JSONDecodeError):
+            logger.exception("Could not fetch the remote plugin catalog")
+            raise ValueError("Could not reach the plugin catalog (check server internet access)")
+        names = sorted(
+            e["name"] for e in entries
+            if e.get("type") == "dir" and e.get("name") not in RESERVED_NAMES
+        )
+        self._catalogCache = names
+        self._catalogCacheTime = now
+        return names
+
+    def installFromRemote(self, name: str) -> str:
+        if not NAME_PATTERN.match(name):
+            raise ValueError("Invalid plugin name: " + name)
+        if name in RESERVED_NAMES:
+            raise ValueError("'{}' is a reserved name".format(name))
+
+        jsUrl = "{base}/{name}/{name}.js".format(base=REMOTE_PLUGIN_BASE_URL, name=name)
+        try:
+            jsData = self._fetchUrl(jsUrl)
+        except HTTPError as e:
+            if e.code == 404:
+                raise ValueError("Plugin not found in remote catalog: " + name)
+            raise ValueError("Could not download plugin: HTTP {}".format(e.code))
+        except URLError:
+            raise ValueError("Could not reach the plugin catalog (check server internet access)")
+
+        optionalFiles = {}
+        for ext in (".css",):
+            try:
+                optionalFiles[name + ext] = self._fetchUrl(
+                    "{base}/{name}/{name}{ext}".format(base=REMOTE_PLUGIN_BASE_URL, name=name, ext=ext)
+                )
+            except (HTTPError, URLError):
+                pass
+        try:
+            optionalFiles["plugin.json"] = self._fetchUrl(
+                "{base}/{name}/plugin.json".format(base=REMOTE_PLUGIN_BASE_URL, name=name)
+            )
+        except (HTTPError, URLError):
+            pass
+
+        with tempfile.TemporaryDirectory() as tmp:
+            stagingDir = os.path.join(tmp, name)
+            os.makedirs(stagingDir)
+            with open(os.path.join(stagingDir, name + ".js"), "wb") as f:
+                f.write(jsData)
+            for fname, fdata in optionalFiles.items():
+                with open(os.path.join(stagingDir, fname), "wb") as f:
+                    f.write(fdata)
+
+            dest = os.path.join(self._pluginsDir(), name)
+            if os.path.isdir(dest):
+                shutil.rmtree(dest)
+            shutil.move(stagingDir, dest)
+
+        logger.info("Installed plugin '%s' from remote catalog", name)
+        return name
 
     def setEnabled(self, name: str, enabled: bool):
         config = Config.get()
