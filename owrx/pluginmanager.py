@@ -1,5 +1,5 @@
 from owrx.config import Config
-import pkg_resources
+import importlib.resources
 import zipfile
 import tempfile
 import shutil
@@ -49,7 +49,7 @@ class PluginManager(object):
         self.regenerateInitJs()
 
     def _pluginsDir(self):
-        return pkg_resources.resource_filename("htdocs", "plugins/receiver")
+        return str(importlib.resources.files("htdocs").joinpath("plugins/receiver"))
 
     def _enabledSet(self):
         return set(Config.get()["plugins_enabled"])

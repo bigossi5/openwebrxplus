@@ -385,6 +385,9 @@ class ServiceHandler(SdrSourceEventClient):
         elif mod == "signal_alert":
             from csdr.chain.toolbox import SignalAlertRecorder
             return SignalAlertRecorder(service=True)
+        elif mod == "speech":
+            from csdr.chain.toolbox import AudioTranscriber
+            return AudioTranscriber(service=True)
         elif mod == "cwskimmer":
             from csdr.chain.toolbox import CwSkimmerDemodulator
             return CwSkimmerDemodulator(service=True)

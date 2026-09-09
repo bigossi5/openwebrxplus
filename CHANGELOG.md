@@ -1,3 +1,24 @@
+**1.2.123**
+- Added speech to text transcription using Whisper.
+- Added background service for speech to text.
+- Added reporting of transcribed speech via MQTT.
+- Added per-program HDRadio image handling [Taxom].
+- Added SX1255 Soapy driver [Circu1tI0N3rd].
+- Minor fixes to DireWolf APRS decoder [jeepmanct].
+- Migrated from pkg_resources [rhjdvsgsgks].
+- Improved SNR squelch implementation.
+- SnrSquelch now uses decibels for threshold.
+
+**1.2.122**
+- Added sharing Meshtastic data over MQTT.
+- Disabled Meshtastic parsers not available on Trixie.
+- Switched to the PLL-based AFC module for SAM.
+- Switched to Hann window everywhere.
+- Fixed number of digits in bookmark editor.
+- Fixed tuning with 8.33kHz airband step.
+- Fixed decoding of Scottie SSTV modes.
+- Improved SNR implementation.
+
 **1.2.121**
 - Now validating PskReporter spots.
 - More Yaesu/Kenwood APRS IDs [Geoffrey Phillips].

@@ -339,6 +339,14 @@ class Modes(object):
             squelch=False,
             secondaryFft=False
         ),
+        DigitalMode(
+            "speech",
+            "Speech Transcriber",
+            underlying=["am", "sam", "nfm", "wfm", "lsb", "usb"],
+            requirements=["speech"],
+            service=True,
+            squelch=True
+        ),
         # LoRa modes
         DigitalMode(
             "lora-wan",

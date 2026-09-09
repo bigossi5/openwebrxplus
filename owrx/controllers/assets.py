@@ -3,7 +3,7 @@ from owrx.config.core import CoreConfig
 from datetime import datetime, timezone
 import mimetypes
 import os
-import pkg_resources
+import importlib.resources
 from abc import ABCMeta, abstractmethod
 import gzip
 
@@ -100,7 +100,7 @@ class OwrxAssetsController(AssetsController):
                 user_file = "{}/{}.{}".format(config.get_data_directory(), mappedFiles[file], ext)
                 if os.path.exists(user_file) and os.path.isfile(user_file):
                     return user_file
-        return pkg_resources.resource_filename("htdocs", file)
+        return importlib.resources.files("htdocs").joinpath(file)
 
     def indexAction(self):
         filename = self.request.matches.group(1)
@@ -152,6 +152,7 @@ class CompiledAssetsController(GzipMixin, ModificationAwareController):
             "lib/Spectrum.js",
             "lib/Scanner.js",
             "lib/Lookup.js",
+            "lib/Plugin.js",
             "lib/Utils.js",
             "lib/Clock.js",
             "lib/Chat.js",
@@ -214,7 +215,7 @@ class CompiledAssetsController(GzipMixin, ModificationAwareController):
             return
 
         files = CompiledAssetsController.profiles[profileName]
-        files = [pkg_resources.resource_filename("htdocs", f) for f in files]
+        files = [importlib.resources.files("htdocs").joinpath(f) for f in files]
 
         modified = self.getModified(files)
 
