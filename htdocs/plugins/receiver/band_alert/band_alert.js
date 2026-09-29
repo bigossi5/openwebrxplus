@@ -17,13 +17,13 @@ Plugins.band_alert = {
         Plugins.band_alert._loadRules();
         Plugins.band_alert._injectToasts();
         Plugins.band_alert._startMonitor();
-        Plugin.addButton('band_alert', '🔔 Alerts', Plugins.band_alert._toggleWindow);
+        Plugins.addButton('band_alert', '🔔 Alerts', Plugins.band_alert._toggleWindow);
         return true;
     },
 
     _toggleWindow: function () {
-        Plugin.addWindow('band_alert', 'Band Activity Alerts', Plugins.band_alert._buildContent());
-        Plugin.toggleWindow('band_alert');
+        Plugins.addWindow('band_alert', 'Band Activity Alerts', Plugins.band_alert._buildContent());
+        Plugins.toggleWindow('band_alert');
         Plugins.band_alert._renderRules();
         Plugins.band_alert._updateNotifStatus();
     },
