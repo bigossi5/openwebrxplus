@@ -34,6 +34,7 @@ UI.loadSettings = function() {
     this.setTheme(LS.has('ui_theme')? LS.loadStr('ui_theme') : this.theme0);
     this.setOpacity(LS.has('ui_opacity')? LS.loadInt('ui_opacity') : 100);
     this.toggleOpacity(LS.has('ui_opacityBump')? LS.loadBool('ui_opacityBump') : false);
+    this.toggleCrossFreq(LS.has('ui_crossfreq')? LS.loadBool('ui_crossfreq') : false);
     this.toggleFrame(LS.has('ui_frame')? LS.loadBool('ui_frame') : false);
     this.toggleWheelSwap(LS.has('ui_wheel')? LS.loadBool('ui_wheel') : false);
     this.toggleSpectrum(LS.has('ui_spectrum')? LS.loadBool('ui_spectrum') : false);
@@ -458,6 +459,44 @@ UI.toggleFrame = function(on) {
     }
 };
 
+// Show or hide crosshair pointer with frequency
+UI.toggleCrossFreq = function(on) {
+    // Get current crosshair frequency display
+    var $freq = $('.webrx-cross-freq');
+
+    // If no argument given, toggle frame
+    if (typeof(on) === 'undefined') on = $freq.length == 0;
+
+    // If setting changed...
+    if (($freq.length > 0) != on) {
+        $('#openwebrx-crossfreq-checkbox').attr('checked', on);
+        LS.save('ui_crossfreq', on);
+
+        // Remove crosshair display when disabling
+        if (!on) {
+            $freq.remove();
+        } else {
+            $freq = $('<div class="webrx-cross-freq"></div>').appendTo('body');
+
+            $("#webrx-canvas-container").on("mousedown mouseleave", () => {
+                $freq.hide();
+            }).on('mousemove', (e) => {
+                // If mouse button pressed, it is dragging, cannot display
+                if (!e.buttons) {
+                    var x = get_relative_x(e) / canvas_container.clientWidth;
+                    x = center_freq + (bandwidth * x) - (bandwidth / 2);
+                    $freq.text(Utils.printFreq(Math.round(x)));
+                    $freq.show();
+                    $freq.css({
+                        'left': (e.pageX + 5) + 'px',
+                        'top': (e.pageY + 5) + 'px'
+                    });
+                }
+            });
+        }
+    }
+};
+
 // Get current mouse wheel function
 UI.getWheelSwap = function() {
     return this.wheelSwap;
@@ -483,7 +522,7 @@ UI.setOpacity = function(x) {
     if (this.opacity != x) {
         this.opacity = x;
         LS.save('ui_opacity', x);
-        $('.openwebrx-panel').css('opacity', x / 100);
+        $('.openwebrx-panel, .openwebrx-plugin-window').css('opacity', x / 100);
         $('#openwebrx-opacity-slider')
             .attr('title', 'Opacity (' + Math.round(x) + '%)')
             .val(x);
@@ -512,10 +551,10 @@ UI.toggleOpacity = function(on) {
 UI.bumpOpacity = function() {
     if (this.opacityBump && this.opBumped === null && this.opacity < 100) {
         // Bump opacity to 100%
-        $('.openwebrx-panel').css('opacity', 1);
+        $('.openwebrx-panel, .openwebrx-plugin-window').css('opacity', 1);
         // Return back to transparency after a while
         this.opBumped = setTimeout(function(that) {
-            $('.openwebrx-panel').css('opacity', that.opacity / 100);
+            $('.openwebrx-panel, .openwebrx-plugin-window').css('opacity', that.opacity / 100);
             that.opBumped = null;
         }, 3000, this);
     }
@@ -595,6 +634,10 @@ UI.wfThemes = {
     'eclipse' : [
         0x000020, 0x000030, 0x000050, 0x000091, 0x1E90FF, 0xFFFFFF, 0xFFFF00, 0xFE6D16,
         0xFF0000, 0xC60000, 0x9F0000, 0x750000, 0x4A0000
+    ],
+    'wave'    : [
+        0x020817, 0x061A38, 0x0B3B78, 0x0869B6, 0x1596D4, 0x7DD3ED, 0xF2F3E4, 0xF5D33A,
+        0xF58A24, 0xE93D2F, 0xA91428, 0xD91F2F, 0xFFE7C2
     ],
     'turbo'   : [
         0x30123B, 0x311542, 0x33184A, 0x341B51, 0x351E58, 0x36215F, 0x372466, 0x38266C,
