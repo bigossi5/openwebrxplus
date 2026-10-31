@@ -37,6 +37,7 @@ from abc import ABC, abstractmethod
 from http.cookies import SimpleCookie
 from datetime import datetime
 
+import ipaddress
 import posixpath
 import re
 import logging
@@ -46,7 +47,7 @@ logger.setLevel(logging.INFO)
 
 
 class Request(object):
-    def __init__(self, url, method, headers):
+    def __init__(self, url, method, headers, local):
         parsed_url = urlparse(url)
         self.path = parsed_url.path
         self.query = parse_qs(parsed_url.query)
@@ -54,6 +55,7 @@ class Request(object):
         self.method = method
         self.headers = headers
         self.cookies = SimpleCookie()
+        self.local = local;
         if "Cookie" in headers:
             self.cookies.load(headers["Cookie"])
 
@@ -264,4 +266,8 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.router.route(self, self._build_request("DELETE"))
 
     def _build_request(self, method):
-        return Request(self.path, method, self.headers)
+        try:
+            local = ipaddress.ip_address(self.address_string()).is_private
+        except Exception:
+            local = False
+        return Request(self.path, method, self.headers, local)

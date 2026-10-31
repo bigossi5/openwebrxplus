@@ -1,5 +1,17 @@
+**1.2.128**
+- Fixed Sondehub reporting [MidwestTechnologies].
+- Fixed UrlValidator [Wiktor Starzak].
+
+**1.2.127**
+- Added ability to ban clients forever.
+- Refactored and simplified Sondehub reporter.
+- Allowed empty URLs in the settings.
+- Fixed bandwidth units in LoRa config.
+- Improved SSTV decoding, reverting some changes.
+
 **1.2.126**
 - Added Evening Wave waterfall theme by Nikolay Akishin.
+- Added option to restrict logins to local network.
 - Added validation for URL settings.
 - Added validation for RigCtl device setting.
 - Added validation for FiFi SDR device setting.
