@@ -136,7 +136,13 @@ class Worker(threading.Thread):
             return "\U0001F4AC **{0}**: {1}".format(spot.get("name", "???"), spot.get("message", ""))
         elif state == "Banned":
             minutes = spot.get("minutes")
-            duration = " for {0} min".format(minutes) if minutes else ""
+            if not minutes:
+                duration = ""
+            elif minutes >= 1000000:
+                # the ban dialog's "forever" option (lasts until restart)
+                duration = " permanently (until restart)"
+            else:
+                duration = " for {0} min".format(minutes)
             return "\U0001F6AB Banned `{0}`{1}".format(ip, duration)
         return None
 
