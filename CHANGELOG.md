@@ -1,3 +1,31 @@
+**1.2.131**
+- Switched DRM and DAB decoders to stereo.
+- Greatly improved SSTV synchronization.
+- Fixed SSTV memory corruption after decoding PD290.
+- Fixed vulnerability in /imageupload.
+- Added screen wake lock (only HTTPS).
+- Optimized NR threshold changes.
+- Protected TX functionality with magic key.
+- Now closing connection when send() fails.
+- Now expiring cookies on /logout.
+- Strenghtened cookies security.
+- Muted Direwolf STDOUT log output [sq2mo].
+- Removed dependency on python3-pkg-resources.
+
+**1.2.130**
+- Fixed https:// playback issues via AudioProcessor.
+- Fixed ADPCM decoding second channel.
+
+**1.2.129**
+- Added stereo audio path for the client audio.
+- Added option to treat VIS=63 as ScottieDX not SC2-120.
+- Added direct IQ streaming mode using stereo path.
+- Added Broadcast FM (BCFM) stereo decoder [Csongor Dobre].
+- Made HDRadio (HDR) decoder produce stereo.
+- Fixed empty "antenna" value breaking soapy_connector.
+- Fixed precision loss in FractionalDecimator [Isaac Evans].
+- Fixed Sondehub reporting [MidwestTechnologies].
+
 **1.2.128**
 - Fixed Sondehub reporting [MidwestTechnologies].
 - Fixed UrlValidator [Wiktor Starzak].
