@@ -98,6 +98,9 @@ class Worker(threading.Thread):
         elif mode == "newcountry":
             content = self._formatNewCountry(spot)
             filePath = None
+        elif mode == "sonde_alert":
+            content = self._formatSondeAlert(spot)
+            filePath = None
         else:
             return
         if content is None:
@@ -193,6 +196,33 @@ class Worker(threading.Thread):
             text += " ({0})".format(spot["band"])
         return text
 
+    def _formatSondeAlert(self, spot):
+        serial = spot.get("serial", "?")
+        device = spot.get("device") or "sonde"
+        text = "\U0001F388 Radiosonde {device} **{serial}** is {dist:.1f} km away".format(
+            device=device, serial=serial, dist=spot.get("distance_km", 0)
+        )
+        details = []
+        if spot.get("altitude") is not None:
+            details.append("altitude {0:.0f} m".format(spot["altitude"]))
+        vspeed = spot.get("vspeed")
+        if vspeed is not None and vspeed < -1:
+            details.append("descending {0:.1f} m/s".format(-vspeed))
+        if details:
+            text += " ({0})".format(", ".join(details))
+        landing = spot.get("landing")
+        if spot.get("kind") == "landing" and landing:
+            text += "\nApproximate landing {0:.1f} km from the receiver (no wind correction)".format(
+                landing["distance_km"]
+            )
+            lat, lon = landing["lat"], landing["lon"]
+        else:
+            lat, lon = spot.get("lat"), spot.get("lon")
+        text += "\n<https://sondehub.org/{0}>".format(serial)
+        if lat is not None and lon is not None:
+            text += " <https://www.google.com/maps?q={0:.5f},{1:.5f}>".format(lat, lon)
+        return text
+
     def _formatClientEvent(self, spot):
         state = spot.get("state")
         ip = spot.get("ip", "?")
@@ -243,4 +273,4 @@ class DiscordReporter(FilteredReporter):
             logger.warning("Discord Queue overflow, one spot lost")
 
     def getSupportedModes(self):
-        return ["signal_alert", "CLIENT", "SPEECH", "IMAGE", "watchlist", "newcountry"]
+        return ["signal_alert", "CLIENT", "SPEECH", "IMAGE", "watchlist", "newcountry", "sonde_alert"]

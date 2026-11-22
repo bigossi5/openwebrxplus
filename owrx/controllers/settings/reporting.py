@@ -277,6 +277,29 @@ class ReportingController(SettingsFormController):
                 ),
             ),
             Section(
+                "Radiosonde alerts",
+                CheckboxInput(
+                    "sonde_alert_enabled",
+                    "Alert when a radiosonde is near the receiver",
+                    infotext="Alerts are sent to Discord, so the Discord settings above must be enabled and "
+                    + "configured. Landing points are approximate (no wind model).",
+                ),
+                NumberInput(
+                    "sonde_alert_radius_km",
+                    "Alert radius",
+                    append="km",
+                    validator=RangeValidator(5, 500),
+                    infotext="Alert when a sonde, or its estimated landing point, is within this distance of the receiver",
+                ),
+                NumberInput(
+                    "sonde_alert_cooldown_min",
+                    "Alert cooldown",
+                    append="min",
+                    validator=RangeValidator(1, 1440),
+                    infotext="Minimum time between alerts of the same kind for the same sonde",
+                ),
+            ),
+            Section(
                 "RigControl settings",
                 CheckboxInput(
                     "rig_enabled",
