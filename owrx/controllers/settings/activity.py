@@ -64,7 +64,7 @@ class ActivityController(AuthorizationMixin, BreadcrumbMixin, WebpageController)
         )
 
         def link(label, d, t, active):
-            return '<a class="btn btn-sm btn-{} mr-1" href="settings/activity?days={}&amp;tz={}">{}</a>'.format(
+            return '<a class="btn btn-sm btn-{} mr-1" href="activity?days={}&amp;tz={}">{}</a>'.format(
                 "primary" if active else "secondary", d, t, label
             )
 
@@ -114,7 +114,7 @@ class ActivityController(AuthorizationMixin, BreadcrumbMixin, WebpageController)
                 <div class="card-body">{table}{legend}</div>
             </div>
             <div class="mt-3">
-                <a class="btn btn-secondary" href="settings/activity/adif?days={days}">Export heard stations (ADIF)</a>
+                <a class="btn btn-secondary" href="activity/adif?days={days}">Export heard stations (ADIF)</a>
             </div>
         """.format(
             notice=notice,

@@ -111,7 +111,7 @@ class SatellitesController(AuthorizationMixin, BreadcrumbMixin, WebpageControlle
                 start. Background decoding (for example SSTV on 145.800 MHz for the ISS) only works if the profile
                 covers a suitable frequency and the decoder is enabled in the background decoding settings.
             </div>
-            <form method="POST" action="settings/satellites" id="satpass-form">
+            <form method="POST" action="satellites" id="satpass-form">
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="satpass-enabled" name="enabled" value="1"{checked}>
                     <label class="form-check-label" for="satpass-enabled">Enable satellite pass scheduling</label>
