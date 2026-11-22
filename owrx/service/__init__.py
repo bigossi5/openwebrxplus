@@ -29,10 +29,11 @@ class ServiceHandler(SdrSourceEventClient):
         self.startupTimer = None
         self.activitySub = None
         self.running = False
-        props = self.source.getProps()
-        self.enabledSub = props.wireProperty("services", self._receiveEvent)
+        # wireProperty() calls back immediately, so these must exist before it
         self.decodersSub = None
         self.bookmarkSub = None
+        props = self.source.getProps()
+        self.enabledSub = props.wireProperty("services", self._receiveEvent)
         # need to call _start() manually if property is not set since the default is True, but the initial call is only
         # made if the property is present
         if "services" not in props:
