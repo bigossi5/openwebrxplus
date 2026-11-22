@@ -30,6 +30,9 @@ Plugins.band_alert = {
 
     _injectCSS: function () {
         var css = [
+            // the plugin stack sizes buttons to their narrowest wrapped width,
+            // which split "🔔 Alerts" over two lines and spilled the label out
+            '#plugin-button-band_alert { white-space: nowrap; height: auto; line-height: 16px; }',
             '#band-alert-rules { width: 100%; border-collapse: collapse; margin-bottom: 8px; }',
             '#band-alert-rules th { color: #aaa; font-weight: normal; font-size: 11px;',
             '  text-align: left; padding: 2px 4px; }',
@@ -237,8 +240,12 @@ Plugins.band_alert = {
     },
 
     _requestNotifPerm: function () {
-        if (typeof Notification === 'undefined') {
-            document.getElementById('ba-notif-status').textContent = 'Not supported';
+        // Browsers only allow notification permission on secure origins
+        // (https:// or localhost); on plain http:// the request resolves to
+        // "denied" instantly without ever showing a prompt, so don't pretend
+        // the click did something.
+        if (typeof Notification === 'undefined' || !window.isSecureContext) {
+            Plugins.band_alert._updateNotifStatus();
             return;
         }
         Notification.requestPermission().then(function () {
@@ -249,7 +256,12 @@ Plugins.band_alert = {
     _updateNotifStatus: function () {
         var el = document.getElementById('ba-notif-status');
         if (!el) return;
-        if (typeof Notification === 'undefined') {
+        if (typeof Notification !== 'undefined' && !window.isSecureContext) {
+            el.textContent = '⚠ needs HTTPS';
+            el.style.color = '#f39c12';
+            el.title = 'Browser notifications only work on https:// or localhost pages. ' +
+                'Toast alerts and the beep still work over plain http://.';
+        } else if (typeof Notification === 'undefined') {
             el.textContent = 'not supported';
         } else if (Notification.permission === 'granted') {
             el.textContent = '✔ enabled'; el.style.color = '#2ecc71';
