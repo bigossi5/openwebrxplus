@@ -40,7 +40,7 @@ Plugins.timeshift = {
 
     init: function () {
         var T = Plugins.timeshift;
-        Plugins.addButton('timeshift', '⏪ Timeshift', T._toggleWindow);
+        Plugins.addButton('timeshift', '⏪ Rewind', T._toggleWindow);
         T._tryInstall();
         if (!T._installed) T._installTimer = setInterval(T._tryInstall, 500);
         return true;

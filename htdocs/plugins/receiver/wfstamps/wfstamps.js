@@ -30,7 +30,8 @@ Plugins.wfstamps = {
 
     init: function () {
         var W = Plugins.wfstamps;
-        W._button = Plugins.addButton('wfstamps', '🕒 WF stamps: off', W._toggle);
+        W._button = Plugins.addButton('wfstamps', '🕒 Time', W._toggle);
+        if (W._button) { W._button.style.opacity = '0.55'; W._button.title = 'Waterfall time stamps: off'; }
         if (typeof waterfall_add !== 'function') {
             console.error('wfstamps: waterfall_add not found');
             return false;
@@ -49,7 +50,9 @@ Plugins.wfstamps = {
         W.enabled = !W.enabled;
         W._lastStamp = 0;
         W._pending = false;
-        if (W._button) W._button.textContent = '🕒 WF stamps: ' + (W.enabled ? 'on' : 'off');
+        if (W._button) W._button.textContent = '🕒 Time';
+        W._button.style.opacity = W.enabled ? '1' : '0.55';
+        W._button.title = 'Waterfall time stamps: ' + (W.enabled ? 'on' : 'off');
     },
 
     _label: function (d) {

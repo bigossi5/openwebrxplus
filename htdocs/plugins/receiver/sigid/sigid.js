@@ -103,7 +103,7 @@ Plugins.sigid = {
     _interval: null,
 
     init: function () {
-        Plugins.addButton('sigid', '🔎 Signal ID', Plugins.sigid._toggleWindow);
+        Plugins.addButton('sigid', '🔎 ID', Plugins.sigid._toggleWindow);
         return true;
     },
 
