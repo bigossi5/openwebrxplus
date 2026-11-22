@@ -8,6 +8,7 @@ from owrx.satellites import (
     splitProfile,
     predictPasses,
     sgp4Available,
+    listProfileOptions,
     PassScheduler,
 )
 
@@ -23,6 +24,37 @@ TLE_TEXT = "{0}             \n{1}\n{2}\nNOAA 15                 \n{3}\n{4}\n".fo
 )
 
 NOW = datetime(2026, 11, 22, 12, 0, 0, tzinfo=timezone.utc)
+
+
+class ProfileOptionsTest(TestCase):
+    SDRS = {
+        "rtl1": {"name": "Green RTL-SDR |", "profiles": {"p1": {"name": "2m ISS"}, "p2": {"name": "70cm"}}},
+        "rtl2": {"profiles": {"p3": {}}},
+        "rtl3": {"name": "No profiles"},
+    }
+
+    def testPlainDicts(self):
+        self.assertEqual(
+            listProfileOptions(self.SDRS),
+            [
+                ("rtl1|p1", "Green RTL-SDR | - 2m ISS"),
+                ("rtl1|p2", "Green RTL-SDR | - 70cm"),
+                ("rtl2|p3", "rtl2 - p3"),
+            ],
+        )
+
+    def testRealConfigObjects(self):
+        # regression: settings.json is loaded into PropertyLayer objects, which
+        # have no .get(); the settings page used to crash with AttributeError
+        from owrx.config.dynamic import DynamicConfig
+
+        sdrs = DynamicConfig._toLayer(self.SDRS)
+        self.assertEqual(type(sdrs["rtl1"]).__name__, "PropertyLayer")
+        self.assertEqual(listProfileOptions(sdrs), listProfileOptions(self.SDRS))
+
+    def testEmpty(self):
+        self.assertEqual(listProfileOptions(None), [])
+        self.assertEqual(listProfileOptions({}), [])
 
 
 class TleParsingTest(TestCase):

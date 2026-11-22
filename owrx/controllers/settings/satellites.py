@@ -7,6 +7,7 @@ from owrx.satellites import (
     PRESET_SATELLITES,
     SGP4_MISSING,
     TleDownloader,
+    listProfileOptions,
     planEntry,
     sgp4Available,
 )
@@ -27,16 +28,7 @@ class SatellitesController(AuthorizationMixin, BreadcrumbMixin, WebpageControlle
 
     def _profileOptions(self):
         """List of (value, label) for all configured SDR profiles."""
-        result = []
-        for sdrId, sdr in (Config.get()["sdrs"] or {}).items():
-            for profileId, profile in (sdr.get("profiles") or {}).items():
-                result.append(
-                    (
-                        "{0}|{1}".format(sdrId, profileId),
-                        "{0} - {1}".format(sdr.get("name", sdrId), profile.get("name", profileId)),
-                    )
-                )
-        return result
+        return listProfileOptions(Config.get()["sdrs"])
 
     def _renderRow(self, entry, profileOptions):
         profile = entry.get("profile", "")

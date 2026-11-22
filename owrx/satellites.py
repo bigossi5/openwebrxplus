@@ -351,6 +351,33 @@ def splitProfile(value: str):
     return sdrId, profileId
 
 
+def _lookup(obj, key, default=None):
+    # The real config holds PropertyLayer objects (no .get()), tests use dicts:
+    # only use [] and "in", which both support.
+    try:
+        return obj[key] if key in obj else default
+    except Exception:
+        return default
+
+
+def listProfileOptions(sdrs):
+    """(value, label) for every configured SDR profile; value is '<sdr_id>|<profile_id>'."""
+    result = []
+    for sdrId, sdr in (sdrs or {}).items():
+        profiles = _lookup(sdr, "profiles")
+        if not profiles:
+            continue
+        sdrName = _lookup(sdr, "name", sdrId)
+        for profileId, profile in profiles.items():
+            result.append(
+                (
+                    "{0}|{1}".format(sdrId, profileId),
+                    "{0} - {1}".format(sdrName, _lookup(profile, "name", profileId)),
+                )
+            )
+    return result
+
+
 #
 # Scheduler
 #
