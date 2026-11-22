@@ -10,6 +10,8 @@ OWRX_SETTINGS_FILE="${OWRX_DATADIR}/settings.json"
 OWRX_BOOKMARKS_FILE="${OWRX_DATADIR}/bookmarks.json"
 OWRX_ETCDIR="/etc/openwebrx"
 OWRX_SUDOERS_FILE="/etc/sudoers.d/openwebrx-fileeditor-restart"
+OWRX_SSL_HELPER="/usr/lib/openwebrx/ssl-helper"
+OWRX_SSL_SUDOERS_FILE="/etc/sudoers.d/openwebrx-ssl"
 
 case "$1" in
   configure|reconfigure)
@@ -55,6 +57,21 @@ case "$1" in
     OWRX_PLUGINSDIR="$(python3 -c 'import pkg_resources; print(pkg_resources.resource_filename("htdocs", "plugins/receiver"))' 2>/dev/null || true)"
     if [ -n "${OWRX_PLUGINSDIR}" ] && [ -d "${OWRX_PLUGINSDIR}" ]; then
       chown -R "${OWRX_USER}": "${OWRX_PLUGINSDIR}"
+    fi
+
+    # HTTPS settings (Settings -> General): the service user calls a root-owned
+    # helper through a narrow sudo rule to install/remove certificates
+    if [ -f "${OWRX_SSL_HELPER}" ]; then
+      chown root:root "${OWRX_SSL_HELPER}"
+      chmod 0755 "${OWRX_SSL_HELPER}"
+      OWRX_SSL_TMP="$(mktemp)"
+      echo "${OWRX_USER} ALL=(root) NOPASSWD: ${OWRX_SSL_HELPER} selfsigned *, ${OWRX_SSL_HELPER} letsencrypt *, ${OWRX_SSL_HELPER} disable" > "${OWRX_SSL_TMP}"
+      if visudo -cf "${OWRX_SSL_TMP}" >/dev/null 2>&1; then
+        install -o root -g root -m 0440 "${OWRX_SSL_TMP}" "${OWRX_SSL_SUDOERS_FILE}"
+      else
+        echo "warning: could not validate the HTTPS sudo rule, HTTPS settings will not work" 1>&2
+      fi
+      rm -f "${OWRX_SSL_TMP}"
     fi
 
     # allow the JSON File Editor's "Restart" button to restart the service

@@ -1,0 +1,2 @@
+# shell scripts must keep LF endings (a CRLF shebang breaks them on Linux)
+debian/ssl-helper text eol=lf

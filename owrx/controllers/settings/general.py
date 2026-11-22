@@ -12,7 +12,7 @@ from owrx.form.input import (
     Option,
 )
 from owrx.form.input.validator import RangeValidator, UrlValidator
-from owrx.form.input.converter import WaterfallColorsConverter, IntConverter
+from owrx.form.input.converter import WaterfallColorsConverter, IntConverter, OptionalConverter
 from owrx.form.input.receiverid import ReceiverKeysInput
 from owrx.form.input.gfx import AvatarInput, TopPhotoInput
 from owrx.form.input.device import WaterfallLevelsInput, WaterfallAutoLevelsInput
@@ -22,6 +22,7 @@ from owrx.waterfall import WaterfallOptions
 from owrx.breadcrumb import Breadcrumb, BreadcrumbItem
 from owrx.controllers.settings import SettingsBreadcrumb
 from owrx.users import UserList, DefaultPasswordClass
+from owrx.sslsetup import SslManager
 import shutil
 import os
 import re
@@ -387,6 +388,36 @@ class GeneralSettingsController(SettingsFormController):
                 ),
             ),
             Section(
+                "HTTPS",
+                CheckboxInput(
+                    "https_enabled",
+                    "Enable HTTPS (a self-signed certificate is generated and installed automatically)",
+                    infotext=SslManager.describe()
+                    + " Browsers need HTTPS for notifications and the screen wake lock. After saving, the"
+                    + " server restarts within a few seconds and the page has to be reopened as"
+                    + " https://ADDRESS:PORT. Plain http no longer works on the same port.",
+                ),
+                CheckboxInput(
+                    "https_letsencrypt",
+                    "Use a trusted Let's Encrypt certificate (certbot) instead of a self-signed one",
+                    infotext="Requires HTTPS to be enabled above, a public domain name pointing to this server,"
+                    + " and port 80 forwarded to this machine and free while the certificate is issued."
+                    + " It is renewed automatically (the server restarts briefly after each renewal).",
+                ),
+                TextInput(
+                    "https_domain",
+                    "Domain name (FQDN)",
+                    infotext="Detected automatically, change it if needed. Required for Let's Encrypt;"
+                    + " for a self-signed certificate it is just the name the certificate is issued for.",
+                ),
+                TextInput(
+                    "https_email",
+                    "E-mail for Let's Encrypt",
+                    infotext="Optional, used by Let's Encrypt for certificate expiry notices.",
+                    converter=OptionalConverter(),
+                ),
+            ),
+            Section(
                 "Debugging",
                 CheckboxInput(
                     "debug_enabled",
@@ -450,6 +481,35 @@ class GeneralSettingsController(SettingsFormController):
             for file in glob("{}/{}*".format(config.get_temporary_directory(), image_id)):
                 os.unlink(file)
 
+    def buildRenderData(self):
+        res = super().buildRenderData()
+        # show what is really installed (certificate files can also be added
+        # or removed by hand), and suggest the detected name when none is saved
+        if self.formData is None:
+            res["https_enabled"] = SslManager.isInstalled()
+            if not res.get("https_domain"):
+                res["https_domain"] = SslManager.detectFqdn()
+        return res
+
+    def _applyHttps(self, data):
+        enabled = bool(data.get("https_enabled"))
+        letsencrypt = bool(data.get("https_letsencrypt"))
+        domain = (data.get("https_domain") or "").strip()
+        email = (data.get("https_email") or "").strip()
+        saved = self.getData()
+        if enabled:
+            changed = (
+                not SslManager.isInstalled()
+                or letsencrypt != bool(saved["https_letsencrypt"])
+                or (letsencrypt and domain != saved["https_domain"])
+            )
+        else:
+            changed = SslManager.isInstalled()
+        # only touch the certificate (and restart the service) when something changed
+        if changed:
+            SslManager.apply(enabled, letsencrypt, domain, email)
+        data["https_domain"] = domain
+
     def processData(self, data):
         # Image handling
         for img in ["receiver_avatar", "receiver_top_photo"]:
@@ -470,4 +530,6 @@ class GeneralSettingsController(SettingsFormController):
             scheme = WaterfallOptions(data["waterfall_scheme"])
             if scheme is not WaterfallOptions.CUSTOM and "waterfall_colors" in data:
                 data["waterfall_colors"] = None
+        # a failure here aborts the save; success schedules the service restart
+        self._applyHttps(data)
         super().processData(data)
