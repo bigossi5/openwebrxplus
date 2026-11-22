@@ -81,7 +81,9 @@ class SanitizeTest(TestCase):
 class ShippedPacksTest(TestCase):
     def testAllShippedPacksValid(self):
         files = sorted(REPO_PACKS.glob("*.json"))
-        self.assertTrue(files)
+        if not files:
+            # e.g. the pybuild copy of the tree used by dpkg-buildpackage has no data files
+            self.skipTest("bookmark-packs directory not present in this tree")
         for f in files:
             pack = json.loads(f.read_text(encoding="utf-8"))
             self.assertEqual(pack["id"], f.stem)
@@ -160,6 +162,8 @@ class PackInstallTest(TestCase):
         self.assertEqual(removePack("demo", store), 0)
 
     def testRepoDirectoryFallback(self):
+        if not REPO_PACKS.is_dir():
+            self.skipTest("bookmark-packs directory not present in this tree")
         self.assertTrue(os.path.isdir(bookmarkpacks.packDirectory()))
 
 
