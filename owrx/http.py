@@ -252,7 +252,20 @@ class Router(object):
         route = self.find_route(request)
         if route is not None:
             controller = route.controller
-            controller(handler, request, route.controllerOptions).handle_request()
+            try:
+                controller(handler, request, route.controllerOptions).handle_request()
+            except (BrokenPipeError, ConnectionResetError):
+                # the client went away, nothing to report
+                raise
+            except Exception:
+                # Without this the traceback only went to stderr (journalctl)
+                # and the browser got a dropped connection. Log it so it also
+                # shows up in Settings -> Server Logs, and answer with a 500.
+                logger.exception("error handling %s %s", request.method, request.path)
+                try:
+                    handler.send_error(500, "Internal Server Error")
+                except Exception:
+                    pass
         else:
             handler.send_error(404, "Not Found", "The page you requested could not be found.")
 
