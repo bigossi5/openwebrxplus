@@ -7,6 +7,7 @@ from owrx.reporting.sondehub import SondehubReporter
 from owrx.reporting.wsprnet import WsprnetReporter
 from owrx.reporting.aprsigate import AprsIgate
 from owrx.reporting.discord import DiscordReporter
+from owrx.reporting.activitylog import ActivityReporter
 from owrx.feature import FeatureDetector
 import logging
 
@@ -27,6 +28,7 @@ class ReportingEngine(object):
         "aprs_igate": AprsIgate,
         "mqtt": ("owrx.reporting.mqtt", "MqttReporter"),
         "discord": DiscordReporter,
+        "activity": ActivityReporter,
     }
 
     @staticmethod

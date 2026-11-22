@@ -25,6 +25,7 @@ from owrx.controllers.settings.bookmarks import BookmarksController
 from owrx.controllers.settings.fileeditor import FileEditorController
 from owrx.controllers.settings.plugins import PluginManagerController
 from owrx.controllers.settings.logs import LogsController
+from owrx.controllers.settings.activity import ActivityController
 from owrx.controllers.session import SessionController
 from owrx.controllers.profile import ProfileController
 from owrx.controllers.imageupload import ImageUploadController
@@ -192,6 +193,8 @@ class Router(object):
             ),
             StaticRoute("/settings/logs", LogsController),
             StaticRoute("/settings/logs/data", LogsController, options={"action": "data"}),
+            StaticRoute("/settings/activity", ActivityController),
+            StaticRoute("/settings/activity/adif", ActivityController, options={"action": "adif"}),
             StaticRoute("/settings/reporting", ReportingController),
             StaticRoute(
                 "/settings/reporting", ReportingController, method="POST", options={"action": "processFormData"}
