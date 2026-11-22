@@ -168,11 +168,13 @@ class BookmarksController(AuthorizationMixin, BreadcrumbMixin, WebpageController
             if error is not None:
                 raise ValueError(error)
             # Update and store bookmark
+            bookmarks = Bookmarks.getSharedInstance()
+            # notify about the old frequency too, in case the bookmark moves out of a range
+            bookmarks.notifySubscriptions(bookmark)
             for key in newd:
                 setattr(bookmark, key, newd[key])
-            Bookmarks.getSharedInstance().store()
-            # TODO this should not be called explicitly... bookmarks don't have any event capability right now, though
-            Bookmarks.getSharedInstance().notifySubscriptions(bookmark)
+            bookmarks.store()
+            bookmarks.notifySubscriptions(bookmark)
             self.send_response("{}", content_type="application/json", code=200)
         except (json.JSONDecodeError, ValueError) as e:
             logger.warning("Failed updating bookmark: " + str(e))

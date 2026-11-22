@@ -53,5 +53,17 @@ class BackgroundDecodingController(SettingsFormController):
                     infotext="Minimum time between two alerts",
                     append="s",
                 ),
+                CheckboxInput(
+                    "signal_alert_bookmarks",
+                    "Monitor scannable bookmarks",
+                    infotext="Also raise signal alerts for scannable bookmarks within the SDR bandwidth "
+                    + "(requires the signal_alert service to be enabled above)",
+                ),
+                NumberInput(
+                    "signal_alert_bookmarks_max",
+                    "Maximum monitored bookmarks",
+                    validator=RangeValidator(1, 256),
+                    infotext="Per SDR profile; bookmarks nearest to the center frequency are preferred",
+                ),
             ),
         ]

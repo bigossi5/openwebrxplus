@@ -8,6 +8,8 @@ from owrx.property import PropertyLayer, PropertyDeleted
 from owrx.service.schedule import ServiceScheduler
 from owrx.service.chain import ServiceDemodulatorChain
 from owrx.modes import Modes, DigitalMode
+from owrx.bookmarks import Bookmarks
+from owrx.bookmarkdials import selectBookmarkDials
 from typing import Union, Optional
 from csdr.chain.demodulator import BaseDemodulatorChain, ServiceDemodulator, DialFrequencyReceiver, FixedAudioRateChain
 from pycsdr.modules import Buffer
@@ -30,6 +32,7 @@ class ServiceHandler(SdrSourceEventClient):
         props = self.source.getProps()
         self.enabledSub = props.wireProperty("services", self._receiveEvent)
         self.decodersSub = None
+        self.bookmarkSub = None
         # need to call _start() manually if property is not set since the default is True, but the initial call is only
         # made if the property is present
         if "services" not in props:
@@ -52,10 +55,26 @@ class ServiceHandler(SdrSourceEventClient):
         props = self.source.getProps()
         self.activitySub = props.filter("center_freq", "samp_rate").wire(self.onFrequencyChange)
         self.decodersSub = Config.get().wireProperty("services_decoders", self.onFrequencyChange)
+        self._subscribeBookmarks()
         if self.source.isAvailable():
             self._scheduleServiceStartup()
 
+    def _subscribeBookmarks(self):
+        if self.bookmarkSub is not None:
+            self.bookmarkSub.cancel()
+        self.bookmarkSub = Bookmarks.getSharedInstance().subscribe(
+            (0, sys.maxsize), self._onBookmarkChange
+        )
+
+    def _onBookmarkChange(self, *args, **kwargs):
+        # only restart services if bookmarks are actually used by them
+        if Config.get()["signal_alert_bookmarks"]:
+            self.onFrequencyChange(None)
+
     def _stop(self):
+        if self.bookmarkSub is not None:
+            self.bookmarkSub.cancel()
+            self.bookmarkSub = None
         if self.activitySub is not None:
             self.activitySub.cancel()
             self.activitySub = None
@@ -156,6 +175,18 @@ class ServiceHandler(SdrSourceEventClient):
                 for dial in Bandplan.getSharedInstance().collectDialFrequencies(frequency_range)
                 if self.isSupported(dial["mode"])
             ]
+
+            config = Config.get()
+            if self.isSupported("signal_alert") and config["signal_alert_bookmarks"]:
+                try:
+                    dials += selectBookmarkDials(
+                        Bookmarks.getSharedInstance().getBookmarks(frequency_range),
+                        dials,
+                        cf,
+                        config["signal_alert_bookmarks_max"],
+                    )
+                except Exception:
+                    logger.exception("Error collecting bookmarks for signal alerts")
 
             if not dials:
                 logger.debug("no services available")

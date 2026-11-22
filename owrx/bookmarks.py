@@ -219,7 +219,7 @@ class Bookmarks(object):
 
     def subscribe(self, range, callback):
         sub = BookmarkSubscription(self, range, callback)
-        self.subscriptions.append(BookmarkSubscription(self, range, callback))
+        self.subscriptions.append(sub)
         return sub
 
     def unsubscribe(self, subscription: BookmarkSubscription):

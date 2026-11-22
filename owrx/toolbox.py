@@ -3,6 +3,7 @@ from owrx.config import Config
 from owrx.color import ColorCache
 from owrx.reporting import ReportingEngine
 from owrx.bands import Bandplan
+from owrx.bookmarks import Bookmarks
 from owrx.alertcooldown import AlertCooldown
 from csdr.module import ThreadModule, LineBasedModule
 from pycsdr.types import Format
@@ -102,8 +103,17 @@ class AlertRecorder(Mp3Recorder):
             self._discardClip(filePath)
             return
 
-        band = Bandplan.getSharedInstance().findBand(self.frequency)
-        name = band.getName() if band is not None else "Signal Alert"
+        name = None
+        try:
+            f = self.frequency
+            bms = Bookmarks.getSharedInstance().getBookmarks((f, f))
+            if bms:
+                name = bms[0].getName()
+        except Exception:
+            logger.debug("Bookmark lookup failed", exc_info=True)
+        if not name:
+            band = Bandplan.getSharedInstance().findBand(self.frequency)
+            name = band.getName() if band is not None else "Signal Alert"
 
         ReportingEngine.getSharedInstance().spot({
             "mode": "signal_alert",
