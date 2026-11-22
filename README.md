@@ -27,7 +27,8 @@ This is the **improved version** of the OpenWebRX online SDR. The pre-built Open
 * Foldable receiver panel with configurable opacity.
 * Spectrum display.
 
-Fork documentation: [HTTPS setup (self-signed or Let's Encrypt) from the settings page](docs/HTTPS.md).
+Fork documentation: [HTTPS setup (self-signed or Let's Encrypt) from the settings page](docs/HTTPS.md),
+[ham radio features: satellite passes, sonde alerts, callsign watchlist, activity stats and more](docs/HAM-FEATURES.md).
 
 Original OpenWebRX
 =========
