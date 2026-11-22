@@ -101,6 +101,22 @@ class Js8Parser(AudioChopperParser):
 
             self.pushDecode(band)
 
+            if isinstance(frame, (Js8FrameHeartbeat, Js8FrameCompound)) and frame.callsign:
+                try:
+                    from owrx.watchlist import Watchlist
+
+                    Watchlist.getSharedInstance().check(
+                        "JS8",
+                        frame.callsign,
+                        freq=freq + frame.freq,
+                        db=frame.db,
+                        locator=frame.grid or None,
+                        msg=str(frame),
+                        timestamp=frame.timestamp,
+                    )
+                except Exception:
+                    logger.exception("Exception in callsign watchlist")
+
             if (isinstance(frame, Js8FrameHeartbeat) or isinstance(frame, Js8FrameCompound)) and frame.grid:
                 Map.getSharedInstance().updateLocation(
                     frame.callsign, LocatorLocation(frame.grid), "JS8", band

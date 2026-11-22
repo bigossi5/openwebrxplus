@@ -297,6 +297,22 @@ class WsjtParser(AudioChopperParser):
 
             self.pushDecode(mode, band)
 
+            if "callsign" in out:
+                try:
+                    from owrx.watchlist import Watchlist
+
+                    Watchlist.getSharedInstance().check(
+                        mode,
+                        out["callsign"],
+                        freq=out.get("freq"),
+                        db=out.get("db"),
+                        locator=out.get("locator"),
+                        msg=out.get("msg"),
+                        timestamp=out.get("timestamp"),
+                    )
+                except Exception:
+                    logger.exception("Exception in callsign watchlist")
+
             if "callsign" in out and "locator" in out:
                 Map.getSharedInstance().updateLocation(
                     out["callsign"], LocatorLocation(out["locator"]), mode, band
