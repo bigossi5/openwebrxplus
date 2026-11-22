@@ -222,6 +222,36 @@ class DataRecorder(object):
                 # Convert image from BMP to PNG
                 logger.debug("Converting '%s' to PNG..." % filePath)
                 Storage.convertImage(filePath)
+                self._reportImage(filePath)
+
+    def _reportImage(self, filePath: str):
+        # Only service recorders write image files, optionally send them to Discord
+        try:
+            if not getattr(self, "service", False):
+                return
+            pm = Config.get()
+            if not (pm["discord_images_enabled"] and pm["discord_enabled"] and pm["discord_webhook_url"]):
+                return
+            pngPath = re.sub(r'\.bmp$', '.png', filePath)
+            if pngPath == filePath or not os.path.isfile(pngPath):
+                return
+            # Work on a copy, the stored file may be removed by the storage cleanup
+            import shutil
+            import tempfile
+            fd, tmpPath = tempfile.mkstemp(suffix=".png", dir=CoreConfig().get_temporary_directory())
+            os.close(fd)
+            shutil.copyfile(pngPath, tmpPath)
+            # Imported here to avoid circular imports
+            from owrx.reporting import ReportingEngine
+            ReportingEngine.getSharedInstance().spot({
+                "mode"      : "IMAGE",
+                "label"     : self.filePfx,
+                "freq"      : self.frequency,
+                "timestamp" : round(datetime.now().timestamp() * 1000),
+                "file"      : tmpPath
+            })
+        except Exception as e:
+            logger.error("Exception reporting image: %s" % str(e))
 
     def setDialFrequency(self, frequency: int) -> None:
         # Open a new file if frequency changes

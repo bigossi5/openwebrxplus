@@ -19,7 +19,17 @@ logger = logging.getLogger(__name__)
 PoisonPill = object()
 
 
-def _buildMultipart(payload: dict, filePath: str = None):
+_CONTENT_TYPES = {
+    ".png": "image/png",
+    ".mp3": "audio/mpeg",
+}
+
+
+def _guessContentType(filePath: str) -> str:
+    return _CONTENT_TYPES.get(os.path.splitext(filePath)[1].lower(), "application/octet-stream")
+
+
+def _buildMultipart(payload: dict, filePath: str = None, contentType: str = None):
     boundary = uuid.uuid4().hex
     body = (
         "--{boundary}\r\n"
@@ -33,8 +43,8 @@ def _buildMultipart(payload: dict, filePath: str = None):
         header = (
             "--{boundary}\r\n"
             'Content-Disposition: form-data; name="files[0]"; filename="{name}"\r\n'
-            "Content-Type: audio/mpeg\r\n\r\n"
-        ).format(boundary=boundary, name=os.path.basename(filePath))
+            "Content-Type: {ctype}\r\n\r\n"
+        ).format(boundary=boundary, name=os.path.basename(filePath), ctype=contentType or _guessContentType(filePath))
         body += header.encode("utf-8") + fileData + b"\r\n"
     body += "--{boundary}--\r\n".format(boundary=boundary).encode("utf-8")
     return body, "multipart/form-data; boundary={0}".format(boundary)
@@ -77,11 +87,27 @@ class Worker(threading.Thread):
                 return
             content = self._formatSpeech(spot)
             filePath = None
+        elif mode == "IMAGE":
+            if not config["discord_images_enabled"]:
+                return
+            content = self._formatImage(spot)
+            filePath = spot.get("file")
         else:
             return
         if content is None:
             return
         body, contentType = _buildMultipart({"content": content}, filePath)
+        try:
+            self._send(url, body, contentType, spot, retryOn429)
+        finally:
+            # temporary image copies are not needed anymore
+            if mode == "IMAGE" and filePath:
+                try:
+                    os.unlink(filePath)
+                except OSError:
+                    pass
+
+    def _send(self, url, body, contentType, spot, retryOn429):
         req = request.Request(url, data=body, method="POST")
         req.add_header("Content-Type", contentType)
         # Discord's edge (Cloudflare) rejects the default "Python-urllib/x.y"
@@ -109,6 +135,17 @@ class Worker(threading.Thread):
             name=spot.get("name", "Signal Alert"),
             freq=spot["freq"] / 1e6,
             duration=spot.get("duration", 0),
+            time=ts.strftime("%Y-%m-%d %H:%M:%S"),
+        )
+
+    def _formatImage(self, spot):
+        band = Bandplan.getSharedInstance().findBand(spot["freq"])
+        where = " ({0})".format(band.getName()) if band is not None else ""
+        ts = datetime.fromtimestamp(spot["timestamp"] / 1000, tz=timezone.utc)
+        return "\U0001F5BC **{label} image** - {freq:.4f} MHz{where} {time} UTC".format(
+            label=spot.get("label", "Image"),
+            freq=spot["freq"] / 1e6,
+            where=where,
             time=ts.strftime("%Y-%m-%d %H:%M:%S"),
         )
 
@@ -173,4 +210,4 @@ class DiscordReporter(FilteredReporter):
             logger.warning("Discord Queue overflow, one spot lost")
 
     def getSupportedModes(self):
-        return ["signal_alert", "CLIENT", "SPEECH"]
+        return ["signal_alert", "CLIENT", "SPEECH", "IMAGE"]

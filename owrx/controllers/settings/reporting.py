@@ -233,6 +233,12 @@ class ReportingController(SettingsFormController):
                     infotext="Requires the \"speech\" background decoding service to be enabled; "
                     + "posts every transcribed utterance to the webhook above",
                 ),
+                CheckboxInput(
+                    "discord_images_enabled",
+                    "Send received SSTV/FAX images to Discord",
+                    infotext="Requires the SSTV or FAX background decoding service; "
+                    + "posts every finished image to the webhook above",
+                ),
             ),
             Section(
                 "RigControl settings",

@@ -25,6 +25,7 @@ from owrx.controllers.settings.bookmarks import BookmarksController
 from owrx.controllers.settings.fileeditor import FileEditorController
 from owrx.controllers.settings.plugins import PluginManagerController
 from owrx.controllers.settings.logs import LogsController
+from owrx.controllers.settings.satellites import SatellitesController
 from owrx.controllers.session import SessionController
 from owrx.controllers.profile import ProfileController
 from owrx.controllers.imageupload import ImageUploadController
@@ -189,6 +190,10 @@ class Router(object):
             ),
             RegexRoute(
                 "^/settings/plugins/uninstall/(.+)$", PluginManagerController, options={"action": "uninstall"}
+            ),
+            StaticRoute("/settings/satellites", SatellitesController),
+            StaticRoute(
+                "/settings/satellites", SatellitesController, method="POST", options={"action": "save"}
             ),
             StaticRoute("/settings/logs", LogsController),
             StaticRoute("/settings/logs/data", LogsController, options={"action": "data"}),

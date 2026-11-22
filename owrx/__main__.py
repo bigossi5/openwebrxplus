@@ -16,6 +16,7 @@ from owrx.sdr import SdrService
 from socketserver import ThreadingMixIn
 from owrx.service import Services
 from owrx.pluginmanager import PluginManager
+from owrx.satellites import PassScheduler
 from owrx.log import HistoryHandler, GLOBAL_LOGGER_NAME
 from owrx.websocket import WebSocketConnection
 from owrx.reporting import ReportingEngine
@@ -173,6 +174,9 @@ Support and info:       https://groups.io/g/openwebrx
     # Sync the receiver plugin loader (init.js) with the configured plugin list
     PluginManager.getSharedInstance()
 
+    # Start the satellite pass scheduler (switches SDR profiles for configured passes)
+    PassScheduler.start()
+
     # Instantiate and start GPS location updater
     GpsUpdater.init()
 
@@ -206,6 +210,7 @@ Support and info:       https://groups.io/g/openwebrx
         pass
 
     WebSocketConnection.closeAll()
+    PassScheduler.stop()
     Markers.stop()
     GpsUpdater.stop()
     Services.stop()

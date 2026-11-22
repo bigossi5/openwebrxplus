@@ -23,6 +23,7 @@ Depends: adduser,
          ${python3:Depends},
          ${misc:Depends}
 Recommends: python3-digiham (>= 0.6.11),
+            python3-sgp4,
             direwolf (>= 1.4),
             wsjtx,
             js8call,
