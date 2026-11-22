@@ -88,6 +88,8 @@ class ActivityStore(object):
                 "id INTEGER PRIMARY KEY, ts INTEGER, mode TEXT, callsign TEXT, locator TEXT, "
                 "freq INTEGER, db REAL, msg TEXT)"
             )
+            conn.execute("CREATE TABLE IF NOT EXISTS listeners(ts INTEGER, count INTEGER, freq INTEGER, mod TEXT)")
+            conn.execute("CREATE INDEX IF NOT EXISTS listeners_ts ON listeners(ts)")
             conn.execute("CREATE INDEX IF NOT EXISTS events_ts ON events(ts)")
             conn.execute("CREATE INDEX IF NOT EXISTS spots_ts ON spots(ts)")
             conn.commit()
@@ -109,6 +111,7 @@ class ActivityStore(object):
         cutoff = int(now - self.retentionDays * 86400)
         conn.execute("DELETE FROM events WHERE ts < ?", (cutoff,))
         conn.execute("DELETE FROM spots WHERE ts < ?", (cutoff,))
+        conn.execute("DELETE FROM listeners WHERE ts < ?", (cutoff,))
         conn.commit()
 
     def addEvent(self, ts, band, freq, kind="signal_alert", duration=0.0, now=None):
@@ -140,6 +143,32 @@ class ActivityStore(object):
         except Exception:
             logger.exception("Could not write activity spot")
             return False
+
+    def addListenerSample(self, ts, count, tuned, now=None):
+        """
+        Stores one listener sample: `count` connected clients, `tuned` is a list of
+        (frequency, modulation) pairs, one per client that has a frequency. No client
+        identifying data is stored. With no tuned client a single row without frequency is written.
+        """
+        rows = [(int(ts), int(count), int(f), m) for f, m in tuned] or [(int(ts), int(count), None, None)]
+        try:
+            with self.lock:
+                conn = self._connect()
+                conn.executemany("INSERT INTO listeners(ts, count, freq, mod) VALUES (?,?,?,?)", rows)
+                conn.commit()
+                self._maybePrune(conn, time.time() if now is None else now)
+            return True
+        except Exception:
+            logger.exception("Could not write listener sample")
+            return False
+
+    def listenerRows(self, since_ts):
+        """Returns list of (ts, count, freq, mod) rows since the timestamp."""
+        with self.lock:
+            conn = self._connect()
+            return conn.execute(
+                "SELECT ts, count, freq, mod FROM listeners WHERE ts >= ? ORDER BY ts ASC", (int(since_ts),)
+            ).fetchall()
 
     def heatmap(self, days, tz_offset_minutes=0, now=None):
         """

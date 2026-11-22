@@ -28,7 +28,20 @@ class WebpageController(TemplateController):
     def header_variables(self):
         variables = { "document_root": self.get_document_root(), "map_type": "" }
         variables.update(ReceiverDetails().__dict__())
+        variables["stats_button"] = self.stats_button(variables["document_root"])
         return variables
+
+    def stats_button(self, document_root):
+        # link to the public statistics page, hidden when the page is disabled
+        try:
+            if not Config.get()["stats_page_enabled"]:
+                return ""
+        except Exception:
+            return ""
+        return (
+            '<a class="button" href="{0}stats" target="openwebrx-stats"><svg viewBox="0 -960 960 960">'
+            '<use xlink:href="{0}static/gfx/svg-defs.svg#panel-status"></use></svg><br/>Stats</a>'
+        ).format(document_root)
 
     def template_variables(self):
         header = self.render_template("include/header.include.html", **self.header_variables())

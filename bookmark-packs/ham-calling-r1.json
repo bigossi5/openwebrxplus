@@ -1,0 +1,44 @@
+{
+  "id": "ham-calling-r1",
+  "name": "Amateur 2m/70cm calling frequencies (IARU Region 1)",
+  "description": "Calling frequencies and centres of activity from the IARU Region 1 VHF Handbook v10.03 (February 2026). Check your licence for permitted bands and modes.",
+  "source": "https://www.iaru-r1.org/wp-content/uploads/2026/02/VHF_Handbook_V10_03_final.pdf",
+  "bookmarks": [
+    {
+      "name": "2m CW centre",
+      "frequency": 144050000,
+      "modulation": "cw",
+      "description": "Telegraphy centre of activity / calling"
+    },
+    {
+      "name": "2m SSB centre",
+      "frequency": 144300000,
+      "modulation": "usb",
+      "description": "SSB centre of activity"
+    },
+    {
+      "name": "2m APRS",
+      "frequency": 144800000,
+      "modulation": "nfm",
+      "description": "APRS (Europe)"
+    },
+    {
+      "name": "2m FM calling",
+      "frequency": 145500000,
+      "modulation": "nfm",
+      "description": "FM calling channel (V40)"
+    },
+    {
+      "name": "70cm SSB centre",
+      "frequency": 432500000,
+      "modulation": "usb",
+      "description": "SSB centre of activity"
+    },
+    {
+      "name": "70cm FM calling",
+      "frequency": 433500000,
+      "modulation": "nfm",
+      "description": "FM calling channel (U280)"
+    }
+  ]
+}

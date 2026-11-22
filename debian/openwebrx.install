@@ -8,3 +8,4 @@ systemd/openwebrx.service lib/systemd/system/
 debian/openwebrx.svg usr/share/icons/hicolor/scalable/apps
 debian/openwebrx.desktop usr/share/applications
 debian/ssl-helper usr/lib/openwebrx/
+bookmark-packs/ usr/share/openwebrx/

@@ -27,6 +27,7 @@ from owrx.reporting import ReportingEngine
 from owrx.markers import Markers
 from owrx.gps import GpsUpdater
 from owrx.wifi import WiFi
+from owrx.listenerstats import ListenerSampler
 from datetime import datetime
 from pathlib import Path
 import signal
@@ -177,6 +178,9 @@ Support and info:       https://groups.io/g/openwebrx
     # Start the satellite pass scheduler (switches SDR profiles for configured passes)
     PassScheduler.start()
 
+    # Record anonymous listener statistics for the /stats page (only when enabled)
+    ListenerSampler.start()
+
     # Instantiate and start GPS location updater
     GpsUpdater.init()
 
@@ -211,6 +215,7 @@ Support and info:       https://groups.io/g/openwebrx
 
     WebSocketConnection.closeAll()
     PassScheduler.stop()
+    ListenerSampler.stop()
     Markers.stop()
     GpsUpdater.stop()
     Services.stop()

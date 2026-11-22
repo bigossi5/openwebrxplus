@@ -1,0 +1,26 @@
+{
+  "id": "iss-satellites",
+  "name": "ISS amateur radio",
+  "description": "Amateur radio downlink frequencies of the International Space Station (ARISS).",
+  "source": "https://www.ariss.org/contact-the-iss.html",
+  "bookmarks": [
+    {
+      "name": "ISS voice downlink",
+      "frequency": 145800000,
+      "modulation": "nfm",
+      "description": "ISS crew voice contacts (ARISS)"
+    },
+    {
+      "name": "ISS repeater downlink",
+      "frequency": 437800000,
+      "modulation": "nfm",
+      "description": "ISS cross-band repeater downlink, uplink 145.990 MHz"
+    },
+    {
+      "name": "ISS SSTV downlink",
+      "frequency": 437550000,
+      "modulation": "nfm",
+      "description": "ISS SSTV downlink, Robot36 (when active)"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "id": "pmr446",
+  "name": "PMR446",
+  "description": "Sixteen analogue PMR446 licence-free channels, 12.5 kHz spacing (446.00625 - 446.19375 MHz).",
+  "source": "https://en.wikipedia.org/wiki/PMR446",
+  "bookmarks": [
+    {
+      "name": "PMR446 CH1",
+      "frequency": 446006250,
+      "modulation": "nfm",
+      "description": "Licence-free, max 500 mW ERP"
+    },
+    {
+      "name": "PMR446 CH2",
+      "frequency": 446018750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH3",
+      "frequency": 446031250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH4",
+      "frequency": 446043750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH5",
+      "frequency": 446056250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH6",
+      "frequency": 446068750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH7",
+      "frequency": 446081250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH8",
+      "frequency": 446093750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH9",
+      "frequency": 446106250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH10",
+      "frequency": 446118750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH11",
+      "frequency": 446131250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH12",
+      "frequency": 446143750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH13",
+      "frequency": 446156250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH14",
+      "frequency": 446168750,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH15",
+      "frequency": 446181250,
+      "modulation": "nfm"
+    },
+    {
+      "name": "PMR446 CH16",
+      "frequency": 446193750,
+      "modulation": "nfm"
+    }
+  ]
+}
