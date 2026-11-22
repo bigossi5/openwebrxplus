@@ -118,3 +118,27 @@ Gdy waterfall obejmuje daną częstotliwość, oznacza „heard” (słychać) a
   własny włącznik. Szczegóły błędów: Settings → Server Logs (po włączeniu „Debug”).
 - **Brak przelotów:** strona Satellite passes pokaże powód (brak `python3-sgp4`, brak danych TLE, brak wpisów).
 - **Zbyt dużo alertów:** zwiększ cooldown albo (przy sondach) zmniejsz promień.
+
+## Bookmark packs, scanner, stats page and client plugins
+
+### Bookmark packs (Settings -> Bookmark packs)
+Ready-made packs (`bookmark-packs/*.json`: civil airband PL, marine VHF, PMR446, CB 27 MHz, ISS/satellites,
+IARU R1 ham calling frequencies). Each pack lists its source in the `source` field. Install tags the bookmarks
+with the pack id and skips frequencies that already exist; Remove deletes only that pack's bookmarks. The page also
+exports all editable bookmarks as JSON and imports a JSON file. Not included on purpose: police/fire/emergency
+traffic, and a railway pack (no verifiable official channel list was found). Airport frequencies are a 2024 AIP snapshot.
+
+### Bookmark scanner (Settings -> Background decoding -> Signal activity alerts)
+Enable "monitor scannable bookmarks": every scannable bookmark inside the active profile's passband gets its own
+Signal Alert service (max configurable, default 32, nearest to the centre first). Requires `signal_alert` among the
+background decoders. Alerts and the activity log use the bookmark name. Editing bookmarks restarts services after ~10 s.
+
+### Public stats page (/stats)
+Listener count, uptime, peak and most listened frequencies (24 h / 7 d), sampled every 60 s. No IP addresses are
+stored. Config key `stats_page_enabled` (default on; set false in settings.json to disable).
+
+### Client plugins (enable in Settings -> Plugin Manager)
+- `timeshift`: rewind the last 5 minutes (max 60 MB) of audio; "Back to live" returns.
+- `wfstamps`: UTC time labels on the waterfall (stale after zoom).
+- `sigid`: suggests what a signal at the tuned frequency could be (heuristic table, region-dependent ranges).
+These three were only syntax-checked; test them in the browser.
