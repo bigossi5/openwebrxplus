@@ -204,6 +204,19 @@ class AprsParser(PickleModule):
             if self.isDirect(aprsData):
                 self.getMetric("direct").inc()
 
+            if aprsData["mode"] == "APRS" and aprsData.get("source"):
+                try:
+                    from owrx.watchlist import Watchlist
+
+                    Watchlist.getSharedInstance().check(
+                        "APRS",
+                        aprsData["source"],
+                        freq=aprsData.get("freq"),
+                        msg=aprsData.get("comment"),
+                    )
+                except Exception:
+                    logger.exception("exception in callsign watchlist")
+
             ReportingEngine.getSharedInstance().spot(aprsData)
             return aprsData
 

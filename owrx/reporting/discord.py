@@ -92,6 +92,12 @@ class Worker(threading.Thread):
                 return
             content = self._formatImage(spot)
             filePath = spot.get("file")
+        elif mode == "watchlist":
+            content = self._formatWatchlist(spot)
+            filePath = None
+        elif mode == "newcountry":
+            content = self._formatNewCountry(spot)
+            filePath = None
         else:
             return
         if content is None:
@@ -160,6 +166,33 @@ class Worker(threading.Thread):
             time=ts.strftime("%Y-%m-%d %H:%M:%S"),
         )
 
+    def _formatWatchlist(self, spot):
+        details = []
+        if spot.get("db") is not None:
+            details.append("{0} dB".format(spot["db"]))
+        if spot.get("locator"):
+            details.append(str(spot["locator"]))
+        freq = spot.get("freq")
+        text = "\U0001F440 **{call}** heard on {mode}".format(
+            call=spot.get("callsign", "?"), mode=spot.get("heard_mode", "?")
+        )
+        if freq:
+            text += " {0:.4f} MHz".format(freq / 1e6)
+        if details:
+            text += " ({0})".format(", ".join(details))
+        return text
+
+    def _formatNewCountry(self, spot):
+        freq = spot.get("freq")
+        text = "\U0001F30D New country: **{country}** - {call} on {mode}".format(
+            country=spot.get("country", "?"), call=spot.get("callsign", "?"), mode=spot.get("heard_mode", "?")
+        )
+        if freq:
+            text += " {0:.4f} MHz".format(freq / 1e6)
+        if spot.get("band"):
+            text += " ({0})".format(spot["band"])
+        return text
+
     def _formatClientEvent(self, spot):
         state = spot.get("state")
         ip = spot.get("ip", "?")
@@ -210,4 +243,4 @@ class DiscordReporter(FilteredReporter):
             logger.warning("Discord Queue overflow, one spot lost")
 
     def getSupportedModes(self):
-        return ["signal_alert", "CLIENT", "SPEECH", "IMAGE"]
+        return ["signal_alert", "CLIENT", "SPEECH", "IMAGE", "watchlist", "newcountry"]

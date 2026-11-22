@@ -3,7 +3,8 @@ from owrx.form.section import Section
 from owrx.form.input.converter import OptionalConverter, IntConverter, TextConverter
 from owrx.form.input.aprs import AprsBeaconSymbols, AprsAntennaDirections
 from owrx.form.input import TextInput, CheckboxInput, DropdownInput, NumberInput, PasswordInput, Option
-from owrx.form.input.validator import AddressAndOptionalPortValidator, RigCtlDeviceValidator
+from owrx.form.input import TextAreaInput
+from owrx.form.input.validator import AddressAndOptionalPortValidator, RigCtlDeviceValidator, RangeValidator
 from owrx.breadcrumb import Breadcrumb, BreadcrumbItem
 from owrx.rigcontrol import RigControl
 
@@ -238,6 +239,41 @@ class ReportingController(SettingsFormController):
                     "Send received SSTV/FAX images to Discord",
                     infotext="Requires the SSTV or FAX background decoding service; "
                     + "posts every finished image to the webhook above",
+                ),
+            ),
+            Section(
+                "Callsign alerts",
+                CheckboxInput(
+                    "watchlist_enabled",
+                    "Enable the callsign watchlist",
+                    infotext="Sends a Discord alert when a callsign from the list below is decoded "
+                    + "(FT8, FT4, WSPR, JS8, APRS...). Requires Discord alerts to be set up above",
+                ),
+                TextAreaInput(
+                    "watchlist_calls",
+                    "Watched callsigns",
+                    infotext="One callsign or pattern per line, the wildcard * is supported (e.g. SP3* or */P). "
+                    + "A -SSID and portable suffixes like /P are ignored when matching. Lines starting with # are comments",
+                ),
+                NumberInput(
+                    "watchlist_cooldown_min",
+                    "Watchlist alert cooldown (minutes)",
+                    infotext="Minimum time between two alerts for the same callsign",
+                    validator=RangeValidator(1, 1440),
+                ),
+                CheckboxInput(
+                    "newcountry_enabled",
+                    "Alert on new countries",
+                    infotext="Sends a Discord alert the first time a country is heard in a digital mode. "
+                    + "This works by country name from the callsign prefix table, it is not a strict DXCC entity check. "
+                    + "Heard countries are remembered; no alerts are sent during the learning period "
+                    + "after the first start, to avoid a flood of alerts",
+                ),
+                NumberInput(
+                    "newcountry_learning_hours",
+                    "New country learning period (hours)",
+                    infotext="Countries heard in this time after the first start are recorded silently",
+                    validator=RangeValidator(0, 720),
                 ),
             ),
             Section(
