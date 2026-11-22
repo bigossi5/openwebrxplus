@@ -1,0 +1,105 @@
+{
+  "id": "marine-vhf",
+  "name": "Marine VHF (international simplex)",
+  "description": "International VHF maritime mobile simplex channels (ITU Radio Regulations Appendix 18 channel plan). Duplex channels, DSC channel 70 and AIS are not included. Usage of individual channels varies by country.",
+  "source": "https://en.wikipedia.org/wiki/Marine_VHF_radio",
+  "bookmarks": [
+    {
+      "name": "Marine CH06",
+      "frequency": 156300000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH08",
+      "frequency": 156400000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH09",
+      "frequency": 156450000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH10",
+      "frequency": 156500000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH11",
+      "frequency": 156550000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH12",
+      "frequency": 156600000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH13",
+      "frequency": 156650000,
+      "modulation": "nfm",
+      "description": "Bridge-to-bridge navigation safety"
+    },
+    {
+      "name": "Marine CH14",
+      "frequency": 156700000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH15",
+      "frequency": 156750000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH16",
+      "frequency": 156800000,
+      "modulation": "nfm",
+      "description": "International distress, safety and calling channel"
+    },
+    {
+      "name": "Marine CH17",
+      "frequency": 156850000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH67",
+      "frequency": 156375000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH68",
+      "frequency": 156425000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH69",
+      "frequency": 156475000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH71",
+      "frequency": 156575000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH72",
+      "frequency": 156625000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH73",
+      "frequency": 156675000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH74",
+      "frequency": 156725000,
+      "modulation": "nfm"
+    },
+    {
+      "name": "Marine CH77",
+      "frequency": 156875000,
+      "modulation": "nfm"
+    }
+  ]
+}

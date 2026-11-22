@@ -1,0 +1,44 @@
+{
+  "id": "airband-pl",
+  "name": "Civil airband (Poland)",
+  "description": "Aircraft emergency (guard) frequency and a few Polish airport frequencies from the official AIP Poland (AIRAC AMDT 05/24, effective 16 May 2024). Frequencies can change, check the current AIP before relying on them.",
+  "source": "https://en.wikipedia.org/wiki/Aircraft_emergency_frequency ; https://Dlapilota.pl/sites/default/files/dlapilota/upld/AIP_AIRAC_0524.pdf (AIP Poland excerpt)",
+  "bookmarks": [
+    {
+      "name": "Air Guard 121.5",
+      "frequency": 121500000,
+      "modulation": "am",
+      "description": "International aeronautical emergency frequency (VHF Guard)"
+    },
+    {
+      "name": "Gdansk Tower",
+      "frequency": 118105000,
+      "modulation": "am",
+      "description": "EPGD TWR (AIP Poland, AIRAC 05/24)"
+    },
+    {
+      "name": "Gdansk Ground",
+      "frequency": 131330000,
+      "modulation": "am",
+      "description": "EPGD GND (AIP Poland, AIRAC 05/24)"
+    },
+    {
+      "name": "Gdansk Information",
+      "frequency": 127150000,
+      "modulation": "am",
+      "description": "EPGD FIS (AIP Poland, AIRAC 05/24)"
+    },
+    {
+      "name": "Rzeszow Tower",
+      "frequency": 126805000,
+      "modulation": "am",
+      "description": "EPRZ TWR (AIP Poland, AIRAC 05/24)"
+    },
+    {
+      "name": "Warsaw Delivery",
+      "frequency": 121605000,
+      "modulation": "am",
+      "description": "EPWA clearance delivery (AIP Poland, AIRAC 05/24)"
+    }
+  ]
+}

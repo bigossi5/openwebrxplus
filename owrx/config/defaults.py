@@ -466,6 +466,7 @@ defaultConfig = PropertyLayer(
     satpass_entries=[],
     activity_enabled=True,
     activity_retention_days=90,
+    stats_page_enabled=True,
     watchlist_enabled=False,
     watchlist_calls="",
     watchlist_cooldown_min=30,

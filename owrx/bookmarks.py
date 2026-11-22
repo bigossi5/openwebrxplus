@@ -20,6 +20,8 @@ class Bookmark(object):
         self.underlying = j["underlying"] if "underlying" in j else ""
         self.description = j["description"] if "description" in j else ""
         self.srcFile = srcFile
+        # Optional id of the bookmark pack this bookmark was installed from
+        self.pack = j["pack"] if "pack" in j and j["pack"] else ""
         # By default, only scan modulations that make sense to scan
         if "scannable" in j:
             self.scannable = j["scannable"]
@@ -47,8 +49,11 @@ class Bookmark(object):
     def getSrcFile(self):
         return self.srcFile
 
+    def getPack(self):
+        return self.pack
+
     def __dict__(self):
-        return {
+        result = {
             "name": self.getName(),
             "frequency": self.getFrequency(),
             "modulation": self.getModulation(),
@@ -56,6 +61,10 @@ class Bookmark(object):
             "description": self.getDescription(),
             "scannable": self.isScannable(),
         }
+        # only emitted for pack bookmarks, keeps other output unchanged
+        if self.pack:
+            result["pack"] = self.pack
+        return result
 
 
 class BookmarkSubscription(object):

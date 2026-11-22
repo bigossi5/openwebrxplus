@@ -1,5 +1,6 @@
 from owrx.controllers.status import StatusController
 from owrx.controllers.template import IndexController, MapController, PolicyController
+from owrx.controllers.stats import StatsController
 from owrx.controllers.feature import FeatureController
 from owrx.controllers.assets import OwrxAssetsController, AprsSymbolsController, CompiledAssetsController
 from owrx.controllers.websocket import WebSocketController
@@ -27,6 +28,7 @@ from owrx.controllers.settings.plugins import PluginManagerController
 from owrx.controllers.settings.logs import LogsController
 from owrx.controllers.settings.satellites import SatellitesController
 from owrx.controllers.settings.activity import ActivityController
+from owrx.controllers.settings.bookmarkpacks import BookmarkPacksController
 from owrx.controllers.session import SessionController
 from owrx.controllers.profile import ProfileController
 from owrx.controllers.imageupload import ImageUploadController
@@ -196,6 +198,17 @@ class Router(object):
             StaticRoute(
                 "/settings/satellites", SatellitesController, method="POST", options={"action": "save"}
             ),
+            StaticRoute("/settings/bookmarkpacks", BookmarkPacksController),
+            StaticRoute(
+                "/settings/bookmarkpacks", BookmarkPacksController, method="POST", options={"action": "save"}
+            ),
+            StaticRoute("/settings/bookmarkpacks/export", BookmarkPacksController, options={"action": "export"}),
+            StaticRoute(
+                "/settings/bookmarkpacks/import",
+                BookmarkPacksController,
+                method="POST",
+                options={"action": "importAction"},
+            ),
             StaticRoute("/settings/logs", LogsController),
             StaticRoute("/settings/logs/data", LogsController, options={"action": "data"}),
             StaticRoute("/settings/activity", ActivityController),
@@ -230,6 +243,7 @@ class Router(object):
             RegexRoute("^/files/(%s)$" % Storage.getNamePattern(), FileController),
             StaticRoute("/files/delete", FilesController, method="POST", options={"action": "delete"}),
             StaticRoute("/policy", PolicyController),
+            StaticRoute("/stats", StatsController),
             StaticRoute("/clients", ClientController),
             StaticRoute("/services", ServiceController),
             StaticRoute("/ban", ClientController, method="POST", options={"action": "ban"}),
